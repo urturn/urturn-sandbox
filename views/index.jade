@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Urturn Expression Sandbox
+  header
+    h2= title
+    pre= system_name + ' ' + version
+    div.description= description
+  ul
+    li
+      a(href='#new-expression') New Post
+  .expression-frame-wrap
+    iframe(src='/expression/player.html')
