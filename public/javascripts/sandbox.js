@@ -1,12 +1,16 @@
 window.addEventListener('load', function(){
 
+  var controllerIframeBoundEvent = null;
+
   var controller = {
     newPost: function(event){
       var iframe = document.querySelector('iframe');
-      iframe.src = '/expression/editor.html'
-      iframe.addEventListener('load', function(event){
+      iframe.removeEventListener('load', controllerIframeBoundEvent, false);
+      controllerIframeBoundEvent = function(event){
         sendReadyEvent(iframe.contentWindow)
-      }, false);
+      };
+      iframe.addEventListener('load', controllerIframeBoundEvent, false);
+      iframe.src = '/expression/editor.html';
     }
   }
 
@@ -43,7 +47,7 @@ window.addEventListener('load', function(){
       }
     };
 
-    win.postMessage(JSON.stringify(readyMessage));
+    win.postMessage(JSON.stringify(readyMessage), '*');
   }
 
   // Bind events
