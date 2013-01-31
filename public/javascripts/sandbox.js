@@ -1,10 +1,17 @@
 window.addEventListener('load', function(){
 
   var controllerIframeBoundEvent = null;
+  var iframe = document.querySelector('iframe');
+  var post;
+
+  var Post = function(){
+    this.title = "";
+  }
 
   var controller = {
     newPost: function(event){
-      var iframe = document.querySelector('iframe');
+      post = new Post();
+
       iframe.removeEventListener('load', controllerIframeBoundEvent, false);
       controllerIframeBoundEvent = function(event){
         sendReadyEvent(iframe.contentWindow)
@@ -14,13 +21,34 @@ window.addEventListener('load', function(){
     }
   }
 
+  var fakeAPI = {
+    container: {
+      setTitle: function(title){
+        
+      },
+
+    },
+    collections: {
+      save: function(){
+        console.log('implement save')
+      }
+    },
+    changeCurrentState: function(){
+      console.log('implement save')
+    }
+  }
+
   // Trigger the ready event with data
   function sendReadyEvent(win){
-    var post = {
+    post = {
       uuid: UT.uuid(),
-      collections: {
-        default: {}
-      }
+      collections: [
+        {
+          name: 'default',
+          items: [],
+          count: 0
+        }
+      ]
     };
 
     var user = {
@@ -55,5 +83,33 @@ window.addEventListener('load', function(){
   for(var i = 0; i < bindings.length; i++){
     bindings[i].addEventListener('click', controller[bindings[i].getAttribute('data-action')]);
   }
+
+  /**
+   * post message handler
+   */
+  window.addEventListener("message", function (e) {
+    try {
+      msgObj = JSON.parse(e.data);
+    }
+    catch (exception) {
+      if (console && console.error) {
+        console.error("receive invalid message", e.data, exception.message) ;
+      }
+      msgObj = {};
+    }
+    console.log("Received message in parent frame", msgObj);
+    
+    var callPath = msgObj.methodName.split('.');
+    var args = msgObj.args;
+    args.push(function(){
+      iframe.window.postMessage(JSON.stringify({type:'todo'}), '*');
+    });
+    var func = fakeAPI;
+    for(var i = 0; i < callPath.length; i++){
+      func = func[callPath[i]];
+    }
+    func.apply(post, args);
+    //_dispatch(msgObj);
+  }, false);
 
 }, false);

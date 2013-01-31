@@ -29,7 +29,6 @@ program
 
 function startServer(expressionDir, port){
   var app = express();
-  var expressionController = new expression.ExpressionController(expressionDir)
 
   app.configure(function(){
     app.set('port', port);
@@ -49,13 +48,15 @@ function startServer(expressionDir, port){
     app.use(express.errorHandler());
   });
 
-  app.get('/', expressionController.info);
+  // Routing
   app.get('/lib/:lib/*', function(req, res){
     res.sendfile(path.join(__dirname, 'node_modules/' + req.params.lib + '/dist/' + req.params[0]));
   });
-  app.get('/expression/player.html', expressionController.player);
-  app.get('/expression/editor.html', expressionController.editor);
-  app.get('/expression/*', expressionController.asset)
+
+  app.get('/', expression.route(expressionDir, 'info'));
+  app.get('/expression/player.html', expression.route(expressionDir, 'player'));
+  app.get('/expression/editor.html', expression.route(expressionDir, 'editor'));
+  app.get('/expression/*', expression.route(expressionDir, 'asset'))
 
   http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
