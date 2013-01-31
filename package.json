@@ -16,5 +16,6 @@
   },
   "bin": {
     "urturn-sandbox": "app.js"
-  }
+  },
+  "main": "app"
 }

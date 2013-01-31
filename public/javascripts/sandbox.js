@@ -24,17 +24,17 @@ window.addEventListener('load', function(){
   var fakeAPI = {
     container: {
       setTitle: function(title){
-        
+        console.log('implement setTitle');
       },
 
     },
     collections: {
       save: function(){
-        console.log('implement save')
+        console.log('implement save');
       }
     },
     changeCurrentState: function(){
-      console.log('implement save')
+      console.log('implement save');
     }
   }
 
