@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "grunt": "*"
+  },
+  "bin": {
+    "urturn-sandbox": "app.js"
   }
 }
