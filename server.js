@@ -1,34 +1,9 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , program = require('commander')
-  , path = require('path')
-  , fs = require('fs')
   , expression = require('./routes/expression')
+  , path = require('path')
   ;
 
-var info = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'package.json')));
-
-program
-  .version(info.version)
-
-program
-  .command('start [path]')
-  .description('start the sandbox server')
-  .option('-p, --port <port>', Number)
-  .action(function(p, context){
-    var port = program.port || process.env.PORT || 3333;
-    var p = path.resolve(p) || process.cwd().toString();
-    startServer(p, port);
-  });
-
-function startServer(expressionDir, port){
+function configure(expressionDir, port){
   var app = express();
 
   app.configure(function(){
@@ -58,10 +33,9 @@ function startServer(expressionDir, port){
   app.get('/expression/player.html', expression.route(expressionDir, 'player'));
   app.get('/expression/editor.html', expression.route(expressionDir, 'editor'));
   app.get('/expression/*', expression.route(expressionDir, 'asset'))
-
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
-  });
+  return app;
 }
 
-program.parse(process.argv);
+module.exports = {
+  configure: configure
+};
