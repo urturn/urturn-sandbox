@@ -3,21 +3,47 @@ window.addEventListener('load', function(){
   var controller = {
     newPost: function(event){
       var iframe = document.querySelector('iframe');
-      if(iframe.contentWindow){
+      iframe.src = '/expression/editor.html'
+      iframe.addEventListener('load', function(event){
         sendReadyEvent(iframe.contentWindow)
-      } else {
-        iframe.addEventListener('load', function(event){
-          sendReadyEvent(iframe.contentWindow)
-        }, false);
-      }
+      }, false);
     }
   }
 
   // Trigger the ready event with data
   function sendReadyEvent(win){
-    var k = win.UT.Expression;
-    console.log(k);
-    k._getInstance().trigger('ready', k._getInstance())
+    var post = {
+      uuid: UT.uuid(),
+      collections: {
+        default: {}
+      }
+    };
+
+    var user = {
+      uuid: UT.uuid()
+    };
+
+    var readyMessage = {
+      type: 'ready',
+      // This will become the _states properties
+      // XXX This should be named initialState
+      // XXX wow, need to do something with this messy code.
+      options: {
+        expToken: UT.uuid(),
+        mode: 'editor',
+        documentURL: '/posts/' + post.uuid,
+        documentId: post.uuid,
+        documentPrivacy: 'public',
+        collections: post.collections,
+        currentUserId: user.uuid,
+        host: 'http://localhost:3333',
+        assetPath: 'http://expressions',
+        note : post.note,
+        scrollValues: {} // XXX Need to be imported
+      }
+    };
+
+    win.postMessage(JSON.stringify(readyMessage));
   }
 
   // Bind events

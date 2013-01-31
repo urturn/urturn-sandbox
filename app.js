@@ -50,8 +50,8 @@ function startServer(expressionDir, port){
   });
 
   app.get('/', expressionController.info);
-  app.get('/lib/urturn-expression-api.min.:extension', function(req, res){
-    res.sendfile(path.join(__dirname, 'node_modules/urturn-expression-api/dist/urturn-expression-api.min.' + req.params.extension));
+  app.get('/lib/:lib/*', function(req, res){
+    res.sendfile(path.join(__dirname, 'node_modules/' + req.params.lib + '/dist/' + req.params[0]));
   });
   app.get('/expression/player.html', expressionController.player);
   app.get('/expression/editor.html', expressionController.editor);
