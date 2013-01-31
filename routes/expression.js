@@ -59,6 +59,52 @@ function ExpressionController(expressionDir){
     callback(null, paths.javascript, paths.stylesheet);
   };
 
+  // Render player or editor template iframe
+  var template = function(mode, req, res, next){
+    loadInfo(function(err, info){
+      var wait = 2
+        , templates = {}
+        , resources = {}
+        ;
+
+      var renderAfterLoading = function(){
+        wait --;
+        if(wait === 0){
+          console.log(resources);
+          res.render('iframe', {
+            title: info.title,
+            scripts: resources.scripts,
+            stylesheets: resources.stylesheets,
+            head: templates.head,
+            body: templates.body
+          });
+        }
+      }
+
+      loadTemplate(info, mode, function(err, th, tb){
+        if(err){
+          console.log(err);
+          next("Cannot load templates");
+          return;
+        }
+        templates.head = th;
+        templates.body = tb;
+        renderAfterLoading();
+      });
+
+      loadResources(info, mode, function(err, scripts, stylesheets){
+        if(err){
+          console.log(err);
+          next("Cannot load resources");
+          return;
+        }
+        resources.scripts = scripts;
+        resources.stylesheets = stylesheets;
+        renderAfterLoading();
+      });
+    });
+  };
+
   self.asset = function(req, res, next){
     assetPath = req.params[0];
     if(!path){
@@ -88,48 +134,11 @@ function ExpressionController(expressionDir){
   };
 
   self.player = function(req, res, next){
-    loadInfo(function(err, info){
-      var wait = 2
-        , templates = {}
-        , resources = {}
-        ;
+    template('player', req, res, next);
+  };
 
-      var renderAfterLoading = function(){
-        wait --;
-        if(wait === 0){
-          console.log(resources);
-          res.render('iframe', {
-            title: info.title,
-            scripts: resources.scripts,
-            stylesheets: resources.stylesheets,
-            head: templates.head,
-            body: templates.body
-          });
-        }
-      }
-
-      loadTemplate(info, 'player', function(err, th, tb){
-        if(err){
-          console.log(err);
-          next("Cannot load templates");
-          return;
-        }
-        templates.head = th;
-        templates.body = tb;
-        renderAfterLoading();
-      });
-
-      loadResources(info, 'player', function(err, scripts, stylesheets){
-        if(err){
-          console.log(err);
-          next("Cannot load resources");
-          return;
-        }
-        resources.scripts = scripts;
-        resources.stylesheets = stylesheets;
-        renderAfterLoading();
-      });
-    });
+  self.editor = function(req, res, next){
+    template('editor', req, res, next);
   };
 }
 

@@ -4,8 +4,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , program = require('commander')
@@ -23,10 +21,10 @@ program
   .command('start [path]')
   .description('start the sandbox server')
   .option('-p, --port <port>', Number)
-  .action(function(path, context){
-    var port = program.port || process.env.PORT || 3000;
-    var path = path || process.cwd().toString();
-    startServer(path, port);
+  .action(function(p, context){
+    var port = program.port || process.env.PORT || 3333;
+    var p = path.resolve(p) || process.cwd().toString();
+    startServer(p, port);
   });
 
 function startServer(expressionDir, port){
@@ -52,11 +50,12 @@ function startServer(expressionDir, port){
   });
 
   app.get('/', expressionController.info);
-  app.get('/expression/player.html', expressionController.player);
-  app.get('/expression/*', expressionController.asset)
   app.get('/lib/urturn-expression-api.min.:extension', function(req, res){
     res.sendfile(path.join(__dirname, 'node_modules/urturn-expression-api/dist/urturn-expression-api.min.' + req.params.extension));
   });
+  app.get('/expression/player.html', expressionController.player);
+  app.get('/expression/editor.html', expressionController.editor);
+  app.get('/expression/*', expressionController.asset)
 
   http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
