@@ -1,115 +1,91 @@
-window.addEventListener('load', function(){
+var sandbox = {};
 
-  var controllerIframeBoundEvent = null;
-  var iframe = document.querySelector('iframe');
-  var post;
+// Application handle the global sandbox lifecycle.
+// rootNode must declare the following markup:
+// - .iframe-expression class on an iframe tag
+sandbox.Application = function(rootNode){
+  var expressionFrame = new sandbox.ExpressionFrameController(rootNode.querySelector('.expression-frame'));
+  var expressionList = new sandbox.ExpressionListController(rootNode.querySelector('.expression-list'));
 
-  var Post = function(){
-    this.title = "";
+  expressionList.attach();
+};
+
+sandbox.ExpressionFrameController = function(iframeNode){
+};
+
+// Expression Model constructor
+sandbox.Expression = function(pObject){
+  this.systemName = null;
+  this.version = null;
+  this.title = null;
+  this.description = null;
+  this.location = null;
+};
+
+// Instantiate an expression from JSON data
+sandbox.Expression.fromJSON = function(pObject){
+  var expression = new sandbox.Expression();
+  expression.title = pObject.title;
+  expression.description = pObject.description;
+  expression.version = pObject.version;
+  expression.systemName = pObject.systemName;
+  expression.location = pObject.location;
+  expression.bannerPath = pObject.bannerPath;
+  return expression;
+};
+
+sandbox.compile = function(html, context){
+  return html.replace(/\$([a-zA-Z]+)/g, function(m){
+    var k = m.substring(1)
+    console.log(k)
+    return (context[k] !== undefined ? context[k] : m);
+  });
+}
+
+sandbox.ExpressionController = function(expression, ulNode){
+  var liNode;
+  var itemTemplate = '<h4 class="expression-item-title">$title</h4><img src="expression/$bannerPath" /><div>$systemName-$version</div><div>$description</div>';
+  this.attach = function(){
+    liNode = document.createElement('li');
+    liNode.innerHTML = sandbox.compile(itemTemplate, expression);
+    ulNode.appendChild(liNode);
   }
-
-  var controller = {
-    newPost: function(event){
-      post = new Post();
-
-      iframe.removeEventListener('load', controllerIframeBoundEvent, false);
-      controllerIframeBoundEvent = function(event){
-        sendReadyEvent(iframe.contentWindow)
-      };
-      iframe.addEventListener('load', controllerIframeBoundEvent, false);
-      iframe.src = '/expression/editor.html';
+  this.detach = function(){
+    if(liNode){
+      ulNode.removeChild(liNode);
     }
   }
+};
 
-  var fakeAPI = {
-    container: {
-      setTitle: function(title){
-        console.log('implement setTitle');
-      },
+sandbox.ExpressionListController = function(ulNode){
+  var expressionControllers = [];
 
-    },
-    collections: {
-      save: function(){
-        console.log('implement save');
-      }
-    },
-    changeCurrentState: function(){
-      console.log('implement save');
-    }
-  }
-
-  // Trigger the ready event with data
-  function sendReadyEvent(win){
-    post = {
-      uuid: UT.uuid(),
-      collections: [
-        {
-          name: 'default',
-          items: [],
-          count: 0
-        }
-      ]
+  // handle a list server response
+  var handleListReceived = function(data){
+    releaseExpressions();
+    expressionControllers = [];
+    for (var i = 0; i < data.expressions.length; i++) {
+      console.log(data.expressions);
+      var exp = sandbox.Expression.fromJSON(data.expressions[i]);
+      var controller = new sandbox.ExpressionController(exp, ulNode);
+      expressionControllers.push(controller);
+      controller.attach();
     };
+  };
 
-    var user = {
-      uuid: UT.uuid()
-    };
-
-    var readyMessage = {
-      type: 'ready',
-      // This will become the _states properties
-      // XXX This should be named initialState
-      // XXX wow, need to do something with this messy code.
-      options: {
-        expToken: UT.uuid(),
-        mode: 'editor',
-        documentURL: '/posts/' + post.uuid,
-        documentId: post.uuid,
-        documentPrivacy: 'public',
-        collections: post.collections,
-        currentUserId: user.uuid,
-        host: 'http://localhost:3333',
-        assetPath: 'http://expressions',
-        note : post.note,
-        scrollValues: {} // XXX Need to be imported
-      }
-    };
-
-    win.postMessage(JSON.stringify(readyMessage), '*');
-  }
-
-  // Bind events
-  bindings = document.querySelectorAll("*[data-action]");
-  for(var i = 0; i < bindings.length; i++){
-    bindings[i].addEventListener('click', controller[bindings[i].getAttribute('data-action')]);
-  }
-
-  /**
-   * post message handler
-   */
-  window.addEventListener("message", function (e) {
-    try {
-      msgObj = JSON.parse(e.data);
-    }
-    catch (exception) {
-      if (console && console.error) {
-        console.error("receive invalid message", e.data, exception.message) ;
-      }
-      msgObj = {};
-    }
-    console.log("Received message in parent frame", msgObj);
-    
-    var callPath = msgObj.methodName.split('.');
-    var args = msgObj.args;
-    args.push(function(){
-      iframe.window.postMessage(JSON.stringify({type:'todo'}), '*');
+  var releaseExpressions = function(){
+    $(expressionControllers).each(function(i, controller){
+      controller.detach();
     });
-    var func = fakeAPI;
-    for(var i = 0; i < callPath.length; i++){
-      func = func[callPath[i]];
-    }
-    func.apply(post, args);
-    //_dispatch(msgObj);
-  }, false);
+    expressionControllers = null;
+  };
 
-}, false);
+  // constructor
+  this.attach = function(){
+    $.getJSON('/expression.json', handleListReceived);
+  };
+};
+
+window.addEventListener('load', function(){
+  var application = new sandbox.Application(document.querySelector('#sandbox'));
+});

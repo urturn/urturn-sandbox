@@ -1,14 +1,18 @@
 var fs    = require('fs')
   , path  = require('path')
+  , glob  = require('glob')
+  , async = require('async')
   ;
 
 var Expression = function(expressionDir, info){
   this.path = expressionDir;
-  this.title = info.title;
-  this.system_name = info.system_name;
+  this.systemName = info.system_name;
   this.version = info.version;
+  this.title = info.title;
   this.description = info.description;
   this.dependencies = info.dependencies;
+  this.bannerPath = info.bannerPath
+  console.log(this.bannerPath);
 };
 
 function ExpressionController(expression) {
@@ -140,12 +144,24 @@ var createExpressionController = function(expression, callback){
   callback.call(controller, null, controller);
 };
 
-var createExpression = function(expressionDir, callback){
-  fs.readFile(path.join(expressionDir, 'expression.json'), function(err, data){
+var createExpression = function(cwd, expressionDir, callback){
+  function bannerPath(cwd, expressionDir){
+    // Try to find a banner
+    var imageTypes = ['png', 'jpg', 'jprg', 'gif'];
+    for(var i = 0; i < imageTypes.length; i++){
+      var relPath = expressionDir + '/' + 'resources/banner.' + imageTypes[i];
+      if(fs.existsSync(path.join(cwd, relPath))){
+        return relPath;
+      }
+    }
+  }
+
+  fs.readFile(path.join(cwd, expressionDir, 'expression.json'), function(err, data){
     if(err){
       callback(err, null);
     } else {
       var json = JSON.parse(data);
+      json.bannerPath = bannerPath(cwd, expressionDir);
       var expression = new Expression(expressionDir, json);
       callback.call(expression, null, expression);
     }
@@ -154,7 +170,13 @@ var createExpression = function(expressionDir, callback){
 
 // Dynamically instantiate the expression and the controller on each requests.
 var route = function(expressionDir, routeName){
-  return function(req, res, next) {
+  return 
+};
+
+var ExpressionApplication = function(server, mount, expPath) {
+  var self = this;
+
+  var instantiateController = function(){
     createExpression(expressionDir, function(err){
       if(err){
         console.log(err);
@@ -169,8 +191,50 @@ var route = function(expressionDir, routeName){
       });
     });
   };
+
+  this.list = function(req, res, next){
+    descriptors = glob("**/expression.json", {cwd: expPath}, function(err, matches){
+      var constructors = []
+      function createFunc(dir){
+        return function(cb) {
+          return createExpression(expPath, dir, cb);
+        }
+      }
+
+      for(var i in matches){
+        var expDirPath = path.dirname(matches[i])
+        constructors.push(createFunc(expDirPath));
+      }
+
+      async.parallel(constructors, function(err, expressions){
+        if(err){
+          console.log(err)
+          next("Cannot retrieve expression list")
+        }
+        res.send({expressions: expressions});
+      });
+    });
+  };
+
+  this.asset = function(req, res, next){
+    if(fs.existsSync(path.join(expPath, req.params[0]))){
+      res.sendfile(path.join(expPath, req.params[0]));
+    } else {
+      next("Resource not found: " + req.params[0], 404);
+    }
+    
+  }
+
+  // routing
+  server.get('/' + mount + '.json', this.list)
+  server.get('/' + mount + '/*', this.asset)
+};
+
+ExpressionApplication.create = function(server, options) {
+  var app = new ExpressionApplication(server, options.mountPoint || 'expression', options.path || process.cwd()); 
+  return app;
 };
 
 module.exports = {
-  route: route
+  create: ExpressionApplication.create
 };

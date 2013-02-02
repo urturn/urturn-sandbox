@@ -9,7 +9,9 @@
     "express": "3.1.x",
     "jade": "*",
     "commander": "*",
-    "urturn-expression-api": "git://github.com/webdoc/urturn-expression-api.git"
+    "urturn-expression-api": "git://github.com/webdoc/urturn-expression-api.git",
+    "glob": "~3",
+    "async": "*"
   },
   "devDependencies": {
     "grunt": "*"

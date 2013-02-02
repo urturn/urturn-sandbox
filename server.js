@@ -29,10 +29,12 @@ function configure(expressionDir, port){
     res.sendfile(path.join(__dirname, 'node_modules/' + req.params.lib + '/dist/' + req.params[0]));
   });
 
-  app.get('/', expression.route(expressionDir, 'info'));
-  app.get('/expression/player.html', expression.route(expressionDir, 'player'));
-  app.get('/expression/editor.html', expression.route(expressionDir, 'editor'));
-  app.get('/expression/*', expression.route(expressionDir, 'asset'))
+  var expressionApp = expression.create(app, {
+    path: expressionDir,
+    mountPoint: 'expression'
+  })
+
+  //app.get('/expression.json', expressionApp.route('list'));
   return app;
 }
 
