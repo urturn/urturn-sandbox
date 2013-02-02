@@ -5,7 +5,7 @@ var fs    = require('fs')
   ;
 
 var Expression = function(expressionDir, info){
-  this.path = expressionDir;
+  this.location = expressionDir;
   this.systemName = info.system_name;
   this.version = info.version;
   this.title = info.title;
@@ -15,7 +15,7 @@ var Expression = function(expressionDir, info){
   console.log(this.bannerPath);
 };
 
-function ExpressionController(expression) {
+function ExpressionController(cwd, expression) {
 
   // Render player or editor template iframe
   var template = function(mode, req, res, next){
@@ -33,7 +33,7 @@ function ExpressionController(expression) {
     // Load a template file for the given mode and pass err, head and body to the callback.
     // The head is defined only if there is a head section in the template.
     var loadTemplates = function(callback){
-      fs.readFile(path.join(expression.path, mode + '.html'), function(err, data){
+      fs.readFile(path.join(cwd, expression.location, mode + '.html'), function(err, data){
         if(err){
           callback(err);
         } else {
@@ -71,7 +71,6 @@ function ExpressionController(expression) {
     var renderAfterLoading = function(){
       wait --;
       if(wait === 0){
-        console.log(resources);
         res.render('iframe', {
           title: expression.title,
           scripts: resources.scripts,
@@ -139,8 +138,8 @@ function ExpressionController(expression) {
 };
 
 // Instantiate an ExpressionController asynchronously.
-var createExpressionController = function(expression, callback){
-  var controller = new ExpressionController(expression);
+var createExpressionController = function(cwd, expression, callback){
+  var controller = new ExpressionController(cwd, expression);
   callback.call(controller, null, controller);
 };
 
@@ -168,28 +167,29 @@ var createExpression = function(cwd, expressionDir, callback){
   });
 };
 
-// Dynamically instantiate the expression and the controller on each requests.
-var route = function(expressionDir, routeName){
-  return 
-};
-
 var ExpressionApplication = function(server, mount, expPath) {
   var self = this;
 
-  var instantiateController = function(){
-    createExpression(expressionDir, function(err){
-      if(err){
-        console.log(err);
-        next('Cannot create expression');
-      }
-      createExpressionController(this, function(err){
+  // Instantiate and route to an expression controller
+  var routeToControllerFunc = function(cwd, route){
+    return function(req, res, next){
+      console.log(req.params)
+      createExpression(cwd, req.params[0] || '.', function(err){
         if(err){
           console.log(err);
-          next('Cannot create expression controller');
+          next('Cannot create expression');
+        } else {
+          createExpressionController(cwd, this, function(err){
+            if(err){
+              console.log(err);
+              next('Cannot create expression controller');
+            } else {
+              this.routes[route](req, res, next);
+            }
+          });
         }
-        this.routes[routeName](req, res, next);
       });
-    });
+    };
   };
 
   this.list = function(req, res, next){
@@ -222,12 +222,13 @@ var ExpressionApplication = function(server, mount, expPath) {
     } else {
       next("Resource not found: " + req.params[0], 404);
     }
-    
   }
 
   // routing
-  server.get('/' + mount + '.json', this.list)
-  server.get('/' + mount + '/*', this.asset)
+  server.get('/' + mount + '.json', this.list);
+  server.get('/' + mount + '/*/?player.html', routeToControllerFunc(expPath, 'player'));
+  server.get('/' + mount + '/*/?editor.html', routeToControllerFunc(expPath, 'editor'));
+  server.get('/' + mount + '/*', this.asset);
 };
 
 ExpressionApplication.create = function(server, options) {
