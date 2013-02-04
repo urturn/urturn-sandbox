@@ -3,23 +3,32 @@ sandbox.ExpressionFrameController = function(iframeNode, currentUser){
   // hold the post currently displayed.
   var post = null;
 
+  // bind a view action that will enable or disable the button on this event.
+  this.onPostStateChange = null;
+
   // api that respond to postMessage
   var api = {
     container: {
       setTitle: function(title){
         console.log('implement setTitle');
-      },
-
+      }
     },
     collections: {
       save: function(){
         console.log('implement save');
       }
     },
+    document: {
+      readyToPost: function(value){
+        if(this.onPostStateChange){
+          this.onPostStateChange({newState: value});
+        }
+      }
+    },
     changeCurrentState: function(){
       console.log('implement save');
     }
-  }
+  };
 
   var sendReadyMessage = function(post){
     var readyMessage = {
@@ -43,16 +52,15 @@ sandbox.ExpressionFrameController = function(iframeNode, currentUser){
     };
 
     iframeNode.contentWindow.postMessage(JSON.stringify(readyMessage), "*");
-  }
+  };
 
-  this.attach = function(){
-    window.addEventListener("message", function (e) {
-      try {
-        msgObj = JSON.parse(e.data);
+  var handleIframeMessage = function(event){
+    try {
+        msgObj = JSON.parse(event.data);
       }
       catch (exception) {
         if (console && console.error) {
-          console.error("receive invalid message", e.data, exception.message) ;
+          console.error("receive invalid message", event.data, exception.message) ;
         }
         msgObj = {};
       }
@@ -63,14 +71,23 @@ sandbox.ExpressionFrameController = function(iframeNode, currentUser){
       args.push(function(){
         iframe.window.postMessage(JSON.stringify({type:'todo'}), '*');
       });
+
       var func = api;
       for(var i = 0; i < callPath.length; i++){
-        func = func[callPath[i]];
+        if(!func){
+          console.log("method '" + msgObj.methodName + "' not implemented. No callback will be fired.");
+        } else {
+          func = func[callPath[i]];
+        }
       }
-      func.apply(post, args);
-      //_dispatch(msgObj);
-    }, false);
-  }
+      if(func){
+        func.apply(post, args);
+      }
+  };
+
+  this.attach = function(){
+    window.addEventListener("message", handleIframeMessage, false);
+  };
 
   this.load = function(src, callback){
     async.parallel([
@@ -86,14 +103,13 @@ sandbox.ExpressionFrameController = function(iframeNode, currentUser){
       function(cb){
         post = new sandbox.Post();
         post.uuid = UT.uuid();
-        cb(null, post)
+        cb(null, post);
       }
     ], function(err, results){
       console.log('loaded', err, results);
       sendReadyMessage(results[1]);
     });
-
-    console.log('load', src)
+    
     iframeNode.src = src;
-  }
+  };
 };
