@@ -1,8 +1,7 @@
-var fs    = require('fs')
-  , path  = require('path')
-  , glob  = require('glob')
-  , async = require('async')
-  ;
+var fs    = require('fs'),
+    path  = require('path'),
+    glob  = require('glob'),
+    async = require('async');
 
 var Expression = function(expressionDir, info){
   this.location = expressionDir;
@@ -11,7 +10,7 @@ var Expression = function(expressionDir, info){
   this.title = info.title;
   this.description = info.description;
   this.dependencies = info.dependencies;
-  this.bannerPath = info.bannerPath
+  this.bannerPath = info.bannerPath;
   console.log(this.bannerPath);
 };
 
@@ -61,7 +60,7 @@ function ExpressionController(cwd, expression) {
           } catch (e){
             console.log(e);
             callback('Cannot load ' + dep.path + ', wrong type specified: ' + dep.type);
-            return
+            return;
           }
         }
       }
@@ -79,7 +78,7 @@ function ExpressionController(cwd, expression) {
           body: templates.body
         });
       }
-    }
+    };
 
     loadTemplates(function(err, th, tb){
       if(err){
@@ -135,7 +134,7 @@ function ExpressionController(cwd, expression) {
       template('editor', req, res, next);
     }
   };
-};
+}
 
 // Instantiate an ExpressionController asynchronously.
 var createExpressionController = function(cwd, expression, callback){
@@ -173,7 +172,7 @@ var ExpressionApplication = function(server, mount, expPath) {
   // Instantiate and route to an expression controller
   var routeToControllerFunc = function(cwd, route){
     return function(req, res, next){
-      console.log(req.params)
+      console.log(req.params);
       createExpression(cwd, req.params[0] || '.', function(err){
         if(err){
           console.log(err);
@@ -194,22 +193,22 @@ var ExpressionApplication = function(server, mount, expPath) {
 
   this.list = function(req, res, next){
     descriptors = glob("**/expression.json", {cwd: expPath}, function(err, matches){
-      var constructors = []
+      var constructors = [];
       function createFunc(dir){
         return function(cb) {
           return createExpression(expPath, dir, cb);
-        }
+        };
       }
 
       for(var i in matches){
-        var expDirPath = path.dirname(matches[i])
+        var expDirPath = path.dirname(matches[i]);
         constructors.push(createFunc(expDirPath));
       }
 
       async.parallel(constructors, function(err, expressions){
         if(err){
-          console.log(err)
-          next("Cannot retrieve expression list")
+          console.log(err);
+          next("Cannot retrieve expression list");
         }
         res.send({expressions: expressions});
       });
@@ -222,7 +221,7 @@ var ExpressionApplication = function(server, mount, expPath) {
     } else {
       next("Resource not found: " + req.params[0], 404);
     }
-  }
+  };
 
   // routing
   server.get('/' + mount + '.json', this.list);
