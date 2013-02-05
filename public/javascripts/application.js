@@ -5,9 +5,14 @@ sandbox.Application = function(rootNode){
   var currentUser = new sandbox.User.create();
   var expressionList = new sandbox.ExpressionListController(rootNode.querySelector('.expression-list'));
   expressionList.attach();
+  var expressionEditor;
 
   expressionList.onSelected = function(expression){
-    var expressionEditor = new sandbox.ExpressionEditorController({
+    if(expressionEditor){
+      expressionEditor.detach();
+    }
+    
+    expressionEditor = new sandbox.ExpressionEditorController({
       node: rootNode.querySelector('.expression-editor'),
       currentUser: currentUser,
       expression: expression

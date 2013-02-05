@@ -1,7 +1,9 @@
-var express = require('express')
-  , expression = require('./routes/expression')
-  , path = require('path')
-  ;
+var express = require('express');
+var path = require('path');
+
+var expression = require('./routes/expression');
+var post = require('./routes/post');
+
 
 function configure(expressionDir, port){
   var app = express();
@@ -17,7 +19,7 @@ function configure(expressionDir, port){
     app.use(express.cookieParser('your secret here'));
     app.use(express.session());
     app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express['static'](path.join(__dirname, 'public')));
   });
 
   app.configure('development', function(){
@@ -32,9 +34,10 @@ function configure(expressionDir, port){
   var expressionApp = expression.create(app, {
     path: expressionDir,
     mountPoint: 'expression'
-  })
+  });
 
-  //app.get('/expression.json', expressionApp.route('list'));
+  var postApp = post.create(app, {mountPoint: 'post'});
+  console.log(app.routes);
   return app;
 }
 
