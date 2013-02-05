@@ -25,7 +25,7 @@
   <!-- controllers -->
   <script type='text/javascript' src="/javascripts/expression-controller.js"></script>
   <script type='text/javascript' src="/javascripts/expression-list-controller.js"></script>
-  <script type='text/javascript' src="/javascripts/expression-editor-controller.js"></script>
+  <script type='text/javascript' src="/javascripts/post-editor-controller.js"></script>
   
 
   <!--bootstrap-->
@@ -44,11 +44,9 @@
   </header>
   <div class="container-fluid" id="sandbox">
     <div class="row-fluid">
-      <div class="span8 expression-editor">
-        
+      <div class="span8 expression-editor" id="main">        
       </div>
-      <div class="span4">
-        <ul class="unstyled expression-list"></ul>
+      <div class="span4" id="sidebar">
       </div>
     </div>
   </div>

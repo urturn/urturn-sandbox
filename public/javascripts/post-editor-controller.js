@@ -1,7 +1,13 @@
-sandbox.ExpressionEditorController = function(options){
+sandbox.PostEditorController = function(options){
   var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2><h3 class='post-title'>$postTitle</h3><iframe class='iframe iframe-expression expression-frame'></iframe><div><button class='post-button'>Post</post></div></div>";
   
-  var node = options.node;
+  if(!options.currentUser){
+    throw 'Missing currentUser option';
+  }
+  if(!options.expression){
+    throw 'Missing expression option';
+  }
+
   var currentUser = options.currentUser;
   var expression = options.expression;
   var post;
@@ -135,7 +141,7 @@ sandbox.ExpressionEditorController = function(options){
     }
   };
 
-  this.attach = function(){
+  this.attach = function(node){
     // Attach DOM
     node.innerHTML = sandbox.compile(template, {title: expression.title, postTitle: 'Untitled post'});
     container = node.querySelector('.post-editor');
@@ -147,7 +153,7 @@ sandbox.ExpressionEditorController = function(options){
     window.addEventListener("message", handleIframeMessage, false);
   };
 
-  this.detach = function(){
+  this.detach = function(node){
     window.removeEventListener("message", handleIframeMessage, false);
     node.innerHTML = "";
   };

@@ -1,6 +1,9 @@
-sandbox.ExpressionListController = function(ulNode){
+sandbox.ExpressionListController = function(){
   var self = this;
   var expressionControllers = [];
+  var template = "<ul class='unstyled expression-list'></ul>";
+  var parentNode = null;
+  var ulNode = null;
 
   var handleSelected = function(expression){
     if(self.onSelected){
@@ -8,19 +11,22 @@ sandbox.ExpressionListController = function(ulNode){
     } else {
       console.log("onSelected not bound");
     }
-  }
+  };
 
   // handle a list server response
-  var handleListReceived = function(data){
+  var handleListReceived = function(err, expressions){
+    if(err){
+      console.log(err);
+      return;
+    }
     releaseExpressions();
     expressionControllers = [];
-    for (var i = 0; i < data.expressions.length; i++) {
-      var exp = sandbox.Expression.fromJSON(data.expressions[i]);
-      var controller = new sandbox.ExpressionController(exp, ulNode);
+    for (var i = 0; i < expressions.length; i++) {
+      var controller = new sandbox.ExpressionController(expressions[i], ulNode);
       expressionControllers.push(controller);
       controller.onSelected = handleSelected;
       controller.attach();
-    };
+    }
   };
 
   var releaseExpressions = function(){
@@ -30,8 +36,17 @@ sandbox.ExpressionListController = function(ulNode){
     expressionControllers = null;
   };
 
-  // constructor
-  this.attach = function(){
-    $.getJSON('/expression.json', handleListReceived);
+  // attach the view to the given node.
+  this.attach = function(node){
+    parentNode = node;
+    parentNode.innerHTML = template;
+    ulNode = parentNode.childNodes[0];
+    sandbox.Expression.findAll(handleListReceived);
+  };
+
+  // detach the view and release the controller.
+  this.detach = function(){
+    releaseExpressions();
+    parentNode.innerHTML = "";
   };
 };
