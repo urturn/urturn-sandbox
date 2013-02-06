@@ -54,6 +54,9 @@ sandbox.PostEditorController = function(options){
       setTitle: function(title, callbackNotUsed){
         post.title = title;
         postTitle.innerHTML = title;
+      },
+      resizeHeight: function(value, callback){
+        expressionFrame.height = parseInt(value, 10);
       }
     },
     collections: {
@@ -64,6 +67,11 @@ sandbox.PostEditorController = function(options){
         }
         collection.save(function(){
           console.log('collection saved' + arguments);
+        });
+        expression.storage.ratio = limage.height / limage.width;
+        expression.media.createImage(image, function(pict){
+          expression.storage.pict = pict;
+          expression.storage.save();
         });
       }
     },
@@ -125,15 +133,13 @@ sandbox.PostEditorController = function(options){
     var callPath = data.methodName.split('.');
     var args = data.args || [];
     var func = api;
-    for(var i = 0; i < callPath.length; i++){
-      if(!func){
-        console.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
-        console.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
-      } else {
-        func = func[callPath[i]];
-      }
+    for(var i = 0; func && i < callPath.length; i++){
+      func = func[callPath[i]];
     }
-    if(func){
+    if(!func){
+      console.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
+      console.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
+    } else {
       args.push(function(response){
         expressionFrame.contentWindow.postMessage(JSON.stringify(response));
       });

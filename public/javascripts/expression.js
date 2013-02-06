@@ -26,6 +26,7 @@
   var findAll = function(callback){
     if(expressionStore.length === 0){
       $.getJSON('/expression.json', function(data){
+        expressionStore = [];
         for(var i in data.expressions){
           expressionStore.push(fromJSON(data.expressions[i]));
         }
