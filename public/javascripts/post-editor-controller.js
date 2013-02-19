@@ -75,6 +75,15 @@ sandbox.PostEditorController = function(options){
         });
       }
     },
+    medias: {
+      openImageChooser : function(options, callback) {
+        console.log('Called openImageChooser', arguments);
+        if (options.size && options.size.width && options.size.height){
+          callback({type : '_image', url : 'http://lorempixel.com/' +  options.size.width+ '/' + options.size.height, info : {source : 'loremPix'}});
+        }
+        callback({type : '_image', url : 'http://lorempixel.com/500/500', info : {source : 'loremPix'}});
+      }
+    },
     document: {
       readyToPost: function(value){
         postButton.disabled = !value;
@@ -141,7 +150,15 @@ sandbox.PostEditorController = function(options){
       console.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
     } else {
       args.push(function(response){
-        expressionFrame.contentWindow.postMessage(JSON.stringify(response));
+        var data = JSON.parse(event.data);
+        if (data.callbackId) {
+          var res = {};
+          res.result = [response];
+          res.callbackId = data.callbackId;
+          res.type = 'callback';
+          response = res;
+        }
+        expressionFrame.contentWindow.postMessage(JSON.stringify(response), '*');
       });
       func.apply(post, args);
     }
