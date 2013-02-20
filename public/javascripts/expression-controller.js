@@ -16,9 +16,6 @@ sandbox.ExpressionController = function(expression){
     ulNode = node;
     ulNode.appendChild(liNode);
     liNode.addEventListener('click', handleSelected);
-    $.ajax({url: '/post/' + expression.systemName + '.json', success: function(data){
-      console.log(data);
-    }});
   };
   this.detach = function(){
     if(liNode){

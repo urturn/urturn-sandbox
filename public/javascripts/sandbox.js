@@ -8,21 +8,38 @@ window.addEventListener('load', function(){
 
   // ROUTES
 
-  // Edit an expression
-  application.addRoute('expression/:systemName/edit', function(context){
+  // Create a post
+  application.addRoute('expression/:systemName/newpost', function(context){
     sandbox.Expression.findBySystemName(context.systemName, function(err, expression){
-      if(err){
+      if(err || !expression){
         console.log("Cannot find expression with system name: " + context.systemName);
         return;
       }
-      if(!expression){
-        throw "expression not found with name " + context.systemName;
+      var post = new sandbox.Post();
+      post.expression = expression;
+      sandbox.Post.save(post, function(err, post){
+        if(err){
+          console.log("Cannot save post");
+          return;
+        }
+        application.navigate('post/' + post.uuid + '/edit');
+      });
+    });
+  });
+
+  // Edit an expression
+  application.addRoute('post/:uuid/edit', function(context){
+    sandbox.Post.load(context.uuid, function(err, post){
+      if(err){
+        console.log("Cannot display editor because of: " + err);
+        return;
       }
       var postEditor = new sandbox.PostEditorController({
         currentUser: currentUser,
-        expression: expression,
+        post: post,
         application: application
       });
+      console.log('ok guys');
       application.assignZone('main', postEditor);
     });
   });
@@ -39,7 +56,7 @@ window.addEventListener('load', function(){
     // bootstrap
     expressionList.onSelected = function(expression){
       console.log(expression);
-      application.navigate('expression/' + expression.systemName + '/edit');
+      application.navigate('expression/' + expression.systemName + '/newpost');
     };
   });
 

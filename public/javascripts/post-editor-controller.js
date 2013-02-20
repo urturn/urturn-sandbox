@@ -8,24 +8,12 @@ sandbox.PostEditorController = function(options){
   if(!options.currentUser){
     throw 'Missing currentUser option';
   }
-  if(!options.expression){
-    throw 'Missing expression option';
-  }
 
   var currentUser = options.currentUser;
-  var expression = options.expression;
   var application = options.application;
-  var post;
+  var post = options.post;
+  var expression = post.expression;
   var storeDelegate = {}; // storeDelegate functions will be declared later
-
-  // Create Model
-  if(options.post){
-    post = options.post;
-  } else {
-    post = new sandbox.Post();
-  }
-  post.uuid = UT.uuid();
-  post.expression = expression;
   var store = new UT.CollectionStore({
     data: post.collections,
     currentUserId: currentUser.uuid,
@@ -41,14 +29,7 @@ sandbox.PostEditorController = function(options){
 
   // Save the current document.
   var savePost = function(post){
-    $.ajax({
-      url: '/post/' + post.uuid + '.json',
-      type: 'POST',
-      data: JSON.stringify(post),
-      dataType: 'application/json',
-      contentType: 'application/json',
-      parseData: false
-    });
+    sandbox.Post.save(post);
   };
 
   // Implements colleciton store delegate methods
@@ -89,7 +70,7 @@ sandbox.PostEditorController = function(options){
           SOURCE_Y: 0,
           SOURCE_W: w,
           SOURCE_H: h
-        }
+        };
       },
 
       _getImage : function(w, h) {

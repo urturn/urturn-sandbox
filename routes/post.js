@@ -77,25 +77,38 @@ function savePost(req, res, next){
   console.log(body);
   getStoreFolder(function(err, dir){
     if(err){
-      console.log(err);
-      next("Cannot find data folder");
+      next(err);
     } else {
-      console.log(dir);
-      console.log(body.expression.systemName);
-      mkdirIfNeeded(dir, body.expression.systemName, function(err, dir){
+      fs.writeFile( path.join(dir, id + '.json'), JSON.stringify(body), function(err){
         if(err){
           console.log(err);
-          next("Cannot find expression post folder");
+          next("Cannot save post");
         } else {
-          console.log(dir);
-          fs.writeFile( path.join(dir, id + '.json'), JSON.stringify(body), function(err){
-            if(err){
-              console.log(err);
-              next("Cannot save post");
-            } else {
-              res.send('OK');
-            }
+          res.header("Content-Type", "application/json");
+          res.send({
+            status: 'saved',
+            location: '/post/' + id + '.json'
           });
+        }
+      });
+    }
+  });
+}
+
+function loadPost(req, res, next){
+  var id = req.params.id;
+  var body = req.body;
+  console.log(body);
+  getStoreFolder(function(err, dir){
+    if(err){
+      next(err);
+    } else {
+      fs.readFile ( path.join(dir, id + '.json'), function(err, data){
+        if(err){
+          next(err);
+        } else {
+          res.header("Content-Type", "application/json");
+          res.send(data);
         }
       });
     }
@@ -104,13 +117,15 @@ function savePost(req, res, next){
 
 function listPost(req, res, next){
   getExpressionPosts(req.params.expression, function(err, posts){
+    res.header("Content-Type", "application/json");
     res.send(JSON.stringify({posts: posts}));
   });
 }
 
 function create(server, options){
   server.post('/' + options.mountPoint + '/:id.json', savePost);
-  server.get('/' + options.mountPoint + '/:expression.json', listPost);
+  server.get('/' + options.mountPoint + '/:id.json', loadPost);
+  // server.get('/' + options.mountPoint + '/:expression.json', listPost);
 }
 
 module.exports = {
