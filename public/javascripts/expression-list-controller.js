@@ -4,6 +4,7 @@ sandbox.ExpressionListController = function(){
   var template = "<ul class='unstyled expression-list'></ul>";
   var parentNode = null;
   var ulNode = null;
+  var attached = false;
 
   var handleSelected = function(expression){
     if(self.onSelected){
@@ -25,7 +26,9 @@ sandbox.ExpressionListController = function(){
       var controller = new sandbox.ExpressionController(expressions[i], ulNode);
       expressionControllers.push(controller);
       controller.onSelected = handleSelected;
-      controller.attach();
+      if(attached){
+        controller.attach(ulNode);
+      }
     }
   };
 
@@ -41,12 +44,22 @@ sandbox.ExpressionListController = function(){
     parentNode = node;
     parentNode.innerHTML = template;
     ulNode = parentNode.childNodes[0];
-    sandbox.Expression.findAll(handleListReceived);
+    attached = true;
+    for (var i = 0; i < expressionControllers.length; i++) {
+      controller = expressionControllers[i];
+      controller.onSelected = handleSelected;
+      if(attached){
+        controller.attach(ulNode);
+      }
+    }
   };
 
   // detach the view and release the controller.
   this.detach = function(){
     releaseExpressions();
+    attached = false;
     parentNode.innerHTML = "";
   };
+
+  sandbox.Expression.findAll(handleListReceived);
 };

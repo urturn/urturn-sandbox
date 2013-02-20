@@ -12,13 +12,17 @@ sandbox.Application = function(rootNode){
     routes.push(route);
   };
 
-  this.navigate = function(path){
-    if(!path && window.location.hash.indexOf('#!') === 0){
+  this.navigate = function(path, pushState){
+    if(pushState === undefined){
+      pushState = true;
+    }
+    if(path === undefined && window.location.hash.indexOf('#!') === 0){
       path = window.location.hash.substring(2);
     }
     if(!path){
-      return;
+      path = '';
     }
+    console.log('navigate to: ' + path);
     for(var i in routes){
       var matches = path.match(routes[i].re);
       if(matches){
@@ -29,12 +33,21 @@ sandbox.Application = function(rootNode){
         }
         console.log(context);
         routes[i].callback(context);
-        window.history.pushState({path: path, context: context}, null, '#!' + path);
+        if(pushState){
+          window.history.pushState({path: path, context: context}, null, '#!' + path);
+        }
         return;
       }
     }
     console.log('Unable to navigate to ' + path);
   };
+
+  window.addEventListener('popstate', function(event){
+    console.log(event.state);
+    if(event.state && event.state.path !== undefined){
+      this.navigate(event.state.path, false);
+    }
+  }.bind(this));
 
   // Zone
   var nodes = {};

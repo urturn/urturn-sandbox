@@ -1,5 +1,10 @@
 sandbox.PostEditorController = function(options){
-  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2><h3 class='post-title'>$postTitle</h3><iframe class='iframe iframe-expression expression-frame'></iframe><div><button class='post-button'>Post</post></div><p><b>Post note : </b><span id='postNote'></span></p></div>";
+  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
+    "<h3 class='post-title'>$postTitle</h3>" +
+    '<div class="progress progress-striped"><div class="bar" style="width: 20%;"></div></div>' +
+    "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
+    "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+    "<p><b>Post note:</b> <span id='postNote'></span></p></div>";
   
   if(!options.currentUser){
     throw 'Missing currentUser option';
@@ -10,6 +15,7 @@ sandbox.PostEditorController = function(options){
 
   var currentUser = options.currentUser;
   var expression = options.expression;
+  var application = options.application;
   var post;
   var storeDelegate = {}; // storeDelegate functions will be declared later
 
@@ -28,7 +34,11 @@ sandbox.PostEditorController = function(options){
   });
 
   // Init view mapping variables;
-  var container, postButton, postTitle, expressionFrame ;
+  var container,
+      postButton,
+      quitButton,
+      postTitle,
+      expressionFrame ;
 
   // Save the current document.
   var savePost = function(post){
@@ -234,9 +244,13 @@ sandbox.PostEditorController = function(options){
     node.innerHTML = sandbox.compile(template, {title: expression.title, postTitle: 'Untitled post'});
     container = node.querySelector('.post-editor');
     postButton = node.querySelector('.post-button');
+    quitButton = node.querySelector('.quit-button');
     expressionFrame = node.querySelector('iframe');
     postTitle = node.querySelector('.post-title');
     postButton.disabled = true;
+    quitButton.addEventListener('click', function(event){
+      application.navigate('');
+    }, false);
     load('/expression/' + expression.location + '/editor.html');
     window.addEventListener("message", handleIframeMessage, false);
   };

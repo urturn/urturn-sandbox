@@ -6,6 +6,11 @@ body {
   padding: 9px 0;
 }
 
+.expression-list li {
+  width: 33%;
+  float: left;
+}
+
 .iframe {
   border: solid 1px black;
   width: 100%;
