@@ -1,10 +1,17 @@
 sandbox.PostEditorController = function(options){
-  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-    "<h3 class='post-title'>$postTitle</h3>" +
-    "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
-    "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
-    "<p><b>Post note:</b> <span id='postNote'></span></p></div>";
-  
+  var templates = {
+    edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
+            "<h3 class='post-title'>$postTitle</h3>" +
+            "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
+            "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+            "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
+    play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
+          "<h3 class='post-title'>$postTitle</h3>" +
+          "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
+          "<div><button class='btn btn-danger quit-button'>Quit</button></div>" +
+          "<p><b>Post note:</b> <span id='postNote'></span></p></div>"
+  };
+
   if(!options.currentUser){
     throw 'Missing currentUser option';
   }
@@ -19,6 +26,7 @@ sandbox.PostEditorController = function(options){
     currentUserId: currentUser.uuid,
     delegate: storeDelegate
   });
+  var mode = options.mode;
 
   // Init view mapping variables;
   var container,
@@ -47,6 +55,7 @@ sandbox.PostEditorController = function(options){
       },
       resizeHeight: function(value, callback){
         expressionFrame.height = parseInt(value, 10);
+        callback();
       }
     },
     collections: {
@@ -157,7 +166,7 @@ sandbox.PostEditorController = function(options){
         // XXX wow, need to do something with this messy code.
         options: {
           expToken: UT.uuid(),
-          mode: 'editor',
+          mode: (mode == 'edit' ? 'editor' : 'player'),
           documentURL: '/posts/' + post.uuid,
           documentId: post.uuid,
           documentPrivacy: 'public',
@@ -169,7 +178,21 @@ sandbox.PostEditorController = function(options){
           scrollValues: {} // XXX Need to be imported
         }
       };
-      expressionFrame.contentWindow.postMessage(JSON.stringify(readyMessage), "*");
+      expressionFrame.contentWindow.postMessage(JSON.stringify(readyMessage), '*');
+    },
+    sendPostMessage: function(callback){
+      expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'post'}), '*');
+    },
+    posted: function(){
+      console.log(arguments);
+      post.state = 'published';
+      sandbox.Post.save(post, function(err, post){
+        if(err){
+          console.log(err);
+        } else {
+          application.navigate('post/' + post.uuid + '/play');
+        }
+      });
     }
   };
 
@@ -229,29 +252,42 @@ sandbox.PostEditorController = function(options){
   };
 
   var handlePostAction = function(event){
-
+    api.sendPostMessage();
   };
 
   this.attach = function(node){
     // Attach DOM
-    node.innerHTML = sandbox.compile(template, {title: expression.title, postTitle: 'Untitled post'});
+    node.appendChild(sandbox.compile(templates[mode], {title: expression.title, postTitle: 'Untitled post'}));
     container = node.querySelector('.post-editor');
+    postTitle = node.querySelector('.post-title');
+    expressionFrame = node.querySelector('iframe');
+
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
-    expressionFrame = node.querySelector('iframe');
-    postTitle = node.querySelector('.post-title');
-    postButton.disabled = true;
-    postButton.addEventListener('click', handlePostAction, false);
-    quitButton.addEventListener('click', handleQuitAction, false);
+    if(postButton){
+      postButton.disabled = true;
+      postButton.addEventListener('click', handlePostAction, false);
+    }
+    if(quitButton){
+      quitButton.addEventListener('click', handleQuitAction, false);
+    }
     window.addEventListener("message", handleIframeMessage, false);
-    load('/expression/' + expression.location + '/editor.html');
+    if(mode == 'edit'){
+      load('/expression/' + expression.location + '/editor.html');
+    } else {
+      load('/expression/' + expression.location + '/player.html');
+    }
   };
 
   this.detach = function(node){
     expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
-    quitButton.removeEventListener('click', handleQuitAction, false);
-    postButton.removeEventListener('click', handlePostAction, false);
+    if(quitButton){
+      quitButton.removeEventListener('click', handleQuitAction, false);
+    }
+    if(postButton){
+      postButton.removeEventListener('click', handlePostAction, false);
+    }
     node.innerHTML = "";
   };
 };

@@ -12,20 +12,24 @@
 
   <!-- Sandbox dependencies -->
   <script type='text/javascript' src="/lib/urturn-expression-api/sandbox.js"></script>
-  <script src="components/async/async.js"></script>
+  <script type='text/javascript' src="components/async/async.js"></script>
+  <script type='text/javascript' src="/vendor/pretty-date/pretty-date.js"></script>
   
   <!-- Sandbox -->
   <script type='text/javascript' src="/javascripts/sandbox.js"></script>
   <script type='text/javascript' src="/javascripts/application.js"></script>
   <script type='text/javascript' src="/javascripts/util.js"></script>
+  <script type='text/javascript' src="/javascripts/list-controller-support.js"></script>
   <!-- models -->
   <script type='text/javascript' src="/javascripts/expression.js"></script>
   <script type='text/javascript' src="/javascripts/post.js"></script>
   <script type='text/javascript' src="/javascripts/user.js"></script>
   <!-- controllers -->
-  <script type='text/javascript' src="/javascripts/expression-controller.js"></script>
+  <script type='text/javascript' src="/javascripts/expression-list-item-controller.js"></script>
   <script type='text/javascript' src="/javascripts/expression-list-controller.js"></script>
   <script type='text/javascript' src="/javascripts/post-editor-controller.js"></script>
+  <script type='text/javascript' src="/javascripts/post-list-item-controller.js"></script>
+  <script type='text/javascript' src="/javascripts/post-list-controller.js"></script>
   
 
   <!--bootstrap-->
@@ -44,9 +48,8 @@
   </header>
   <div class="container-fluid" id="sandbox">
     <div class="row-fluid">
-      <div class="span12 expression-editor" id="main">
-
-      </div>
+      <div class="span8" id="main"></div>
+      <div class="span4" id="sidebar"></div>
     </div>
   </div>
 </body>

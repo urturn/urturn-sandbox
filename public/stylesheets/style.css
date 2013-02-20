@@ -6,17 +6,38 @@ body {
   padding: 9px 0;
 }
 
-.expression-list li {
-  width: 33%;
-  float: left;
-}
-
 .iframe {
   width: 100%;
   min-height: 300px;
   border: none;
 }
+ 
 
+@media (min-width: 1200px) { 
+  .expression-list li {
+    width: 33%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) { 
+  .expression-list li {
+    width: 50%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (max-width: 767px) {
+  .expression-list li {
+    width: 100%;
+  }
+}
+
+.expression-list .box {
+  padding-right: 8px;
+}
 .expression-list h4 {
   font-size: 13px;
 }

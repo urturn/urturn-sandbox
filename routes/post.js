@@ -18,19 +18,18 @@ function mkdirIfNeeded(parent, dir, callback){
   });
 }
 
-function loadExpressionFromFile(file, callback){
+function loadPostFromFile(file, callback){
   fs.readFile(file, function(err, data){
     if(err) return callback(err);
     callback(null, JSON.parse(data));
   });
 }
 
-function getExpressionPosts(expression, callback){
+function getPosts(callback){
   getStoreFolder(function(err, dir){
     if(err){
       return callback(err);
     }
-    path.join(dir, expression.systemName);
     fs.readdir(dir, function(err, list){
       if(err) return callback(err);
       var pending = list.length;
@@ -41,7 +40,7 @@ function getExpressionPosts(expression, callback){
         fs.stat(file, function(err, stats){
           if(err) return callback(err);
           if(file.match(/.json$/) && stats.isFile()){
-            loadExpressionFromFile(file, function(err, post){
+            loadPostFromFile(file, function(err, post){
               if(err) return callback(err);
               results.push(post);
               pending --;
@@ -115,8 +114,8 @@ function loadPost(req, res, next){
   });
 }
 
-function listPost(req, res, next){
-  getExpressionPosts(req.params.expression, function(err, posts){
+function listPosts(req, res, next){
+  getPosts(function(err, posts){
     res.header("Content-Type", "application/json");
     res.send(JSON.stringify({posts: posts}));
   });
@@ -125,6 +124,7 @@ function listPost(req, res, next){
 function create(server, options){
   server.post('/' + options.mountPoint + '/:id.json', savePost);
   server.get('/' + options.mountPoint + '/:id.json', loadPost);
+  server.get('/' + options.mountPoint + '.json', listPosts);
   // server.get('/' + options.mountPoint + '/:expression.json', listPost);
 }
 

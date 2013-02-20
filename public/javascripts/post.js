@@ -2,7 +2,10 @@
   Post = function(data){
     data = data || {};
     this.title = data.title || "";
+    this.state = data.state || "draft";
     this.uuid = data.uuid || UT.uuid();
+    this.createdAt = (data.createdAt && new Date(data.createdAt)) || new Date();
+    console.log(data);
     this.expressionSystemName = data.expressionSystemName || (data.expression && data.expression.systemName) || null;
     this.expression = data.expression || null;
     this.collections = data.collections || [
@@ -17,7 +20,9 @@
         title: this.title,
         uuid: this.uuid,
         expressionSystemName: this.expression && this.expression.systemName,
-        collections: this.collections
+        collections: this.collections,
+        createdAt: this.createdAt,
+        state: this.state
       });
     };
   };
@@ -67,7 +72,28 @@
     });
   };
 
+  // load all posts
+  var findAll = function(callback){
+    $.ajax({
+      url: '/post.json',
+      type: 'GET',
+      success: function(data){
+        var posts = [];
+        for(var i = 0; i < data.posts.length; i++){
+          posts.push(new Post(data.posts[i]));
+        }
+        callback(null, posts.sort(function(a,b){
+          return (a.createdAt > b.createdAt ? -1 : 1);
+        }));
+      },
+      error: function(){
+        callback("Cannot load post, server error");
+      }
+    });
+  };
+
   sandbox.Post = Post;
   sandbox.Post.load = load;
   sandbox.Post.save = save;
+  sandbox.Post.findAll = findAll;
 })();
