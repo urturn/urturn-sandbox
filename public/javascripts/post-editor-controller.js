@@ -93,7 +93,7 @@ sandbox.PostEditorController = function(options){
       },
 
       _getImage : function(w, h) {
-        return 'http://localhost:3333/image_proxy/lorempixel.com/' + (w | 0) + '/' + (h | 0);
+        return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
       },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
