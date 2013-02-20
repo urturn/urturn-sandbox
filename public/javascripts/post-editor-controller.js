@@ -157,6 +157,11 @@ sandbox.PostEditorController = function(options){
       readyToPost: function(value){
         console.log('readyToPost : ', value);
         postButton.disabled = !value;
+        if(value){
+          postButton.className += ' btn-primary';
+        } else {
+          postButton.className = postButton.className.replace(/ btn-primary/g, '');
+        }
       },
       __note : 'test',
       setNote: function(note) {
