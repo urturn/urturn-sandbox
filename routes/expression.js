@@ -11,7 +11,6 @@ var Expression = function(expressionDir, info){
   this.description = info.description;
   this.dependencies = info.dependencies;
   this.bannerPath = info.bannerPath;
-  console.log(this.bannerPath);
 };
 
 function ExpressionController(cwd, expression) {
@@ -172,7 +171,6 @@ var ExpressionApplication = function(server, mount, expPath) {
   // Instantiate and route to an expression controller
   var routeToControllerFunc = function(cwd, route){
     return function(req, res, next){
-      console.log(req.params);
       createExpression(cwd, req.params[0] || '.', function(err){
         if(err){
           console.log(err);

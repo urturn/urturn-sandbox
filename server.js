@@ -39,7 +39,6 @@ function configure(expressionDir, port){
     var host = parts.shift();
     req.url = '/' + parts.join('/');
     req.headers.host = host;
-    console.log(req.params[0], host, req.url, parts);
     proxy.proxyRequest(req, res, {host: host, port: 80});
   });
 
@@ -49,7 +48,6 @@ function configure(expressionDir, port){
   });
 
   var postApp = post.create(app, {mountPoint: 'post'});
-  console.log(app.routes);
   return app;
 }
 

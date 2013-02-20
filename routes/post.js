@@ -73,7 +73,6 @@ function getStoreFolder(callback){
 function savePost(req, res, next){
   var id = req.params.id;
   var body = req.body;
-  console.log(body);
   getStoreFolder(function(err, dir){
     if(err){
       next(err);
@@ -97,7 +96,6 @@ function savePost(req, res, next){
 function loadPost(req, res, next){
   var id = req.params.id;
   var body = req.body;
-  console.log(body);
   getStoreFolder(function(err, dir){
     if(err){
       next(err);
