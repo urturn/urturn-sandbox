@@ -75,6 +75,15 @@ sandbox.PostEditorController = function(options){
         });
       }
     },
+    url: {
+
+    },
+    medias: {
+      openImageChooser: function(options, callback){
+        console.log(arguments);
+        callback({url: 'http://lorempixel.com/400/500'});
+      }
+    },
     document: {
       readyToPost: function(value){
         postButton.disabled = !value;
@@ -94,7 +103,7 @@ sandbox.PostEditorController = function(options){
           documentPrivacy: 'public',
           collections: post.collections,
           currentUserId: currentUser.uuid,
-          host: 'http://localhost:3333',
+          host: 'localhost:3333',
           assetPath: 'http://expressions',
           note : post.note,
           scrollValues: {} // XXX Need to be imported
@@ -140,8 +149,13 @@ sandbox.PostEditorController = function(options){
       console.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
       console.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
     } else {
-      args.push(function(response){
-        expressionFrame.contentWindow.postMessage(JSON.stringify(response));
+      args.push(function(result){
+        var response = {
+          type: 'callback',
+          result: [result],
+          callbackId: data.callbackId
+        };
+        expressionFrame.contentWindow.postMessage(JSON.stringify(response), '*');
       });
       func.apply(post, args);
     }
@@ -160,6 +174,7 @@ sandbox.PostEditorController = function(options){
   };
 
   this.detach = function(node){
+    expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
     node.innerHTML = "";
   };

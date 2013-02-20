@@ -53,6 +53,7 @@ sandbox.Application = function(rootNode){
     }
     nodes[zone].innerHTML = "";
     controller.attach(nodes[zone]);
+    zones[zone] = controller;
   };
 
 };

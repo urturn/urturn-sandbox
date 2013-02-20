@@ -31,6 +31,18 @@ function configure(expressionDir, port){
     res.sendfile(path.join(__dirname, 'node_modules/' + req.params.lib + '/dist/' + req.params[0]));
   });
 
+  app.get('/image_proxy/*', function(req, res){
+    var querystring = require('querystring');
+    var httpProxy = require('http-proxy');
+    var proxy = new httpProxy.RoutingProxy();
+    parts = req.params[0].split('/');
+    var host = parts.shift();
+    req.url = '/' + parts.join('/');
+    req.headers.host = host;
+    console.log(req.params[0], host, req.url, parts);
+    proxy.proxyRequest(req, res, {host: host, port: 80});
+  });
+
   var expressionApp = expression.create(app, {
     path: expressionDir,
     mountPoint: 'expression'
