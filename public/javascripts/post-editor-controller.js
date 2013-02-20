@@ -2,13 +2,13 @@ sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
             "<h3 class='post-title'>$postTitle</h3>" +
-            "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
-            "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+            "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
+            "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
           "<h3 class='post-title'>$postTitle</h3>" +
-          "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
-          "<div><button class='btn btn-danger quit-button'>Quit</button></div>" +
+          "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
+          "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button></div>" +
           "<p><b>Post note:</b> <span id='postNote'></span></p></div>"
   };
 
@@ -33,7 +33,8 @@ sandbox.PostEditorController = function(options){
       postButton,
       quitButton,
       postTitle,
-      expressionFrame ;
+      expressionFrame,
+      boundingBox ;
 
   // Save the current document.
   var savePost = function(post){
@@ -70,7 +71,6 @@ sandbox.PostEditorController = function(options){
       }
     },
     medias: {
-
       _createCenterFromImgSize : function(w, h) {
         return {
           DEST_W: w,
@@ -83,7 +83,7 @@ sandbox.PostEditorController = function(options){
       },
 
       _getImage : function(w, h) {
-        return 'http://localhost:3333/image_proxy/lorempixel.com/' + (w | 0) + '/' + (h | 0);
+        return 'http://localhost:3333/image_proxy/lorempixel.com/' + (w | 0) + '/' + (h | 0) + '/';
       },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
@@ -203,7 +203,6 @@ sandbox.PostEditorController = function(options){
       function(cb){
         var waitLoaded = function(event, callback){
           expressionFrame.removeEventListener('load', waitLoaded, false);
-          expressionFrame.height = 500;
           cb(null, true);
         };
         expressionFrame.addEventListener('load', waitLoaded, false);
@@ -255,15 +254,28 @@ sandbox.PostEditorController = function(options){
     api.sendPostMessage();
   };
 
+  var resizeBoundingBox = function(event){
+    var viewPortHeight = $(window).height();
+    var viewPortWidth = $(window).width();
+    //debugger
+    console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
+    $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
+    console.log(expressionFrame.offsetHeight);
+
+  };
+
   this.attach = function(node){
     // Attach DOM
     node.appendChild(sandbox.compile(templates[mode], {title: expression.title, postTitle: 'Untitled post'}));
     container = node.querySelector('.post-editor');
     postTitle = node.querySelector('.post-title');
     expressionFrame = node.querySelector('iframe');
-
+    footer = node.querySelector('.expression-footer');
+    boundingBox = node.querySelector('.expression-bounding-box');
+    resizeBoundingBox();
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
+    window.addEventListener('resize', resizeBoundingBox, false);
     if(postButton){
       postButton.disabled = true;
       postButton.addEventListener('click', handlePostAction, false);
@@ -282,6 +294,7 @@ sandbox.PostEditorController = function(options){
   this.detach = function(node){
     expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
+    window.removeEventListener('resize', resizeBoundingBox, false);
     if(quitButton){
       quitButton.removeEventListener('click', handleQuitAction, false);
     }

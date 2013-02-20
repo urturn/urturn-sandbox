@@ -32,14 +32,31 @@ function configure(expressionDir, port){
   });
 
   app.get('/image_proxy/*', function(req, res){
-    var querystring = require('querystring');
-    var httpProxy = require('http-proxy');
-    var proxy = new httpProxy.RoutingProxy();
+    //http://localhost:3333/image_proxy/lorempixel.com/576/600
     parts = req.params[0].split('/');
     var host = parts.shift();
-    req.url = '/' + parts.join('/');
+    var url = '/' + parts.join('/');
+
+    //http://www.catonmat.net/http-proxy-in-nodejs/var proxy = http.createClient(80, request.headers['host'])
+    var http = require('http');
+    var proxy = http.createClient(80, host);
     req.headers.host = host;
-    proxy.proxyRequest(req, res, {host: host, port: 80});
+    var proxy_request = proxy.request('GET', url, req.headers);
+    proxy_request.addListener('response', function (proxy_response) {
+      proxy_response.addListener('data', function(chunk) {
+        res.write(chunk, 'binary');
+      });
+      proxy_response.addListener('end', function() {
+        res.end();
+      });
+      res.writeHead(proxy_response.statusCode, proxy_response.headers);
+    });
+    req.addListener('data', function(chunk) {
+      proxy_request.write(chunk, 'binary');
+    });
+    req.addListener('end', function() {
+      proxy_request.end();
+    });
   });
 
   var expressionApp = expression.create(app, {
@@ -50,6 +67,13 @@ function configure(expressionDir, port){
   var postApp = post.create(app, {mountPoint: 'post'});
   return app;
 }
+
+http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write('request successfully proxied: ' + req.url +'\n' + JSON.stringify(req.headers, true, 2));
+  res.end();
+}).listen(8000);
 
 module.exports = {
   configure: configure
