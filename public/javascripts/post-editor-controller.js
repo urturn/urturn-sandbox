@@ -1,7 +1,6 @@
 sandbox.PostEditorController = function(options){
   var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
     "<h3 class='post-title'>$postTitle</h3>" +
-    '<div class="progress progress-striped"><div class="bar" style="width: 20%;"></div></div>' +
     "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
     "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
     "<p><b>Post note:</b> <span id='postNote'></span></p></div>";

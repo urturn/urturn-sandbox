@@ -12,9 +12,16 @@ body {
 }
 
 .iframe {
-  border: solid 1px black;
   width: 100%;
   min-height: 300px;
+  border: none;
+}
+
+.expression-list h4 {
+  font-size: 13px;
+}
+.expression-list .description {
+  font-size: 10px;
 }
 
 

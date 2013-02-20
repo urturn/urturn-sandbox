@@ -1,7 +1,7 @@
 sandbox.ExpressionController = function(expression){
   var self = this;
   var liNode;
-  var itemTemplate = '<h4 class="expression-item-title">$title</h4><img src="expression/$bannerPath" /><div>$systemName-$version</div><div>$description</div><ul class="posts"></ul>';
+  var itemTemplate = '<h4 class="expression-item-title">$title</h4><img src="expression/$bannerPath" /><div>$systemName-$version</div><div class="description">$description</div><ul class="posts"></ul>';
   
   var handleSelected = function(){
     if(self.onSelected){
