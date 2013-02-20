@@ -243,6 +243,14 @@ sandbox.PostEditorController = function(options){
     }
   };
 
+  var handleQuitAction = function(event){
+    application.navigate('');
+  };
+
+  var handlePostAction = function(event){
+
+  };
+
   this.attach = function(node){
     // Attach DOM
     node.innerHTML = sandbox.compile(template, {title: expression.title, postTitle: 'Untitled post'});
@@ -252,16 +260,17 @@ sandbox.PostEditorController = function(options){
     expressionFrame = node.querySelector('iframe');
     postTitle = node.querySelector('.post-title');
     postButton.disabled = true;
-    quitButton.addEventListener('click', function(event){
-      application.navigate('');
-    }, false);
-    load('/expression/' + expression.location + '/editor.html');
+    postButton.addEventListener('click', handlePostAction, false);
+    quitButton.addEventListener('click', handleQuitAction, false);
     window.addEventListener("message", handleIframeMessage, false);
+    load('/expression/' + expression.location + '/editor.html');
   };
 
   this.detach = function(node){
     expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
+    quitButton.removeEventListener('click', handleQuitAction, false);
+    postButton.removeEventListener('click', handlePostAction, false);
     node.innerHTML = "";
   };
 };
