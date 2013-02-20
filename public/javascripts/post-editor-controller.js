@@ -82,30 +82,34 @@ sandbox.PostEditorController = function(options){
           SOURCE_H: h
         }
       },
+
+      _getImage : function(w, h) {
+        return 'http://localhost:3333/image_proxy/lorempixel.com/' + (w | 0) + '/' + (h | 0);
+      },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
-          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0 )+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-         callback({_center : api.medias._createCenterFromImgSize(500,500) ,type : '_image', url : 'http://lorempixel.com/500/500', info : {source : 'loremPix'}});
+         callback({_center : api.medias._createCenterFromImgSize(576,600) ,type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
       crop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0)+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
+           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600), type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+            callback({_center : api.medias._createCenterFromImgSize(576,600), type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
       reCrop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0)+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
+           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600),type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+            callback({_center : api.medias._createCenterFromImgSize(576,600),type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
