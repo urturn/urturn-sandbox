@@ -1,5 +1,5 @@
 sandbox.PostEditorController = function(options){
-  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2><h3 class='post-title'>$postTitle</h3><iframe class='iframe iframe-expression expression-frame'></iframe><div><button class='post-button'>Post</post></div></div>";
+  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2><h3 class='post-title'>$postTitle</h3><iframe class='iframe iframe-expression expression-frame'></iframe><div><button class='post-button'>Post</post></div><p><b>Post note : </b><span id='postNote'></span></p></div>";
   
   if(!options.currentUser){
     throw 'Missing currentUser option';
@@ -128,11 +128,12 @@ sandbox.PostEditorController = function(options){
     },
     document: {
       readyToPost: function(value){
+        console.log('readyToPost : ', value);
         postButton.disabled = !value;
       },
       __note : 'test',
       setNote: function(note) {
-        __note = note;
+        document.getElementById('postNote').innerHTML = note;
       }
     },
     sendReadyMessage: function(post){
