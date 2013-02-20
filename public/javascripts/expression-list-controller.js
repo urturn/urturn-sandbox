@@ -4,7 +4,7 @@
 // will receive the expression as first parameter.
 sandbox.ExpressionListController = function(){
   var expressionControllers = [];
-  var template = "<ul class='expression-list'></ul>";
+  var template = "<ul class='unstyled expression-list'></ul>";
   var parentNode = null;
   var ulNode = null;
 

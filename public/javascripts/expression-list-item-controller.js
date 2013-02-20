@@ -9,9 +9,9 @@ sandbox.ExpressionListItemController = function(expression){
   var ulNode;
   var itemTemplate = '<li><div class="box">' +
       '<img src="expression/$bannerPath" />' +
-      '<h4 class="expression-item-title">$title</h4>'+
-      '<div>$systemName-$version</div>'+
-      '<div class="description">$description</div>' +
+      '<div class="expression-item-title">$title</div>'+
+      '<span class="expression-item-idcard">$systemName-$version</span> - '+
+      '<spandiv class="description">$description</span>' +
       '</div></li>';
   
   var handleSelected = function(){
