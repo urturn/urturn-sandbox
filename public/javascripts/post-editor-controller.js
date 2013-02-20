@@ -137,6 +137,9 @@ sandbox.PostEditorController = function(options){
         callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
       }
     },
+    url: {
+
+    },
     document: {
       readyToPost: function(value){
         console.log('readyToPost : ', value);
@@ -161,7 +164,7 @@ sandbox.PostEditorController = function(options){
           documentPrivacy: 'public',
           collections: post.collections,
           currentUserId: currentUser.uuid,
-          host: 'http://localhost:3333',
+          host: 'localhost:3333',
           assetPath: 'http://expressions',
           note : post.note,
           scrollValues: {} // XXX Need to be imported
@@ -235,6 +238,7 @@ sandbox.PostEditorController = function(options){
   };
 
   this.detach = function(node){
+    expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
     node.innerHTML = "";
   };

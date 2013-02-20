@@ -11,7 +11,8 @@
     "commander": "*",
     "urturn-expression-api": "git://github.com/webdoc/urturn-expression-api.git",
     "glob": "~3",
-    "async": "*"
+    "async": "*",
+    "http-proxy": "0.8.7"
   },
   "devDependencies": {
     "grunt": "*"
