@@ -68,25 +68,71 @@ sandbox.PostEditorController = function(options){
         collection.save(function(){
           console.log('collection saved' + arguments);
         });
-        expression.storage.ratio = limage.height / limage.width;
-        expression.media.createImage(image, function(pict){
-          expression.storage.pict = pict;
-          expression.storage.save();
-        });
       }
     },
     medias: {
       openImageChooser : function(options, callback) {
-        console.log('Called openImageChooser', arguments);
         if (options.size && options.size.width && options.size.height){
-          callback({type : '_image', url : 'http://lorempixel.com/' +  options.size.width+ '/' + options.size.height, info : {source : 'loremPix'}});
+          callback({type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0 )+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
         }
-        callback({type : '_image', url : 'http://lorempixel.com/500/500', info : {source : 'loremPix'}});
+        else {
+         callback({type : '_image', url : 'http://lorempixel.com/500/500', info : {source : 'loremPix'}});
+        }
+      },
+
+      crop : function(options, callback) {
+        if (options.size && options.size.width && options.size.height) {
+           callback({type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0)+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
+        }
+        else {
+            callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+        }
+      },
+
+      reCrop : function(options, callback) {
+        if (options.size && options.size.width && options.size.height) {
+           callback({type : '_image', url : 'http://lorempixel.com/' +  (options.size.width | 0)+ '/' + (options.size.height | 0), info : {source : 'loremPix'}});
+        }
+        else {
+            callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+        }
+      },
+
+      createImage: function(image, callback){
+        if (typeof(image) === 'string') {
+          image = { _type : "image", url : image};
+        }
+        if (!image._type){
+          image._type = 'image';
+        }
+        callback(image);
+      },
+      applyFilterToImage: function(options, callback)
+      {
+        console.log('Filter Applied : ', options.filter);
+        callback(options.image);
+      },
+      imageWithDataUrl : function(dataUrl, callback) {
+        api.medias.createImage(dataUrl, callback);
+      },
+      openSoundChooser: function(options, callback) {
+        var media = JSON.parse('{"_type":"sound","service":"soundcloud","url":"http://soundcloud.com/urturn/the-mission","title":"The Mission","artist":"urturn","cover":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25","artistCover":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25","soundCover":null,"waveFormImage":"http://w1.sndcdn.com/gHQkR7jhWdlh_m.png","link":"http://api.soundcloud.com/tracks/27816973","appData":{"kind":"track","id":27816973,"created_at":"2011/11/12 10:26:38 +0000","user_id":8871218,"duration":248597,"commentable":true,"state":"finished","original_content_size":9933964,"sharing":"public","tag_list":"","permalink":"the-mission","streamable":true,"embeddable_by":"all","downloadable":false,"purchase_url":null,"label_id":null,"purchase_title":null,"genre":"","title":"The Mission","description":"","label_name":"","release":"","track_type":null,"key_signature":null,"isrc":null,"video_url":null,"bpm":null,"release_year":null,"release_month":null,"release_day":null,"original_format":"mp3","license":"all-rights-reserved","uri":"http://api.soundcloud.com/tracks/27816973","user":{"id":8871218,"kind":"user","permalink":"urturn","username":"urturn","uri":"http://api.soundcloud.com/users/8871218","permalink_url":"http://soundcloud.com/urturn","avatar_url":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25"},"permalink_url":"http://soundcloud.com/urturn/the-mission","artwork_url":null,"waveform_url":"http://w1.sndcdn.com/gHQkR7jhWdlh_m.png","stream_url":"http://api.soundcloud.com/tracks/27816973/stream","playback_count":158,"download_count":0,"favoritings_count":1,"comment_count":1,"attachments_uri":"http://api.soundcloud.com/tracks/27816973/attachments"}}');
+        callback(media);
+      },
+      openVideoChooser : function(options, callback) {
+        callback({url:'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
+      },
+      findImage: function(options, callback) {
+        callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
       }
     },
     document: {
       readyToPost: function(value){
         postButton.disabled = !value;
+      },
+      __note : 'test',
+      setNote: function(note) {
+        __note = note;
       }
     },
     sendReadyMessage: function(post){
