@@ -73,11 +73,13 @@ window.addEventListener('load', function(){
   application.twoColumns = function(){
     $('#sidebar').show().addClass('span4');
     $('#main').show().addClass('span8').removeClass('span12');
+    $('#deviceSelector').hide();
   };
 
   application.oneColumn = function(){
     $('#sidebar').hide().removeClass('span4');
     $('#main').show().removeClass('span8').addClass('span12');
+    $('#deviceSelector').show();
   };
 
   // application.assignZone('main', expressionList);

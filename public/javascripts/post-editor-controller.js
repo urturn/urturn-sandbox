@@ -254,6 +254,12 @@ sandbox.PostEditorController = function(options){
     api.sendPostMessage();
   };
 
+  var changeDeviceResolution = function(event) {
+    event.preventDefault();
+    expressionFrame.style.width = this.dataset.width;
+    expressionFrame.style.height = this.dataset.height;
+  };
+
   var resizeBoundingBox = function(event){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
@@ -261,7 +267,6 @@ sandbox.PostEditorController = function(options){
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
     console.log(expressionFrame.offsetHeight);
-
   };
 
   this.attach = function(node){
@@ -275,6 +280,8 @@ sandbox.PostEditorController = function(options){
     resizeBoundingBox();
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
+    devicesButtons = document.querySelectorAll("#deviceSelector .dropdown-menu a");
+
     window.addEventListener('resize', resizeBoundingBox, false);
     if(postButton){
       postButton.disabled = true;
@@ -289,6 +296,12 @@ sandbox.PostEditorController = function(options){
     } else {
       load('/expression/' + expression.location + '/player.html');
     }
+
+    if (devicesButtons && devicesButtons.length > 1) {
+      for ( var i = 0,j=devicesButtons.length; i<j; i++) {
+        devicesButtons[i].addEventListener('click', changeDeviceResolution, false);
+      }
+    }
   };
 
   this.detach = function(node){
@@ -300,6 +313,11 @@ sandbox.PostEditorController = function(options){
     }
     if(postButton){
       postButton.removeEventListener('click', handlePostAction, false);
+    }
+    if (devicesButtons && devicesButtons.length > 1) {
+      for ( var i = 0,j=devicesButtons.length; i<j; i++) {
+        devicesButtons[i].removeEventListener('click', changeDeviceResolution, false);
+      }
     }
     node.innerHTML = "";
   };

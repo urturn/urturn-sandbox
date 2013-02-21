@@ -7,7 +7,8 @@ body {
 }
 
 .iframe {
-  width: 100%;
+  /* width: 100%;  */
+  width: 576px;
   border: none;
 }
  
@@ -47,7 +48,11 @@ body {
   font-size: small;
 }
 
-
+.devices-selector-btn {
+  position: absolute;
+  display:none;
+  right: 20px;
+}
 /*
 body {
   padding: 50px;
