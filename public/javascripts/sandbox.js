@@ -84,4 +84,10 @@ window.addEventListener('load', function(){
 
   // application.assignZone('main', expressionList);
   application.navigate(); // go to the current state if any.
+
+  // device selector
+  if ('localStorage' in window && window['localStorage'] !== null && localStorage.device) {
+    console.warn(localStorage.getItem("device"));
+    $('#main').addClass(localStorage.getItem("device"));
+  }
 });

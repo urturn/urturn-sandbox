@@ -7,11 +7,34 @@ body {
 }
 
 .iframe {
-  /* width: 100%;  */
-  width: 576px;
+  width: 100%;
   border: none;
 }
  
+ .fullscreen .iframe {
+   width: 100%;
+   height: auto;
+ }
+ .desktop .iframe {
+   width: 500px;
+   height: auto;
+ }
+ .desktop_large .iframe {
+   width: 576px;
+   height: auto;
+ }
+.iphone .iframe { 
+  width: 320px;
+  height: 480px;
+}
+.iphone_retina .iframe {
+  width: 640px;
+  height: 960px;
+}
+.iphone5 .iframe {
+  width: 640px;
+  height: 1136px;
+}
 
 @media (min-width: 1200px) { 
   .expression-list li {

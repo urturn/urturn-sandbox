@@ -258,6 +258,10 @@ sandbox.PostEditorController = function(options){
     event.preventDefault();
     expressionFrame.style.width = this.dataset.width;
     expressionFrame.style.height = this.dataset.height;
+    if ('localStorage' in window && window['localStorage'] !== null) {
+      localStorage.setItem("device", this.dataset.device);
+      location.reload(true);
+    }
   };
 
   var resizeBoundingBox = function(event){
