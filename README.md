@@ -11,7 +11,7 @@ prerequisite  : you have to install  [NodeJS](http://nodejs.org "NodeJS")
 git clone git@github.com:webdoc/urturn-sandbox.git
 cd urturn-sandbox
 npm install
-npm link
+sudo npm link
 ```
 
 Start it by getting to you expressions project or a specific expression folder
