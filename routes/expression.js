@@ -11,7 +11,6 @@ var Expression = function(expressionDir, info){
   this.description = info.description;
   this.dependencies = info.dependencies;
   this.bannerPath = info.bannerPath;
-  console.log(this.bannerPath);
 };
 
 function ExpressionController(cwd, expression) {
@@ -51,20 +50,20 @@ function ExpressionController(cwd, expression) {
     // stylesheets one css file path for every stylesheet
     var findResourcePaths = function(callback){
       var deps = expression.dependencies;
-      var paths = { stylesheet: [], javascript: [] };
+      var paths = { css: [], js: [] };
       for (var i in deps){
         var dep = deps[i];
         if(!dep.context || dep.context == mode){
           try {
-            paths[dep.type].push(dep.path);
+            paths[dep.path.match(/\.([a-z]+)$/)[1]].push(dep.path);
           } catch (e){
             console.log(e);
-            callback('Cannot load ' + dep.path + ', wrong type specified: ' + dep.type);
+            callback('Cannot load ' + dep.path);
             return;
           }
         }
       }
-      callback(null, paths.javascript, paths.stylesheet);
+      callback(null, paths.js, paths.css);
     };
 
     var renderAfterLoading = function(){
@@ -172,7 +171,6 @@ var ExpressionApplication = function(server, mount, expPath) {
   // Instantiate and route to an expression controller
   var routeToControllerFunc = function(cwd, route){
     return function(req, res, next){
-      console.log(req.params);
       createExpression(cwd, req.params[0] || '.', function(err){
         if(err){
           console.log(err);

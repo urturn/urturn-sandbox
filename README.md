@@ -5,11 +5,13 @@ Expression developer sandbox is in a very alpha state. Don't even try to use it 
 
 Install it the hard way
 =======================
+prerequisite  : you have to install  [NodeJS](http://nodejs.org "NodeJS")
+
 ```shell
 git clone git@github.com:webdoc/urturn-sandbox.git
 cd urturn-sandbox
 npm install
-npm link
+sudo npm link
 ```
 
 Start it by getting to you expressions project or a specific expression folder

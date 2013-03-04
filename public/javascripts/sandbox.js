@@ -8,22 +8,41 @@ window.addEventListener('load', function(){
 
   // ROUTES
 
-  // Edit an expression
-  application.addRoute('expression/:systemName/edit', function(context){
+  // Create a post
+  application.addRoute('expression/:systemName/newpost', function(context){
     sandbox.Expression.findBySystemName(context.systemName, function(err, expression){
-      if(err){
+      if(err || !expression){
         console.log("Cannot find expression with system name: " + context.systemName);
         return;
       }
-      if(!expression){
-        throw "expression not found with name " + context.systemName;
-      }
-      var postEditor = new sandbox.PostEditorController({
-        currentUser: currentUser,
-        expression: expression,
-        application: application
+      var post = new sandbox.Post();
+      post.expression = expression;
+      sandbox.Post.save(post, function(err, post){
+        if(err){
+          console.log("Cannot save post");
+          return;
+        }
+        application.navigate('post/' + post.uuid + '/edit');
       });
-      application.assignZone('main', postEditor);
+    });
+  });
+
+  $(['play', 'edit']).each(function(i, mode){
+    application.addRoute('post/:uuid/' + mode, function(context){
+      application.oneColumn();
+      sandbox.Post.load(context.uuid, function(err, post){
+        if(err){
+          console.log("Cannot display " + mode + " because of: " + err);
+          return;
+        }
+        var postEditor = new sandbox.PostEditorController({
+          currentUser: currentUser,
+          post: post,
+          application: application,
+          mode: mode
+        });
+        application.assignZone('main', postEditor);
+      });
     });
   });
 
@@ -34,19 +53,41 @@ window.addEventListener('load', function(){
 
   // Homepage
   application.addRoute('', function(context){
+    application.twoColumns();
     var expressionList = new sandbox.ExpressionListController();
     application.assignZone('main', expressionList);
     // bootstrap
     expressionList.onSelected = function(expression){
       console.log(expression);
-      application.navigate('expression/' + expression.systemName + '/edit');
+      application.navigate('expression/' + expression.systemName + '/newpost');
     };
+
+    var postList = new sandbox.PostListController(application);
+    application.assignZone('sidebar', postList);
   });
 
   // Map application to template zone
   application.addZone('main', '#main');
-  //application.addZone('sidebar', '#sidebar');
+  application.addZone('sidebar', '#sidebar');
+
+  application.twoColumns = function(){
+    $('#sidebar').show().addClass('span4');
+    $('#main').show().addClass('span8').removeClass('span12');
+    $('#deviceSelector').hide();
+  };
+
+  application.oneColumn = function(){
+    $('#sidebar').hide().removeClass('span4');
+    $('#main').show().removeClass('span8').addClass('span12');
+    $('#deviceSelector').show();
+  };
 
   // application.assignZone('main', expressionList);
   application.navigate(); // go to the current state if any.
+
+  // device selector
+  if ('localStorage' in window && window['localStorage'] !== null && localStorage.device) {
+    console.warn(localStorage.getItem("device"));
+    $('#main').addClass(localStorage.getItem("device"));
+  }
 });

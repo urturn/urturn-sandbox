@@ -1,54 +1,44 @@
 sandbox.PostEditorController = function(options){
-  var template = "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-    "<h3 class='post-title'>$postTitle</h3>" +
-    "<iframe class='iframe iframe-expression expression-frame'></iframe>" +
-    "<div><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
-    "<p><b>Post note:</b> <span id='postNote'></span></p></div>";
-  
+  var templates = {
+    edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
+            "<h3 class='post-title'>$postTitle</h3>" +
+            "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
+            "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+            "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
+    play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
+          "<h3 class='post-title'>$postTitle</h3>" +
+          "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
+          "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button></div>" +
+          "<p><b>Post note:</b> <span id='postNote'></span></p></div>"
+  };
+
   if(!options.currentUser){
     throw 'Missing currentUser option';
   }
-  if(!options.expression){
-    throw 'Missing expression option';
-  }
 
   var currentUser = options.currentUser;
-  var expression = options.expression;
   var application = options.application;
-  var post;
+  var post = options.post;
+  var expression = post.expression;
   var storeDelegate = {}; // storeDelegate functions will be declared later
-
-  // Create Model
-  if(options.post){
-    post = options.post;
-  } else {
-    post = new sandbox.Post();
-  }
-  post.uuid = UT.uuid();
-  post.expression = expression;
   var store = new UT.CollectionStore({
     data: post.collections,
     currentUserId: currentUser.uuid,
     delegate: storeDelegate
   });
+  var mode = options.mode;
 
   // Init view mapping variables;
   var container,
       postButton,
       quitButton,
       postTitle,
-      expressionFrame ;
+      expressionFrame,
+      boundingBox ;
 
   // Save the current document.
   var savePost = function(post){
-    $.ajax({
-      url: '/post/' + post.uuid + '.json',
-      type: 'POST',
-      data: JSON.stringify(post),
-      dataType: 'application/json',
-      contentType: 'application/json',
-      parseData: false
-    });
+    sandbox.Post.save(post);
   };
 
   // Implements colleciton store delegate methods
@@ -66,6 +56,7 @@ sandbox.PostEditorController = function(options){
       },
       resizeHeight: function(value, callback){
         expressionFrame.height = parseInt(value, 10);
+        callback();
       }
     },
     collections: {
@@ -80,7 +71,6 @@ sandbox.PostEditorController = function(options){
       }
     },
     medias: {
-
       _createCenterFromImgSize : function(w, h) {
         return {
           DEST_W: w,
@@ -89,7 +79,7 @@ sandbox.PostEditorController = function(options){
           SOURCE_Y: 0,
           SOURCE_W: w,
           SOURCE_H: h
-        }
+        };
       },
 
       _getImage : function(w, h) {
@@ -176,7 +166,7 @@ sandbox.PostEditorController = function(options){
         // XXX wow, need to do something with this messy code.
         options: {
           expToken: UT.uuid(),
-          mode: 'editor',
+          mode: (mode == 'edit' ? 'editor' : 'player'),
           documentURL: '/posts/' + post.uuid,
           documentId: post.uuid,
           documentPrivacy: 'public',
@@ -188,7 +178,21 @@ sandbox.PostEditorController = function(options){
           scrollValues: {} // XXX Need to be imported
         }
       };
-      expressionFrame.contentWindow.postMessage(JSON.stringify(readyMessage), "*");
+      expressionFrame.contentWindow.postMessage(JSON.stringify(readyMessage), '*');
+    },
+    sendPostMessage: function(callback){
+      expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'post'}), '*');
+    },
+    posted: function(){
+      console.log(arguments);
+      post.state = 'published';
+      sandbox.Post.save(post, function(err, post){
+        if(err){
+          console.log(err);
+        } else {
+          application.navigate('post/' + post.uuid + '/play');
+        }
+      });
     }
   };
 
@@ -199,7 +203,6 @@ sandbox.PostEditorController = function(options){
       function(cb){
         var waitLoaded = function(event, callback){
           expressionFrame.removeEventListener('load', waitLoaded, false);
-          expressionFrame.height = 500;
           cb(null, true);
         };
         expressionFrame.addEventListener('load', waitLoaded, false);
@@ -248,29 +251,78 @@ sandbox.PostEditorController = function(options){
   };
 
   var handlePostAction = function(event){
+    api.sendPostMessage();
+  };
 
+  var changeDeviceResolution = function(event) {
+    event.preventDefault();
+    expressionFrame.style.width = this.dataset.width;
+    expressionFrame.style.height = this.dataset.height;
+    if ('localStorage' in window && window['localStorage'] !== null) {
+      localStorage.setItem("device", this.dataset.device);
+      location.reload(true);
+    }
+  };
+
+  var resizeBoundingBox = function(event){
+    var viewPortHeight = $(window).height();
+    var viewPortWidth = $(window).width();
+    //debugger
+    console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
+    $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
+    console.log(expressionFrame.offsetHeight);
   };
 
   this.attach = function(node){
     // Attach DOM
-    node.innerHTML = sandbox.compile(template, {title: expression.title, postTitle: 'Untitled post'});
+    node.appendChild(sandbox.compile(templates[mode], {title: expression.title, postTitle: 'Untitled post'}));
     container = node.querySelector('.post-editor');
+    postTitle = node.querySelector('.post-title');
+    expressionFrame = node.querySelector('iframe');
+    footer = node.querySelector('.expression-footer');
+    boundingBox = node.querySelector('.expression-bounding-box');
+    resizeBoundingBox();
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
-    expressionFrame = node.querySelector('iframe');
-    postTitle = node.querySelector('.post-title');
-    postButton.disabled = true;
-    postButton.addEventListener('click', handlePostAction, false);
-    quitButton.addEventListener('click', handleQuitAction, false);
+    devicesButtons = document.querySelectorAll("#deviceSelector .dropdown-menu a");
+
+    window.addEventListener('resize', resizeBoundingBox, false);
+    if(postButton){
+      postButton.disabled = true;
+      postButton.addEventListener('click', handlePostAction, false);
+    }
+    if(quitButton){
+      quitButton.addEventListener('click', handleQuitAction, false);
+    }
     window.addEventListener("message", handleIframeMessage, false);
-    load('/expression/' + expression.location + '/editor.html');
+    if(mode == 'edit'){
+      load('/expression/' + expression.location + '/editor.html');
+    } else {
+      load('/expression/' + expression.location + '/player.html');
+    }
+
+    if (devicesButtons && devicesButtons.length > 1) {
+      for ( var i = 0,j=devicesButtons.length; i<j; i++) {
+        devicesButtons[i].addEventListener('click', changeDeviceResolution, false);
+      }
+    }
   };
 
   this.detach = function(node){
     expressionFrame = null;
     window.removeEventListener("message", handleIframeMessage, false);
-    quitButton.removeEventListener('click', handleQuitAction, false);
-    postButton.removeEventListener('click', handlePostAction, false);
+    window.removeEventListener('resize', resizeBoundingBox, false);
+    if(quitButton){
+      quitButton.removeEventListener('click', handleQuitAction, false);
+    }
+    if(postButton){
+      postButton.removeEventListener('click', handlePostAction, false);
+    }
+    if (devicesButtons && devicesButtons.length > 1) {
+      for ( var i = 0,j=devicesButtons.length; i<j; i++) {
+        devicesButtons[i].removeEventListener('click', changeDeviceResolution, false);
+      }
+    }
     node.innerHTML = "";
   };
 };

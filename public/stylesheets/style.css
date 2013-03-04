@@ -6,24 +6,93 @@ body {
   padding: 9px 0;
 }
 
-.expression-list li {
-  width: 33%;
-  float: left;
-}
-
 .iframe {
   width: 100%;
-  min-height: 300px;
   border: none;
 }
+ 
+ .fullscreen .iframe {
+   width: 100%;
+   height: auto;
+ }
+ .desktop .iframe {
+   width: 500px;
+   height: auto;
+ }
+ .desktop_large .iframe {
+   width: 576px;
+   height: auto;
+ }
+.iphone .iframe { 
+  width: 320px;
+  height: 480px;
+}
+.iphone_retina .iframe {
+  width: 640px;
+  height: 960px;
+}
+.iphone5 .iframe {
+  width: 640px;
+  height: 1136px;
+}
 
-.expression-list h4 {
-  font-size: 13px;
+@media (min-width: 1200px) { 
+  .expression-list li {
+    width: 33%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) { 
+  .expression-list li {
+    width: 50%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (max-width: 767px) {
+  .expression-list li {
+    width: 100%;
+  }
+}
+
+.expression-list .box {
+  padding-right: 8px;
+}
+.expression-list .expression-item-title {
+  font-weight: bold;
+}
+.expression-list .expression-item-idcard {
+  font-size: small;
 }
 .expression-list .description {
-  font-size: 10px;
+  font-size: small;
 }
 
+.devices-selector-btn {
+  position: absolute;
+  display:none;
+  right: 20px;
+}
+
+.post-list {
+  max-height: 90%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollbox {
+  overflow: auto;
+
+  background: -webkit-linear-gradient(white 30%, rgba(255, 255, 255, 0)), -webkit-linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent), -webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+
+}
 
 /*
 body {
