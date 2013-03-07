@@ -7,6 +7,7 @@ var Expression = function(expressionDir, info){
   this.location = expressionDir;
   this.systemName = info.system_name;
   this.version = info.version;
+  this.apiVersion = info.api_version;
   this.title = info.title;
   this.description = info.description;
   this.dependencies = info.dependencies;
@@ -66,6 +67,16 @@ function ExpressionController(cwd, expression) {
       callback(null, paths.js, paths.css);
     };
 
+    var apiPath = function(){
+      var p = path.resolve(__dirname, '../public/api/' + expression.apiVersion);
+      console.log(p);
+      if(fs.existsSync(p)){
+        return '/api/' + expression.apiVersion;
+      } else {
+        return '/lib/urturn-expression-api';
+      }
+    };
+
     var renderAfterLoading = function(){
       wait --;
       if(wait === 0){
@@ -73,6 +84,7 @@ function ExpressionController(cwd, expression) {
           title: expression.title,
           scripts: resources.scripts,
           stylesheets: resources.stylesheets,
+          apiPath: apiPath(),
           head: templates.head,
           body: templates.body
         });
@@ -229,7 +241,7 @@ var ExpressionApplication = function(server, mount, expPath) {
 };
 
 ExpressionApplication.create = function(server, options) {
-  var app = new ExpressionApplication(server, options.mountPoint || 'expression', options.path || process.cwd()); 
+  var app = new ExpressionApplication(server, options.mountPoint || 'expression', options.path || process.cwd());
   return app;
 };
 
