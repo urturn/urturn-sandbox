@@ -94,6 +94,12 @@ body {
 
 }
 
+/* Add a black border to the iframe */
+
+.expression-bounding-box iframe{
+  border: 2px dotted black;
+}
+
 /*
 body {
   padding: 50px;
