@@ -9,7 +9,7 @@
     "express": "3.1.x",
     "jade": "*",
     "commander": "*",
-    "urturn-expression-api": "git://github.com/webdoc/urturn-expression-api.git#flatApi",
+    "urturn-expression-api": "git://github.com/webdoc/urturn-expression-api.git#master",
     "glob": "~3",
     "async": "*"
   },
