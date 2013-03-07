@@ -5,7 +5,7 @@
     this.state = data.state || "draft";
     this.uuid = data.uuid || UT.uuid();
     this.createdAt = (data.createdAt && new Date(data.createdAt)) || new Date();
-    console.log(data);
+    var lastRequestPromise;
     this.expressionSystemName = data.expressionSystemName || (data.expression && data.expression.systemName) || null;
     this.expression = data.expression || null;
     this.collections = data.collections || [
@@ -30,6 +30,25 @@
   // Persist a post on server.
   // Callback is passed (err, post) arguments.
   var save = function(post, callback){
+    var opts = {
+      url: '/post/' + post.uuid + '.json',
+      type: 'POST',
+      data: post.toJSON(),
+      dataType: 'json',
+      contentType: 'application/json',
+      parseData: false,
+      success: function(data){
+        if(callback){
+          callback(null, post);
+        }
+      },
+      error: function(error){
+        if(callback){
+          callback('Cannot save post, server error.');
+        }
+      }
+    };
+
     $.ajax({
       url: '/post/' + post.uuid + '.json',
       type: 'POST',

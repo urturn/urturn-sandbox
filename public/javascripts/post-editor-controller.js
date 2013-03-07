@@ -186,13 +186,17 @@ sandbox.PostEditorController = function(options){
     posted: function(){
       console.log(arguments);
       post.state = 'published';
-      sandbox.Post.save(post, function(err, post){
-        if(err){
-          console.log(err);
-        } else {
-          application.navigate('post/' + post.uuid + '/play');
-        }
-      });
+      // Ridiculous timeout to avoid having 2 async file writer...
+      setTimeout(
+        function(){
+          sandbox.Post.save(post, function(err, post){
+            if(err){
+              console.log(err);
+            } else {
+              application.navigate('post/' + post.uuid + '/play');
+            }
+          });
+        }, 200);
     }
   };
 
