@@ -80,7 +80,11 @@ sandbox.PostEditorController = function(options){
       },
 
       _getImage : function(w, h) {
-        return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
+        if(window.navigator && !window.navigator.onLine){
+          return 'http://' + window.location.host + '/local.jpg';
+        } else {
+          return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
+        }
       },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
