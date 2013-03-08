@@ -1,7 +1,6 @@
 sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-            "<h3 class='post-title'>$postTitle</h3>" +
             "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
             "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
@@ -51,8 +50,7 @@ sandbox.PostEditorController = function(options){
   var api = {
     container: {
       setTitle: function(title, callbackNotUsed){
-        post.title = title;
-        postTitle.innerHTML = title;
+        // Suppressed since 0.6.0
       },
       resizeHeight: function(value, callback){
         expressionFrame.height = parseInt(value, 10);
