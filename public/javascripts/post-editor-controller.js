@@ -53,7 +53,7 @@ sandbox.PostEditorController = function(options){
         // Suppressed since 0.6.0
       },
       resizeHeight: function(value, callback){
-        expressionFrame.height = parseInt(value, 10);
+        $(expressionFrame).height(parseInt(value, 10));
         callback();
       }
     },
@@ -240,9 +240,8 @@ sandbox.PostEditorController = function(options){
           res.result = [response];
           res.callbackId = data.callbackId;
           res.type = 'callback';
-          response = res;
+          expressionFrame.contentWindow.postMessage(JSON.stringify(res), '*');
         }
-        expressionFrame.contentWindow.postMessage(JSON.stringify(response), '*');
       });
       func.apply(post, args);
     }
@@ -272,7 +271,6 @@ sandbox.PostEditorController = function(options){
     //debugger
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
-    console.log(expressionFrame.offsetHeight);
   };
 
   this.attach = function(node){
