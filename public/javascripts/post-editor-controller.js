@@ -5,7 +5,6 @@ sandbox.PostEditorController = function(options){
             "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-          "<h3 class='post-title'>$postTitle</h3>" +
           "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
           "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button></div>" +
           "<p><b>Post note:</b> <span id='postNote'></span></p></div>"
