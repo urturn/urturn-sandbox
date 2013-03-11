@@ -164,12 +164,18 @@ var createExpression = function(cwd, expressionDir, callback){
       }
     }
   }
-
-  fs.readFile(path.join(cwd, expressionDir, 'expression.json'), function(err, data){
+  var p = path.join(cwd, expressionDir, 'expression.json');
+  fs.readFile(p, function(err, data){
     if(err){
       callback(err, null);
     } else {
-      var json = JSON.parse(data);
+      var json;
+      try {
+        json = JSON.parse(data);
+      } catch (e){
+        console.log('Error while parsing ' + p);
+        throw e;
+      }
       json.bannerPath = bannerPath(cwd, expressionDir);
       var expression = new Expression(expressionDir, json);
       callback.call(expression, null, expression);

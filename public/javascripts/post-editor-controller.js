@@ -1,12 +1,10 @@
 sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-            "<h3 class='post-title'>$postTitle</h3>" +
             "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
             "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-          "<h3 class='post-title'>$postTitle</h3>" +
           "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
           "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button></div>" +
           "<p><b>Post note:</b> <span id='postNote'></span></p></div>"
@@ -51,11 +49,10 @@ sandbox.PostEditorController = function(options){
   var api = {
     container: {
       setTitle: function(title, callbackNotUsed){
-        post.title = title;
-        postTitle.innerHTML = title;
+        // Suppressed since 0.6.0
       },
       resizeHeight: function(value, callback){
-        expressionFrame.height = parseInt(value, 10);
+        $(expressionFrame).height(parseInt(value, 10));
         callback();
       }
     },
@@ -83,7 +80,11 @@ sandbox.PostEditorController = function(options){
       },
 
       _getImage : function(w, h) {
-        return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
+        if(window.navigator && !window.navigator.onLine){
+          return 'http://' + window.location.host + '/local.jpg';
+        } else {
+          return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
+        }
       },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
@@ -186,13 +187,17 @@ sandbox.PostEditorController = function(options){
     posted: function(){
       console.log(arguments);
       post.state = 'published';
-      sandbox.Post.save(post, function(err, post){
-        if(err){
-          console.log(err);
-        } else {
-          application.navigate('post/' + post.uuid + '/play');
-        }
-      });
+      // Ridiculous timeout to avoid having 2 async file writer...
+      setTimeout(
+        function(){
+          sandbox.Post.save(post, function(err, post){
+            if(err){
+              console.log(err);
+            } else {
+              application.navigate('post/' + post.uuid + '/play');
+            }
+          });
+        }, 200);
     }
   };
 
@@ -238,9 +243,8 @@ sandbox.PostEditorController = function(options){
           res.result = [response];
           res.callbackId = data.callbackId;
           res.type = 'callback';
-          response = res;
+          expressionFrame.contentWindow.postMessage(JSON.stringify(res), '*');
         }
-        expressionFrame.contentWindow.postMessage(JSON.stringify(response), '*');
       });
       func.apply(post, args);
     }
@@ -270,7 +274,6 @@ sandbox.PostEditorController = function(options){
     //debugger
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
-    console.log(expressionFrame.offsetHeight);
   };
 
   this.attach = function(node){

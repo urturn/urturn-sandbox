@@ -22,7 +22,6 @@ sandbox.Application = function(rootNode){
     if(!path){
       path = '';
     }
-    console.log('navigate to: ' + path);
     for(var i in routes){
       var matches = path.match(routes[i].re);
       if(matches){
@@ -31,10 +30,11 @@ sandbox.Application = function(rootNode){
         for(var j = 0; keys && j < keys.length; j++){
           context[keys[j].substring(1)] = matches[j+1];
         }
-        console.log(context);
         routes[i].callback(context);
         if(pushState){
-          window.history.pushState({path: path, context: context}, null, '#!' + path);
+          if(window.history && window.history.pushState){
+            window.history.pushState({path: path, context: context}, null, '#!' + path);
+          }
         }
         return;
       }
@@ -43,7 +43,6 @@ sandbox.Application = function(rootNode){
   };
 
   window.addEventListener('popstate', function(event){
-    console.log(event.state);
     if(event.state && event.state.path !== undefined){
       this.navigate(event.state.path, false);
     }

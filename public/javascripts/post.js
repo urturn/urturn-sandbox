@@ -5,7 +5,7 @@
     this.state = data.state || "draft";
     this.uuid = data.uuid || UT.uuid();
     this.createdAt = (data.createdAt && new Date(data.createdAt)) || new Date();
-    console.log(data);
+    var lastRequestPromise;
     this.expressionSystemName = data.expressionSystemName || (data.expression && data.expression.systemName) || null;
     this.expression = data.expression || null;
     this.collections = data.collections || [
@@ -30,8 +30,27 @@
   // Persist a post on server.
   // Callback is passed (err, post) arguments.
   var save = function(post, callback){
-    $.ajax({
+    var opts = {
       url: '/post/' + post.uuid + '.json',
+      type: 'POST',
+      data: post.toJSON(),
+      dataType: 'json',
+      contentType: 'application/json',
+      parseData: false,
+      success: function(data){
+        if(callback){
+          callback(null, post);
+        }
+      },
+      error: function(error){
+        if(callback){
+          callback('Cannot save post, server error.');
+        }
+      }
+    };
+
+    $.ajax({
+      url: '/post/' + post.uuid + '.json?' + new Date().getTime(),
       type: 'POST',
       data: post.toJSON(),
       dataType: 'json',
@@ -53,7 +72,7 @@
   // load and a rebuild a post from persisted data using its uuid
   var load = function(uuid, callback){
     $.ajax({
-      url: '/post/' + uuid + '.json',
+      url: '/post/' + uuid + '.json?' + new Date().getTime(),
       type: 'GET',
       success: function(data){
         var post = new Post(data);
@@ -75,7 +94,7 @@
   // load all posts
   var findAll = function(callback){
     $.ajax({
-      url: '/post.json',
+      url: '/post.json?' + new Date().getTime(),
       type: 'GET',
       success: function(data){
         var posts = [];
