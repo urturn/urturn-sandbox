@@ -9,6 +9,7 @@
     this.title = null;
     this.description = null;
     this.location = null;
+    this.collections = [];
   };
 
   // Instantiate an expression from JSON data
@@ -20,6 +21,7 @@
     expression.systemName = pObject.systemName;
     expression.location = pObject.location;
     expression.bannerPath = pObject.bannerPath;
+    expression.collections = pObject.collections;
     return expression;
   };
 

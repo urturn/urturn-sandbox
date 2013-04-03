@@ -15,8 +15,9 @@ window.addEventListener('load', function(){
         console.log("Cannot find expression with system name: " + context.systemName);
         return;
       }
-      var post = new sandbox.Post();
-      post.expression = expression;
+      var post = new sandbox.Post({
+        expression: expression
+      });
       sandbox.Post.save(post, function(err, post){
         if(err){
           console.log("Cannot save post");

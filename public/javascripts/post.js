@@ -8,13 +8,12 @@
     var lastRequestPromise;
     this.expressionSystemName = data.expressionSystemName || (data.expression && data.expression.systemName) || null;
     this.expression = data.expression || null;
-    this.collections = data.collections || [
-      {
-        name: 'default',
-        items: [],
-        count: 0
-      }
-    ];
+    if(data.collections){
+      this.collections = data.collections;
+    } else {
+      this.collections = buildCollections(this);
+    }
+
     this.toJSON = function(){
       return JSON.stringify({
         title: this.title,
@@ -26,6 +25,47 @@
       });
     };
   };
+
+  function buildCollections(post){
+    var collections = [{
+      name: 'default',
+      items: [],
+      count: 0,
+      public: false,
+      prefetched: true
+    }];
+    if(post.expression && post.expression.collections){
+      for (var i = 0; i < post.expression.collections.length; i++){
+        var colDef = post.expression.collections[i];
+        var col = {
+          name: colDef.name,
+          public: true,
+          prefetched: true,
+          definition: colDef,
+          count: 0,
+          operations: [],
+          items: []
+        };
+        for (var j = 0; j < colDef.fields.length; j++) {
+          var field = colDef.fields[j];
+          if(field.operations){
+            for(var opIdx in field.operations){
+              col.operations.push({
+                operation: field.operations[opIdx],
+                field: field.name,
+                sum: 0,
+                average_count: 0,
+                count: 0,
+                average: -1
+              });
+            }
+          }
+        }
+        collections.push(col);
+      }
+    }
+    return collections;
+  }
 
   // Persist a post on server.
   // Callback is passed (err, post) arguments.

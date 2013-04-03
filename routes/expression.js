@@ -12,6 +12,7 @@ var Expression = function(expressionDir, info){
   this.description = info.description;
   this.dependencies = info.dependencies;
   this.bannerPath = info.bannerPath;
+  this.collections = info.collections;
 };
 
 function ExpressionController(cwd, expression) {
@@ -133,7 +134,8 @@ function ExpressionController(cwd, expression) {
         title: expression.title,
         banner: './banner.png',
         version: expression.version,
-        description: expression.description
+        description: expression.description,
+        collections: expression.collections
       });
     },
     // Render the player page to be display in the iframe

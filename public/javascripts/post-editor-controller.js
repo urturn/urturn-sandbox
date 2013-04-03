@@ -60,7 +60,11 @@ sandbox.PostEditorController = function(options){
       save: function(name, objectsByKey, callbackNotUsed){
         var collection = store.get(name);
         for(var k in objectsByKey){
-          collection.setItem(k, objectsByKey[k]);
+          if(collection.isPublic()){
+            collection.setUserItem(objectsByKey[k]);
+          } else {
+            collection.setItem(k, objectsByKey[k]);
+          }
         }
         collection.save(function(){
           console.log('collection saved' + arguments);
