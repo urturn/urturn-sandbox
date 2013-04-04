@@ -69,6 +69,10 @@ sandbox.PostEditorController = function(options){
         collection.save(function(){
           console.log('collection saved' + arguments);
         });
+      },
+      find: function(name, options, callback){
+        var collection = store.get(name);
+        callback(collection.getCurrentData().items);
       }
     },
     medias: {
@@ -145,9 +149,7 @@ sandbox.PostEditorController = function(options){
         callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
       }
     },
-    url: {
-
-    },
+    url: {},
     document: {
       readyToPost: function(value){
         console.log('readyToPost : ', value);
