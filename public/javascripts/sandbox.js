@@ -59,7 +59,6 @@ window.addEventListener('load', function(){
     application.assignZone('main', expressionList);
     // bootstrap
     expressionList.onSelected = function(expression){
-      console.log(expression);
       application.navigate('expression/' + expression.systemName + '/newpost');
     };
 

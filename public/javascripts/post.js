@@ -13,6 +13,7 @@
     } else {
       this.collections = buildCollections(this);
     }
+    this.postUserId = data.postUserId;
 
     this.toJSON = function(){
       return JSON.stringify({
@@ -21,7 +22,8 @@
         expressionSystemName: this.expression && this.expression.systemName,
         collections: this.collections,
         createdAt: this.createdAt,
-        state: this.state
+        state: this.state,
+        postUserId: this.postUserId
       });
     };
   };

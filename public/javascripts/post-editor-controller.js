@@ -21,7 +21,7 @@ sandbox.PostEditorController = function(options){
   var storeDelegate = {}; // storeDelegate functions will be declared later
   var store = new UT.CollectionStore({
     data: post.collections,
-    currentUserId: currentUser.uuid,
+    currentUserId: currentUser.userId,
     delegate: storeDelegate
   });
   var mode = options.mode;
@@ -86,14 +86,6 @@ sandbox.PostEditorController = function(options){
           SOURCE_H: h
         };
       },
-
-      _getImage : function(w, h) {
-        if(window.navigator && !window.navigator.onLine){
-          return 'http://' + window.location.host + '/local.jpg';
-        } else {
-          return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
-        }
-      },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
           callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
@@ -143,10 +135,10 @@ sandbox.PostEditorController = function(options){
         callback(media);
       },
       openVideoChooser : function(options, callback) {
-        callback({url:'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
+        callback({"_type": "video", url: 'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
       },
       findImage: function(options, callback) {
-        callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+        callback({_type : '_image', url: 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
       }
     },
     url: {},
@@ -163,6 +155,16 @@ sandbox.PostEditorController = function(options){
       __note : 'test',
       setNote: function(note) {
         document.getElementById('postNote').innerHTML = note;
+      },
+      users: function(ids, callback) {
+        var results = [];
+        for(var i = 0; i < ids.length; i++){
+          results.push(sandbox.User.find(ids[i]));
+        }
+        callback(results);
+      },
+      getUserData: function(callback) {
+        callback(sandbox.User.find(currentUser.userId));
       }
     },
     sendReadyMessage: function(post){
@@ -178,7 +180,8 @@ sandbox.PostEditorController = function(options){
           documentId: post.uuid,
           documentPrivacy: 'public',
           collections: post.collections,
-          currentUserId: currentUser.uuid,
+          currentUserId: currentUser.userId,
+          postUserId: post.postUserId,
           host: 'localhost:3333',
           assetPath: 'http://expressions',
           note : post.note,
@@ -191,7 +194,6 @@ sandbox.PostEditorController = function(options){
       expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'post'}), '*');
     },
     posted: function(){
-      console.log(arguments);
       post.state = 'published';
       // Ridiculous timeout to avoid having 2 async file writer...
       setTimeout(
@@ -224,7 +226,11 @@ sandbox.PostEditorController = function(options){
       }
     ], function(err, results){
       console.log('loaded', err, results);
-      api.sendReadyMessage(results[1]);
+      var post = results[1];
+      if(mode == 'edit'){
+        post.postUserId = currentUser.userId;
+      }
+      api.sendReadyMessage(post);
     });
 
     expressionFrame.src = src;
@@ -277,7 +283,6 @@ sandbox.PostEditorController = function(options){
   var resizeBoundingBox = function(event){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
-    //debugger
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
   };
