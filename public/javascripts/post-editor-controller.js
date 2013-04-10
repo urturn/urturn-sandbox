@@ -2,7 +2,7 @@ sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
             "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
-            "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+            "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button> <button class='btn btn-disabled post-button'>Post</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
           "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +

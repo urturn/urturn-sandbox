@@ -1,6 +1,5 @@
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
+#sandbox {
+  padding-top: 20px;
 }
 .sidebar-nav {
   padding: 9px 0;
@@ -94,6 +93,13 @@ body {
 
 }
 
+.btn-disabled.post-button {
+  display: none;
+}
+
+.btn-disabled.post-button.btn-primary {
+  display: inline-block;
+}
 /* Add a black border to the iframe */
 
 .expression-bounding-box iframe{

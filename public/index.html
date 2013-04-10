@@ -40,18 +40,23 @@
   <link rel="stylesheet" href="/stylesheets/style.css"/>
 </head>
 <body>
-  <header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container-fluid">
-        <a class="brand" href="/">Urturn Expression Sandbox</a> <a class="brand" href="/filterSandbox.html">Filter Editor</a>
-      </div>
 
+  <header class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/" data-bookmark="home">Urturn Expression Sandbox</a>
+        <ul class="nav">
+          <li><a href="http://webdoc.github.io/urturn-expression-api/">API Reference</a></li>
+          <li><a href="filterSandbox.html">Filter Editor</a></li>
+        </ul>
+      </div>
     </div>
   </header>
-  <div class="container-fluid" id="sandbox">
+
+  <div class="container" id="sandbox">
     <div class="row-fluid">
-      <div class="span8" id="main"></div>
-      <div class="span4" id="sidebar"></div>
+      <div class="span3" id="sidebar"></div>
+      <div class="span9" id="main"></div>
       <div class="btn-group devices-selector-btn" id="deviceSelector">
         <a class="btn btn-primary" href="#"><i class="icon-desktop icon-white"></i> Device</a>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
