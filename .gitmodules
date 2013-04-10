@@ -1,0 +1,3 @@
+[submodule "public/components/bootstrap-urturn"]
+	path = public/components/bootstrap-urturn
+	url = git://github.com/webdoc/bootstrap-urturn.git
