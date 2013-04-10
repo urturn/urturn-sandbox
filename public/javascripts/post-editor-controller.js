@@ -91,7 +91,7 @@ sandbox.PostEditorController = function(options){
         if(window.navigator && !window.navigator.onLine){
           return 'http://' + window.location.host + '/local.jpg';
         } else {
-          return 'http://lorempixum.com/' + (w | 0) + '/' + (h | 0);
+          return 'http://placekitten.com/' + (w | 0) + '/' + (h | 0);
         }
       },
       openImageChooser : function(options, callback) {
@@ -146,7 +146,7 @@ sandbox.PostEditorController = function(options){
         callback({url:'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
       },
       findImage: function(options, callback) {
-        callback({type : '_image', url : 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+        callback({type : '_image', url : 'http://placekitten.com/576/600', info : {source : 'loremPix'}});
       }
     },
     url: {},
