@@ -100,6 +100,11 @@
 .btn-disabled.post-button.btn-primary {
   display: inline-block;
 }
+
+#controls * {
+  max-width: 100%;
+  word-wrap: break-word;
+}
 /* Add a black border to the iframe */
 
 .expression-bounding-box iframe{
