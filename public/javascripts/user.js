@@ -6,14 +6,14 @@
   var userCount = 0;
 
   sandbox.User = function(){
-    this.userId = null;
+    this.uuid = null;
     this.username = null;
     this.avatar = null;
   };
 
   sandbox.User.find = function(id){
     if(!users[id]){
-      sandbox.User.create({userId: id});
+      sandbox.User.create({uuid: id});
     }
     return users[id];
   };
@@ -23,7 +23,7 @@
       options = {};
     }
     var u = new sandbox.User();
-    u.userId = options.userId || UT.uuid();
+    u.uuid = options.uuid || UT.uuid();
 
     if(options.username){
       u.username = options.username;
@@ -33,7 +33,7 @@
       u.username = usernames[index] + round;
     }
     u.avatar = sandbox.imageUrl(128 , 128);
-    users[u.userId] = u;
+    users[u.uuid] = u;
     userCount ++;
     return u;
   };

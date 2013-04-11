@@ -21,7 +21,7 @@ sandbox.PostEditorController = function(options){
   var storeDelegate = {}; // storeDelegate functions will be declared later
   var store = new UT.CollectionStore({
     data: post.collections,
-    currentUserId: currentUser.userId,
+    currentUserId: currentUser.uuid,
     delegate: storeDelegate
   });
   var mode = options.mode;
@@ -164,7 +164,7 @@ sandbox.PostEditorController = function(options){
         callback(results);
       },
       getUserData: function(callback) {
-        callback(sandbox.User.find(currentUser.userId));
+        callback(sandbox.User.find(currentUser.uuid));
       }
     },
     sendReadyMessage: function(post){
@@ -180,7 +180,7 @@ sandbox.PostEditorController = function(options){
           documentId: post.uuid,
           documentPrivacy: 'public',
           collections: post.collections,
-          currentUserId: currentUser.userId,
+          currentUserId: currentUser.uuid,
           postUserId: post.postUserId,
           host: 'localhost:3333',
           assetPath: 'http://expressions',
@@ -228,7 +228,7 @@ sandbox.PostEditorController = function(options){
       console.log('loaded', err, results);
       var post = results[1];
       if(mode == 'edit'){
-        post.postUserId = currentUser.userId;
+        post.postUserId = currentUser.uuid;
       }
       api.sendReadyMessage(post);
     });
