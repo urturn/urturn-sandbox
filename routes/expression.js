@@ -211,9 +211,11 @@ var ExpressionApplication = function(server, mount, expPath) {
 
   this.list = function(req, res, next){
     descriptors = glob("**/expression.json", {cwd: expPath}, function(err, matches){
+      console.log('a');
       var constructors = [];
       function createFunc(dir){
         return function(cb) {
+          console.log("will create expression");
           return createExpression(expPath, dir, cb);
         };
       }

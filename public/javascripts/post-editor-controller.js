@@ -2,7 +2,7 @@ sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
             "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
-            "<div class='expression-footer'><button class='btn btn-disabled post-button'>Post</button> <button class='btn btn-danger quit-button'>Quit</button></div>" +
+            "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button> <button class='btn btn-disabled post-button'>Post</button></div>" +
             "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
           "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
@@ -88,28 +88,28 @@ sandbox.PostEditorController = function(options){
       },
       openImageChooser : function(options, callback) {
         if (options.size && options.size.width && options.size.height){
-          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-         callback({_center : api.medias._createCenterFromImgSize(576,600) ,type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
+         callback({_center : api.medias._createCenterFromImgSize(576,600) ,type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
       crop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600), type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
+            callback({_center : api.medias._createCenterFromImgSize(576,600), type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
       reCrop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : api.medias._getImage(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600),type : '_image', url : api.medias._getImage(576 , 600), info : {source : 'loremPix'}});
+            callback({_center : api.medias._createCenterFromImgSize(576,600),type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
         }
       },
 
@@ -138,7 +138,7 @@ sandbox.PostEditorController = function(options){
         callback({"_type": "video", url: 'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
       },
       findImage: function(options, callback) {
-        callback({_type : '_image', url: 'http://lorempixel.com/576/600', info : {source : 'loremPix'}});
+        callback({type : '_image', url : sandbox.imageUrl(576, 600), info : {source : 'http://placekitten.com'}});
       }
     },
     url: {},

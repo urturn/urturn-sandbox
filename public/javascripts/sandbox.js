@@ -71,14 +71,14 @@ window.addEventListener('load', function(){
   application.addZone('sidebar', '#sidebar');
 
   application.twoColumns = function(){
-    $('#sidebar').show().addClass('span4');
-    $('#main').show().addClass('span8').removeClass('span12');
+    $('#sidebar').show().addClass('span3');
+    $('#main').show().addClass('span9').removeClass('span12');
     $('#deviceSelector').hide();
   };
 
   application.oneColumn = function(){
-    $('#sidebar').hide().removeClass('span4');
-    $('#main').show().removeClass('span8').addClass('span12');
+    $('#sidebar').hide().removeClass('span3');
+    $('#main').show().removeClass('span9').addClass('span12');
     $('#deviceSelector').show();
   };
 

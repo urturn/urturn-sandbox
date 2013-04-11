@@ -3,7 +3,9 @@
 <head>
     <!-- http://evanw.github.com/glfx.js/ -->
     <script src="./components/glfx.js"></script> <title>Filters Sandbox</title>
-     <link href="./components/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="components/bootstrap-urturn/urturn-theme/css/urturn.css" rel="stylesheet">
+    <link href="components/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
 
      <style>
         .deleteButton
@@ -16,8 +18,7 @@
         {
             width : 120px;
             height : 80px;
-            display : block;
-            float : left;
+            display : inline-block;
             margin : 2px;
             border : 1px solid #888;
         }
@@ -43,28 +44,58 @@
      </style>
 </head>
 
-<body style='width : 1224px; margin : auto; padding-top : 70px'>
-<header class="navbar navbar-inverse navbar-fixed-top">
+<body>
+
+  <header class="navbar navbar-static-top">
     <div class="navbar-inner">
-      <div class="container-fluid">
-        <a class="brand" href="/">Back to Expression Sandbox</a>
+      <div class="container">
+        <a class="brand" href="/" data-bookmark="home">Urturn Expression Sandbox</a>
+        <ul class="nav">
+          <li><a href="http://webdoc.github.io/urturn-expression-api/">API Reference</a></li>
+          <li><a href="filterSandbox.html">Filter Editor</a></li>
+        </ul>
       </div>
     </div>
   </header>
 
+  <div class="container" id="sandbox">
+    <div class="row-fluid">
+      <div class="span3 well" id="controls">
 
-<div style='width : 700px;float : left' class='well'>
-<div id='canvas'>
-    &nbsp;
-</div>
+        <input type='button' value='Get JSON string to use on expression!' class='btn btn-info' onclick='getJSON()'/> <br/><br/>
+        <input type='button' value='Load filter from JSON string!' class='btn btn-info' onclick='loadJSON()'/>
+       <br/><br/>
+        <select id='filter'>
+            <option value="brightness">Brightness</option>
+            <option value="contrast">Contrast</option>
+            <option value="hue">Hue</option>
+            <option value="saturation">Saturation</option>
+            <option value="sepia">Sepia</option>
+            <option value="threshold">Threshold</option>
+            <option value="colorinvert">Color Invert</option>
+            <option value="vignette">Vignette</option>
+            <option value="gamma">Gamma</option>
+            <option value="exposure">Exposure</option>
+            <option value="color">Color</option>
+            <option value="noise">Noise</option>
+            
+        </select>
+        <input type='button' value='[+] Add' class='btn btn-primary' onclick='add()'/>
+        <div id='effectStack' style='padding-top: 10px; height : 500px; overflow : scroll'></div>
+        <b>Filter JSON  : </b> <br/>
+        <textarea id='json' style='height : 200px'></textarea>
 
-<div id='images'>
-    <div class='image' onclick='setVideo()'>
-           <br/><br/><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Video</b>
+      </div>
+      <div class="span9 well" id="main" style="text-align:center;">
+        <div id='canvas'></div>
+        <div id='images'>
+            <div class='image' onclick='setVideo()'>
+                <br/><br/><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Video</b>
+            </div>
+        </div>
+      </div>
     </div>
-</div>
-
-</div>
+  </div>
 
 
 
@@ -111,13 +142,16 @@ function generateControls()
         var title = document.createElement('h3');
         title.innerHTML = instruction.filter;
 
+        var btngroup = document.createElement('div');
+        btngroup.className = 'btn-group';
+
         var deleteButton = document.createElement('input');
         deleteButton.type = 'button';
         deleteButton.onclick = deleteItem;
         deleteButton.id = i;
         deleteButton.value = 'delete';
         deleteButton.className = 'btn btn-danger deleteButton';
-        title.appendChild(deleteButton);
+        btngroup.appendChild(deleteButton);
 
         var upButton = document.createElement('input');
         upButton.type = 'button';
@@ -125,7 +159,7 @@ function generateControls()
         upButton.id = i;
         upButton.value = 'up';
         upButton.className = 'btn btn-info deleteButton';
-        title.appendChild(upButton);
+        btngroup.appendChild(upButton);
 
         var downButton = document.createElement('input');
         downButton.type = 'button';
@@ -133,9 +167,9 @@ function generateControls()
         downButton.id = i;
         downButton.value = 'dw';
         downButton.className = 'btn btn-info deleteButton';
-        title.appendChild(downButton);
+        btngroup.appendChild(downButton);
 
-        div.appendChild(title);
+        div.appendChild(title).appendChild(btngroup);
 
         for (para in instruction.parameters)
         {
@@ -901,34 +935,6 @@ FILTERS['noise'] =
     
 </script>
 
-<div id='controls' style='float : left;'>
-    <div class='well'>
-        <input type='button' value='Get JSON string to use on expression!' class='btn btn-info' onclick='getJSON()'/> <br/><br/>
-        <input type='button' value='Load filter from JSON string!' class='btn btn-info' onclick='loadJSON()'/>
-       <br/><br/>
-            <select id='filter'>
-            <option value="brightness">Brightness</option>
-            <option value="contrast">Contrast</option>
-            <option value="hue">Hue</option>
-            <option value="saturation">Saturation</option>
-            <option value="sepia">Sepia</option>
-            <option value="threshold">Threshold</option>
-            <option value="colorinvert">Color Invert</option>
-            <option value="vignette">Vignette</option>
-            <option value="gamma">Gamma</option>
-            <option value="exposure">Exposure</option>
-            <option value="color">Color</option>
-            <option value="noise">Noise</option>
-            
-        </select>
-        <input type='button' value='[+] Add' class='btn btn-success' onclick='add()'/>
-        </div>
-    <div id='effectStack' style='height : 500px; overflow : scroll'>
-
-    </div>
-    <b>Filter JSON  : </b> <br/>
-    <textarea id='json' style='width : 300px; height : 200px'></textarea>
-</div>
 
 <script>
 function getJSONString()
