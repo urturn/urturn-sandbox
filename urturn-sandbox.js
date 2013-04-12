@@ -21,7 +21,11 @@ program
   .option('-p, --port <port>', Number)
   .action(function(p, context){
     var port = program.port || process.env.PORT || 3333;
-    var expressionDir = path.resolve(p) || process.cwd().toString();
+    if (p) {
+      expressionDir = path.resolve(p) || process.cwd().toString();
+    } else {
+      expressionDir = process.cwd().toString();
+    }
     var server = require('./server').configure(expressionDir, port);
     http.createServer(server).listen(server.get('port'), function(){
       console.log("Express server listening on port " + server.get('port'));
