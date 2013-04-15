@@ -185,6 +185,7 @@ sandbox.PostEditorController = function(options){
           host: 'localhost:3333',
           assetPath: 'http://expressions',
           note : post.note,
+          sandbox: true,
           scrollValues: {} // XXX Need to be imported
         }
       };
