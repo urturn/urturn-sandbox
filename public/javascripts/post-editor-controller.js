@@ -175,7 +175,7 @@ sandbox.PostEditorController = function(options){
         // XXX wow, need to do something with this messy code.
         options: {
           expToken: UT.uuid(),
-          mode: (mode == 'edit' ? 'editor' : 'player'),
+          mode: (mode == 'edit' ? 'edit' : 'view'),
           documentURL: '/posts/' + post.uuid,
           documentId: post.uuid,
           documentPrivacy: 'public',
