@@ -15,13 +15,20 @@
   // Instantiate an expression from JSON data
   var fromJSON = function(pObject){
     var expression = new Expression();
-    expression.title = pObject.title;
+    expression.systemName = pObject.systemName;
+    expression.title = pObject.title || pObject.systemName;
     expression.description = pObject.description;
     expression.version = pObject.version;
-    expression.systemName = pObject.systemName;
     expression.location = pObject.location;
     expression.bannerPath = pObject.bannerPath;
     expression.collections = pObject.collections;
+
+    if(!expression.bannerPath){
+      expression.bannerPath = sandbox.imageUrl();
+    } else {
+      expression.bannerPath = '/expression/' + expression.bannerPath;
+    }
+
     return expression;
   };
 

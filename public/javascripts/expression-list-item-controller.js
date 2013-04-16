@@ -8,12 +8,12 @@ sandbox.ExpressionListItemController = function(expression){
   var liNode;
   var ulNode;
   var itemTemplate = '<li><div class="box">' +
-      '<img src="expression/$bannerPath" />' +
+      '<img src="$bannerPath" />' +
       '<div class="expression-item-title">$title</div>'+
       '<span class="expression-item-idcard">$systemName-$version</span> - '+
       '<spandiv class="description">$description</span>' +
       '</div></li>';
-  
+
   var handleSelected = function(){
     if(self.onSelected){
       self.onSelected.call(self, expression);

@@ -57,10 +57,13 @@ function ExpressionController(cwd, expression) {
         var dep = deps[i];
         if(!dep.context || dep.context == mode){
           try {
+            if(!dep.path){
+              throw new Error('missing path for dependency ' + JSON.stringify(dep));
+            }
             paths[dep.path.match(/\.([a-z]+)$/)[1]].push(dep.path);
           } catch (e){
             console.log(e);
-            callback('Cannot load ' + dep.path);
+            callback(new Error('Cannot load ' + dep.path));
             return;
           }
         }

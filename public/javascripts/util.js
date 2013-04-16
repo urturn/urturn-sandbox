@@ -9,6 +9,6 @@ sandbox.imageUrl = function(w, h) {
   if(window.navigator && !window.navigator.onLine){
     return 'http://' + window.location.host + '/local.jpg';
   } else {
-    return 'http://placekitten.com/' + (w | 0) + '/' + (h | 0);
+    return 'http://placekitten.com/' + (w | 255) + '/' + (h | 255);
   }
 };
