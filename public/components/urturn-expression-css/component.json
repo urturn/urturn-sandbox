@@ -1,0 +1,29 @@
+{
+  "name": "urturn-expression-css",
+  "version": "0.2.2",
+  "author": {
+    "name": "Emmanuel Vuigner for Urturn"
+  },
+  "homepage": "http://urturn.github.io/urturn-expression-css/",
+  "main": "css/style.css",
+  "styles": [
+    "css/style.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/urturn/urturn-expression-css.git"
+  },
+  "dependencies": {
+    "normalize.scss": "~2.1.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "gitHead": "a982a8e565862a7bea71d8cd9911c53483daece7",
+  "readme": "urturn-expression-css\n=====================\n\nBase CSS for Urturn expressions\n\nhttp://expressions.urturn.com/expression/lib/urturn-expression-css/0.0.1/style.css\n\nCredits\n-------\n\n- [LeBenLeBen](http://github.com/LeBenLeBen)\n- [Template](http://github.com/stephband/template) by [stephband](http://github.com/stephband)\n- [Normalize.css](http://necolas.github.com/normalize.css/) by [Nicolas Gallagher](http://nicolasgallagher.com/), co-created with [Jonathan Neal](http://music.thewikies.com/jonneal/)\n",
+  "readmeFilename": "README.md",
+  "_id": "urturn-expression-css@0.2.2",
+  "description": "urturn-expression-css ====================="
+}
