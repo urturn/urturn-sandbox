@@ -1,30 +1,11 @@
 // Urturn specific
 
-// Urturn Typography
-@font-face{
-  font-family: "HermesCond";
-  font-weight: 400;
-  src: url('../fonts/hermescond-regular-webfont.eot');
-  src: url('../fonts/hermescond-regular-webfont.svg') format('svg');
-  src: url('../fonts/hermescond-regular-webfont.ttf') format('truetype');
-  src: url('../fonts/hermescond-regular-webfont.woff') format('woff');
-}
-
-@font-face{
-  font-family: "HermesCond";
-  font-weight: 200;
-  src: url('../fonts/hermescond-light-webfont.eot');
-  src: url('../fonts/hermescond-light-webfont.svg') format('svg');
-  src: url('../fonts/hermescond-light-webfont.ttf') format('truetype');
-  src: url('../fonts/hermescond-light-webfont.woff') format('woff');
-}
-
 // Urturn variables
 @redButton:             #F21400;
-@redButtonDark:         #C30B01; 
+@redButtonDark:         #C30B01;
 
 @grayButton:            #787878;
-@grayButtonDark:        #3d3d3d; 
+@grayButtonDark:        #3d3d3d;
 
 @grayText:              #8c8c8c;
 @grayIntro:             #dcdcdc;
@@ -36,7 +17,7 @@
 .font-size(@sizeValue) {
   @remValue: (@sizeValue/10);
   @pxValue: (@sizeValue);
-  font-size: ~"@{pxValue}px"; 
+  font-size: ~"@{pxValue}px";
   font-size: ~"@{remValue}rem";
 }
 
@@ -45,47 +26,72 @@
   .font-size(@fontSize);
 }
 
-// Titles
-h1, h2{
-  font-family: "HermesCond";
-}
-h1 { font-size: @baseFontSize * 2.6; } // ~38px
-h2 { font-size: @baseFontSize * 1.719; font-weight: 400;} // ~28px
-h2 { text-transform: uppercase; }
-
 // Brand identity
-.brand{
-  font-family: "HermesCond";
-  &.urturn{
-    background:@red url(../images/logo.png) no-repeat 50% 45%;
-    width: 100px;
-    height: 20px;
-    margin-right: 2em;
-    margin-left: 0;
-    strong{
-      display: none;
+.brand {
+  font-size: 25px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: @textColor;
+
+    .logo {
+      background-color: darken(@red,5%);
     }
+  }
+
+  &.with_logo {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    line-height: 50px;
+  }
+
+  .logo {
+    display: inline-block;
+    width: 112px;
+    height: 44px;
+    margin: 0 12px 0 0;
+
+    color: transparent;
+    text-shadow: none;
+
+    background: @red url(../images/logo.png) no-repeat 50% 45%;
+  }
+
+  strong {
+    display: none;
   }
 }
 .hero-unit{
   padding: 40px;
   margin-bottom: 20px;
-  border: 10px solid @white;
+  border: none;
   .border-radius(4px);
   .box-shadow(0px 0px 5px rgba(0,0,0,.1));
 }
 .well{
+  border: none;
+  .border-radius(4px);
   .box-shadow(0px 0px 5px rgba(0,0,0,.1));
+
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+/* Useful to put navs in */
+.well-light {
+  padding: 0;
 }
 
-// Urturn Buttons 
+// Urturn Buttons
 .btn{
-  font-size: 18px;
-  font-weight: 200;
   font-style: normal;
   text-indent: 0px;
   vertical-align: top;
-  font-family: "HermesCond";
   text-shadow: none;
   &.small{
     padding: 5px 5px;
@@ -117,7 +123,6 @@ h2 { text-transform: uppercase; }
   text-shadow: none;
   .font-size(16px);
   padding: 10px 20px;
-  font-family: "HermesCond";
   color: @white;
   &:hover{
     color: @white;
@@ -131,30 +136,31 @@ h2 { text-transform: uppercase; }
   padding: 40px 0;
 }
 .footer-menu i{
-    background: url('../images/icons/icone_contact_30px.png');
-    width: 30px;
-    height: 30px;
-    display: block;
-    float: left;
-    margin-top: -5px;
-    margin-right: 15px;
+  background: url('../images/icons/icone_contact_30px.png');
+  width: 30px;
+  height: 30px;
+  display: block;
+  float: left;
+  margin-top: -5px;
+  margin-right: 15px;
 
-    &.blog{
-        background-position: 0 0;
-    }
+  &.blog{
+    background-position: 0 0;
+  }
 
-    &.contact{
-        background-position: 0 -30px;
-    }
+  &.contact{
+    background-position: 0 -30px;
+  }
 
-    &.dev{
-        background-position: 0 -60px;
-    }
+  &.dev{
+    background-position: 0 -60px;
+  }
 }
 
 // Elements
 pre {
   background-color: @white;
+  .border-radius(4px);
 }
 
 .navbar-inner{
@@ -167,7 +173,6 @@ pre {
   .font-size(12);
   padding: 0.3em 0.6em;
   line-height: 1.3em;
-  font-family: "HermesCond";
   font-weight: 400;
 }
 .bs-docs-sidenav {
@@ -212,21 +217,22 @@ pre {
   box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
 }
 
-
 hr{
   height: 20px;
+  margin: 13px 0 33px;
   position: relative;
-}
+  border: none;
 
-hr:before{
-  position: absolute;
-  content: '';
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background-color: rgba(230,230,230, 0.25);
-  border-radius: 50%; 
-  box-shadow: rgba(150, 150, 150, 0.5) 0 5px 10px;
-  clip: rect(20px, auto, 50px, 0);
+  &:before{
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(230,230,230, 0.25);
+    border-radius: 50%;
+    box-shadow: rgba(150, 150, 150, 0.5) 0 5px 10px;
+    clip: rect(20px, auto, 50px, 0);
+  }
 }
