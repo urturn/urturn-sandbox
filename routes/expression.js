@@ -47,15 +47,24 @@ function ExpressionController(cwd, expression) {
       });
     };
 
+    // retrieve the internal mode or throw if an invalid string is provided.
+    var getContextMode = function(mode){
+      if(['player', 'editor'].indexOf(mode) === -1){
+        throw new Error("invalid context " + mode);
+      }
+      return mode;
+    };
+
     // The callback receive err, scripts and stylesheets
     // scripts contains on script path per script and
     // stylesheets one css file path for every stylesheet
     var findResourcePaths = function(callback){
       var deps = expression.dependencies;
       var paths = { css: [], js: [] };
+      var contextMode = getContextMode(mode);
       for (var i in deps){
         var dep = deps[i];
-        if(!dep.context || dep.context == mode){
+        if(!dep.context || dep.context == contextMode){
           try {
             if(!dep.path){
               throw new Error('missing path for dependency ' + JSON.stringify(dep));
