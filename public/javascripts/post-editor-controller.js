@@ -144,7 +144,7 @@ sandbox.PostEditorController = function(options){
     url: {},
     document: {
       readyToPost: function(value){
-        if(mode == 'view'){
+        if(mode == 'play'){
           console.log('a call to post.valid(value) is useless when in player');
           return;
         }
