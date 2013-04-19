@@ -24,7 +24,7 @@
     expression.collections = pObject.collections;
 
     if(!expression.bannerPath){
-      expression.bannerPath = sandbox.imageUrl();
+      expression.bannerPath = sandbox.imageUrl(800, 408);
     } else {
       expression.bannerPath = '/expression/' + expression.bannerPath;
     }

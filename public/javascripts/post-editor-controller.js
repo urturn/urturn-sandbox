@@ -91,16 +91,16 @@ sandbox.PostEditorController = function(options){
           callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-         callback({_center : api.medias._createCenterFromImgSize(576,600) ,type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(), sandbox.randSize()) ,type : '_image', url : sandbox.imageUrl(width , height), info : {source : 'loremPix'}});
         }
       },
 
       crop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600), type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(), sandbox.randSize()), type : '_image', url : sandbox.imageUrl(width, height), info : {source : 'loremPix'}});
         }
       },
 
@@ -109,7 +109,7 @@ sandbox.PostEditorController = function(options){
            callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
         }
         else {
-            callback({_center : api.medias._createCenterFromImgSize(576,600),type : '_image', url : sandbox.imageUrl(576 , 600), info : {source : 'loremPix'}});
+          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(),sandbox.randSize()),type : '_image', url : sandbox.imageUrl(sandbox.randSize() , sandbox.randSize()), info : {source : 'loremPix'}});
         }
       },
 
@@ -138,12 +138,16 @@ sandbox.PostEditorController = function(options){
         callback({"_type": "video", url: 'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
       },
       findImage: function(options, callback) {
-        callback({type : '_image', url : sandbox.imageUrl(576, 600), info : {source : 'http://placekitten.com'}});
+        callback({type : '_image', url : sandbox.imageUrl(sandbox.randSize(), sandbox.randSize()), info : {source : sandbox.imageServiceURL}});
       }
     },
     url: {},
     document: {
       readyToPost: function(value){
+        if(mode == 'view'){
+          console.log('a call to post.valid(value) is useless when in player');
+          return;
+        }
         console.log('readyToPost : ', value);
         postButton.disabled = !value;
         if(value){

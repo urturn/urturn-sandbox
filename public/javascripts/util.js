@@ -5,10 +5,18 @@ sandbox.compile = function(html, context){
   })).get(0);
 };
 
+// the url used to retrieve random images
+sandbox.imageServiceURL = 'http://placekitten.com';
+
+// Generate a random number for widht or height of a picture
+sandbox.randSize = function() {
+  return parseInt(300 + Math.random() * 500, 10);
+};
+
 sandbox.imageUrl = function(w, h) {
   if(window.navigator && !window.navigator.onLine){
     return 'http://' + window.location.host + '/local.jpg';
   } else {
-    return 'http://placekitten.com/' + (w | 255) + '/' + (h | 255);
+    return sandbox.imageServiceURL + '/' + (w || sandbox.randSize() ) + '/' + (h || sandbox.randSize() );
   }
 };

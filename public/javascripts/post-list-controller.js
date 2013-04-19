@@ -2,16 +2,18 @@
   // Manage a list of post that can be edited or played.
   var PostListController = function(application){
     sandbox.listControllerSupport(this);
-    
+
     var template = '<ul class="nav nav-tabs nav-stacked bs-docs-sidenav"><li class="nav-header">Posts</ul>';
     var parentNode;
     var titleNode;
     var ulNode;
     var attached = false;
-    
+
     var handlePostsLoaded = function(err, posts){
       if(err){
-        console.log("Cannot load posts: ", err);
+        if(window.console && console.log) {
+          console.log("Cannot load posts: ", err);
+        }
       } else {
         this.detachItems();
         for(var i = 0; i < posts.length; i++){
@@ -19,7 +21,6 @@
           this.addItem(controller);
         }
         if(ulNode){
-          console.log('attach me');
           this.attachItems(ulNode);
         }
       }
