@@ -87,12 +87,16 @@ sandbox.PostEditorController = function(options){
         };
       },
       openImageChooser : function(options, callback) {
-        if (options.size && options.size.width && options.size.height){
-          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+        if (!options.size){
+          options.size = {};
         }
-        else {
-          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(), sandbox.randSize()) ,type : '_image', url : sandbox.imageUrl(width , height), info : {source : 'loremPix'}});
+        if (!options.size.width){
+          options.size.width = sandbox.randSize();
         }
+        if (!options.size.height){
+          options.size.height = sandbox.randSize();
+        }
+        callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
       },
 
       crop : function(options, callback) {
