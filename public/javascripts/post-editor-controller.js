@@ -289,7 +289,7 @@ sandbox.PostEditorController = function(options){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
-    $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight);
+    $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
   };
 
   this.attach = function(node){
