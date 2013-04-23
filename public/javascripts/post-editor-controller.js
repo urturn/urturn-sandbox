@@ -285,7 +285,7 @@ sandbox.PostEditorController = function(options){
     }
   };
 
-  var resizeBoundingBox = function(event){
+  var resizeBoundingBox = function(){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
@@ -301,10 +301,12 @@ sandbox.PostEditorController = function(options){
     footer = node.querySelector('.expression-footer');
     boundingBox = node.querySelector('.expression-bounding-box');
     resizeBoundingBox();
+    if(mode == 'play'){
+      $(expressionFrame).height(0);
+    }
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
     devicesButtons = document.querySelectorAll("#deviceSelector .dropdown-menu a");
-
     window.addEventListener('resize', resizeBoundingBox, false);
     if(postButton){
       postButton.disabled = true;
