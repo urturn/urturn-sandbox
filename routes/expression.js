@@ -208,12 +208,12 @@ var ExpressionApplication = function(server, mount, expPath) {
   // Instantiate and route to an expression controller
   var routeToControllerFunc = function(cwd, route){
     return function(req, res, next){
-      createExpression(cwd, req.params[0] || '.', function(err){
+      createExpression(cwd, req.params[0] || '.', function(err, expression){
         if(err){
           console.log(err);
           next('Cannot create expression');
         } else {
-          createExpressionController(cwd, this, function(err){
+          createExpressionController(cwd, expression, function(err){
             if(err){
               console.log(err);
               next('Cannot create expression controller');
