@@ -167,6 +167,9 @@ var createExpressionController = function(cwd, expression, callback){
   callback.call(controller, null, controller);
 };
 
+// Create an expression instance by parsing content in cwd/expressionDir.
+//
+// The callback is being called with (err, expression).
 var createExpression = function(cwd, expressionDir, callback){
   function bannerPath(cwd, expressionDir){
     // Try to find a banner
@@ -188,7 +191,7 @@ var createExpression = function(cwd, expressionDir, callback){
         json = JSON.parse(data);
       } catch (e){
         console.log('Error while parsing ' + p);
-        throw e;
+        callback.call(e, e, null);
       }
       json.bannerPath = bannerPath(cwd, expressionDir);
       var expression = new Expression(expressionDir, json);
@@ -226,7 +229,7 @@ var ExpressionApplication = function(server, mount, expPath) {
       var constructors = [];
       function createFunc(dir){
         return function(cb) {
-          return createExpression(expPath, dir, cb);
+          createExpression(expPath, dir, cb);
         };
       }
 
