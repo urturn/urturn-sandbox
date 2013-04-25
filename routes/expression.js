@@ -193,9 +193,11 @@ var createExpression = function(cwd, expressionDir, callback){
         console.log('Error while parsing ' + p);
         callback.call(e, e, null);
       }
-      json.bannerPath = bannerPath(cwd, expressionDir);
-      var expression = new Expression(expressionDir, json);
-      callback.call(expression, null, expression);
+      if(json){
+        json.bannerPath = bannerPath(cwd, expressionDir);
+        var expression = new Expression(expressionDir, json);
+        callback.call(expression, null, expression);
+      }
     }
   });
 };
