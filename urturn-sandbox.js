@@ -23,7 +23,7 @@ program
     var expressionDir = (p ? path.resolve(p) : process.cwd().toString());
     var server = require('./server').configure(expressionDir, port);
     http.createServer(server).listen(server.get('port'), function(){
-      console.log("Express server listening on port " + server.get('port'));
+      console.log("Urturn Sandbox accessible at http://127.0.0.1:" + server.get('port'));
     });
   });
 

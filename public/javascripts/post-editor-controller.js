@@ -173,6 +173,9 @@ sandbox.PostEditorController = function(options){
       },
       getUserData: function(callback) {
         callback(sandbox.User.find(currentUser.uuid));
+      },
+      queueUp: function(text, callback) {
+        callback(Math.floor(Math.random() * 10000));
       }
     },
     sendReadyMessage: function(post){
