@@ -206,7 +206,7 @@ textarea {
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 23px;
   color: #3c3c3c;
   background-color: #f8f8f8;
@@ -550,7 +550,7 @@ p {
 }
 .lead {
   margin-bottom: 23px;
-  font-size: 22.5px;
+  font-size: 21px;
   font-weight: 200;
   line-height: 34.5px;
 }
@@ -639,34 +639,34 @@ h3 {
   line-height: 46px;
 }
 h1 {
-  font-size: 41.25px;
+  font-size: 38.5px;
 }
 h2 {
-  font-size: 33.75px;
+  font-size: 31.5px;
 }
 h3 {
-  font-size: 26.25px;
+  font-size: 24.5px;
 }
 h4 {
-  font-size: 18.75px;
+  font-size: 17.5px;
 }
 h5 {
-  font-size: 15px;
+  font-size: 14px;
 }
 h6 {
-  font-size: 12.75px;
+  font-size: 11.9px;
 }
 h1 small {
-  font-size: 26.25px;
+  font-size: 24.5px;
 }
 h2 small {
-  font-size: 18.75px;
+  font-size: 17.5px;
 }
 h3 small {
-  font-size: 15px;
+  font-size: 14px;
 }
 h4 small {
-  font-size: 15px;
+  font-size: 14px;
 }
 .page-header {
   padding-bottom: 10.5px;
@@ -766,7 +766,7 @@ blockquote {
 }
 blockquote p {
   margin-bottom: 0;
-  font-size: 18.75px;
+  font-size: 17.5px;
   font-weight: 300;
   line-height: 1.25;
 }
@@ -811,7 +811,7 @@ code,
 pre {
   padding: 0 3px 2px;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-  font-size: 13px;
+  font-size: 12px;
   color: #3c3c3c;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -828,7 +828,7 @@ pre {
   display: block;
   padding: 11px;
   margin: 0 0 11.5px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 23px;
   word-break: break-all;
   word-wrap: break-word;
@@ -869,7 +869,7 @@ legend {
   width: 100%;
   padding: 0;
   margin-bottom: 23px;
-  font-size: 22.5px;
+  font-size: 21px;
   line-height: 46px;
   color: #3c3c3c;
   border: 0;
@@ -884,7 +884,7 @@ input,
 button,
 select,
 textarea {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 23px;
 }
@@ -919,7 +919,7 @@ input[type="color"],
   height: 23px;
   padding: 4px 6px;
   margin-bottom: 11.5px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 23px;
   color: #555555;
   -webkit-border-radius: 0px;
@@ -1434,7 +1434,7 @@ select:focus:invalid:focus {
 .input-prepend .dropdown-menu,
 .input-append .popover,
 .input-prepend .popover {
-  font-size: 15px;
+  font-size: 14px;
 }
 .input-append input,
 .input-prepend input,
@@ -1465,7 +1465,7 @@ select:focus:invalid:focus {
   height: 23px;
   min-width: 16px;
   padding: 4px 5px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 23px;
   text-align: center;
@@ -2681,7 +2681,7 @@ button.close {
   *zoom: 1;
   padding: 4px 12px;
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 23px;
   text-align: center;
   vertical-align: middle;
@@ -2765,7 +2765,7 @@ button.close {
 }
 .btn-large {
   padding: 11px 19px;
-  font-size: 18.75px;
+  font-size: 17.5px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -2776,7 +2776,7 @@ button.close {
 }
 .btn-small {
   padding: 2px 10px;
-  font-size: 12.75px;
+  font-size: 11.9px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
@@ -2791,7 +2791,7 @@ button.close {
 }
 .btn-mini {
   padding: 0 6px;
-  font-size: 11.25px;
+  font-size: 10.5px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
@@ -3106,16 +3106,16 @@ input[type="submit"].btn.btn-mini {
 .btn-group > .btn,
 .btn-group > .dropdown-menu,
 .btn-group > .popover {
-  font-size: 15px;
+  font-size: 14px;
 }
 .btn-group > .btn-mini {
-  font-size: 11.25px;
+  font-size: 10.5px;
 }
 .btn-group > .btn-small {
-  font-size: 12.75px;
+  font-size: 11.9px;
 }
 .btn-group > .btn-large {
-  font-size: 18.75px;
+  font-size: 17.5px;
 }
 .btn-group > .btn:first-child {
   margin-left: 0;
@@ -4297,7 +4297,7 @@ input[type="submit"].btn.btn-mini {
 .pagination-large ul > li > a,
 .pagination-large ul > li > span {
   padding: 11px 19px;
-  font-size: 18.75px;
+  font-size: 17.5px;
 }
 .pagination-large ul > li:first-child > a,
 .pagination-large ul > li:first-child > span {
@@ -4342,12 +4342,12 @@ input[type="submit"].btn.btn-mini {
 .pagination-small ul > li > a,
 .pagination-small ul > li > span {
   padding: 2px 10px;
-  font-size: 12.75px;
+  font-size: 11.9px;
 }
 .pagination-mini ul > li > a,
 .pagination-mini ul > li > span {
   padding: 0 6px;
-  font-size: 11.25px;
+  font-size: 10.5px;
 }
 .pager {
   margin: 23px 0;
@@ -4791,7 +4791,7 @@ a.thumbnail:focus {
 .badge {
   display: inline-block;
   padding: 2px 4px;
-  font-size: 12.69px;
+  font-size: 11.844px;
   font-weight: bold;
   line-height: 14px;
   color: #ffffff;
@@ -5253,25 +5253,55 @@ a.badge:focus {
 .affix {
   position: fixed;
 }
-.brand {
-  font-size: 25px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
 }
-.brand:hover,
-.brand:active,
-.brand:focus {
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
+h1 {
+  font-size: 35px;
+}
+h2 {
+  font-size: 28px;
+}
+h3 {
+  font-size: 21px;
+}
+.navbar {
+  font-size: 16pxpx;
+  font-size: 1.6pxrem;
+}
+.navbar .brand {
+  font-size: 25pxpx;
+  font-size: 2.5pxrem;
+}
+.navbar .brand:hover,
+.navbar .brand:active,
+.navbar .brand:focus {
   color: #3c3c3c;
 }
-.brand:hover .logo,
-.brand:active .logo,
-.brand:focus .logo {
+.navbar .brand:hover .logo,
+.navbar .brand:active .logo,
+.navbar .brand:focus .logo {
   background-color: #cd0d00;
 }
-.brand.with_logo {
+.navbar .brand.with_logo {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 50px;
 }
-.brand .logo {
+.navbar .brand .logo {
   display: inline-block;
   width: 112px;
   height: 44px;
@@ -5280,7 +5310,7 @@ a.badge:focus {
   text-shadow: none;
   background: #e60f00 url(../images/logo.png) no-repeat 50% 45%;
 }
-.brand strong {
+.navbar .brand strong {
   display: none;
 }
 .hero-unit {
@@ -5382,7 +5412,7 @@ a.badge:focus {
   *zoom: 1;
   padding: 4px 12px;
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 23px;
   text-align: center;
   vertical-align: middle;
@@ -5578,6 +5608,10 @@ pre {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+code {
+  color: #780dc0;
+  background-color: #ffffff;
 }
 .navbar-inner {
   background: url('../images/patterns/bg_header.png') repeat;

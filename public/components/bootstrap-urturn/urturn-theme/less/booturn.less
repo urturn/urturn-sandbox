@@ -26,41 +26,58 @@
   .font-size(@fontSize);
 }
 
-// Brand identity
-.brand {
-  font-size: 25px;
+// Typo
+h1,h2,h3,h4,h5,h6 {
+  margin-bottom: 0;
 
-  &:hover,
-  &:active,
-  &:focus {
-    color: @textColor;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+h1 { font-size: @baseFontSize * 2.5; }
+h2 { font-size: @baseFontSize * 2.0; }
+h3 { font-size: @baseFontSize * 1.5; }
+
+// Brand identity
+.navbar {
+  .font-size(16px);
+
+  .brand {
+    .font-size(25px);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: @textColor;
+
+      .logo {
+        background-color: darken(@red,5%);
+      }
+    }
+
+    &.with_logo {
+      padding-top: 0;
+      padding-bottom: 0;
+
+      line-height: 50px;
+    }
 
     .logo {
-      background-color: darken(@red,5%);
+      display: inline-block;
+      width: 112px;
+      height: 44px;
+      margin: 0 12px 0 0;
+
+      color: transparent;
+      text-shadow: none;
+
+      background: @red url(../images/logo.png) no-repeat 50% 45%;
     }
-  }
 
-  &.with_logo {
-    padding-top: 0;
-    padding-bottom: 0;
-
-    line-height: 50px;
-  }
-
-  .logo {
-    display: inline-block;
-    width: 112px;
-    height: 44px;
-    margin: 0 12px 0 0;
-
-    color: transparent;
-    text-shadow: none;
-
-    background: @red url(../images/logo.png) no-repeat 50% 45%;
-  }
-
-  strong {
-    display: none;
+    strong {
+      display: none;
+    }
   }
 }
 .hero-unit{
@@ -161,6 +178,10 @@
 pre {
   background-color: @white;
   .border-radius(4px);
+}
+code {
+  color: #780dc0;
+  background-color: @white;
 }
 
 .navbar-inner{
