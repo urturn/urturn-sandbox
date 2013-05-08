@@ -197,6 +197,7 @@ sandbox.PostEditorController = function(options){
           assetPath: 'http://expressions',
           note : post.note,
           sandbox: true,
+          apiVersion: expression.apiVersion,
           scrollValues: {} // XXX Need to be imported
         }
       };

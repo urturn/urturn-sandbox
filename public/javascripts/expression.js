@@ -3,13 +3,14 @@
   var expressionStore = [];
 
   // Expression Model constructor
-  var Expression = function(pObject){
+  var Expression = function(){
     this.systemName = null;
     this.version = null;
     this.title = null;
     this.description = null;
     this.location = null;
     this.collections = [];
+    this.apiVersion = null;
   };
 
   // Instantiate an expression from JSON data
@@ -22,6 +23,7 @@
     expression.location = pObject.location;
     expression.bannerPath = pObject.bannerPath;
     expression.collections = pObject.collections;
+    expression.apiVersion = pObject.apiVersion;
 
     if(!expression.bannerPath){
       expression.bannerPath = sandbox.imageUrl(800, 408);
