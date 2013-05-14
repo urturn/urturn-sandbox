@@ -59,6 +59,10 @@ sandbox.PostEditorController = function(options){
     collections: {
       save: function(name, objectsByKey, callbackNotUsed){
         var collection = store.get(name);
+        if(!collection){
+          console.log('missing collection ' + name);
+          return;
+        }
         for(var k in objectsByKey){
           if(collection.isPublic()){
             collection.setUserItem(objectsByKey[k]);
