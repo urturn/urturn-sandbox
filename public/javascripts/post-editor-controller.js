@@ -156,6 +156,11 @@ sandbox.PostEditorController = function(options){
         console.log('Filter Applied : ', options.filter);
         callback(options.image);
       },
+      applyFilter: function(options, callback)
+      {
+        console.log('Filter Applied : ', options.filter);
+        callback(options.image);
+      },
       imageWithDataUrl : function(dataUrl, callback) {
         api.medias.createImage(dataUrl, callback);
       },
