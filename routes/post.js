@@ -5,7 +5,7 @@ function mkdirIfNeeded(parent, dir, callback){
   var p = path.join(parent, dir);
   fs.exists(p, function(exists){
     if(!exists){
-      fs.mkdir(p, function(err){
+      fs.mkdir(p, function(err) {
         if(err){
           callback(err);
         } else {

@@ -1,9 +1,9 @@
 sandbox.PostEditorController = function(options){
   var templates = {
     edit: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
-            "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
-            "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button> <button class='btn btn-disabled post-button'>Post</button></div>" +
-            "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
+          "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
+          "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button> <button class='btn btn-disabled post-button'>Post</button></div>" +
+          "<p><b>Post note:</b> <span id='postNote'></span></p></div>",
     play: "<div class='post-editor'><h2 class='expression-title'>$title</h2>" +
           "<div class='expression-bounding-box'><iframe class='iframe iframe-expression expression-frame'></iframe></div>" +
           "<div class='expression-footer'><button class='btn btn-danger quit-button'>Quit</button></div>" +
@@ -45,15 +45,40 @@ sandbox.PostEditorController = function(options){
     savePost(post);
   };
 
+  // Retrieve the scrollPosition of the iframe
+  // they are the portion of the iframe visile on screen
+  var getIframeScrollPosition = function(){
+    var $frame = $(expressionFrame),
+        $w = $(window),
+        winScrollTop = $w.scrollTop(),
+        winHeight = $w.height(),
+        marginFromWinTop = $frame.offset().top,
+        frameBorderWidth = parseInt($frame.css("border-top-width"), 10),
+        frameHeight = $frame.height();
+
+    var scrollTop =  winScrollTop - marginFromWinTop - frameBorderWidth;
+    if(scrollTop < 0){
+      scrollTop = 0;
+    }
+
+    var scrollBottom = ( marginFromWinTop + frameHeight + frameBorderWidth ) - ( winScrollTop + winHeight );
+    if ( scrollBottom < 0 ) {
+      scrollBottom = 0;
+    }
+    return {scrollTop: scrollTop, scrollBottom: scrollBottom};
+  };
+
   // Nice API
   var api = {
     container: {
-      setTitle: function(title, callbackNotUsed){
-        // Suppressed since 0.6.0
-      },
       resizeHeight: function(value, callback){
         $(expressionFrame).height(parseInt(value, 10));
         callback();
+        api.sendEvent('scrollChanged', [getIframeScrollPosition()]);
+      },
+      scroll: function(anchor, position, callback){
+        $(expressionFrame).scrollTop(position);
+        callback({scrollTop: 0, scrollBottom: 0});
       }
     },
     collections: {
@@ -205,6 +230,9 @@ sandbox.PostEditorController = function(options){
     },
     sendPostMessage: function(callback){
       expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'post'}), '*');
+    },
+    sendEvent: function(name, args){
+      expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'triggerEvent', eventName: name, eventArgs: args}), '*');
     },
     posted: function(){
       post.state = 'published';
