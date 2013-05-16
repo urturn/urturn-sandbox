@@ -15,7 +15,7 @@ sudo npm link
 ```
 
 Start it by getting to you expressions project or a specific expression folder
-and type 
+and type
 ```bash
 urturn-sandbox start
 ```
