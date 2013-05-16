@@ -65,20 +65,40 @@ sandbox.PostEditorController = function(options){
     if ( scrollBottom < 0 ) {
       scrollBottom = 0;
     }
-    return {scrollTop: scrollTop, scrollBottom: scrollBottom};
+    return {
+      scrollTop: scrollTop,
+      scrollBottom: scrollBottom,
+      wScrollTop: winScrollTop,
+      wHeight: winHeight,
+      borderWidth: frameBorderWidth,
+      height: frameHeight,
+      offsetTop: marginFromWinTop + frameBorderWidth
+    };
   };
 
   // Nice API
   var api = {
     container: {
       resizeHeight: function(value, callback){
-        $(expressionFrame).height(parseInt(value, 10));
-        callback();
+        var height = parseInt(value, 10);
+        var $frame = $(expressionFrame);
+        $frame.height(height);
+        callback({height: height, width: $frame.width()});
         api.sendEvent('scrollChanged', [getIframeScrollPosition()]);
       },
-      scroll: function(anchor, position, callback){
-        $(expressionFrame).scrollTop(position);
-        callback({scrollTop: 0, scrollBottom: 0});
+      scroll: function(position, anchor, callback){
+        var pos = getIframeScrollPosition();
+        var scrollTop;
+        if(anchor === 'top'){
+          scrollTop = pos.offsetTop + parseInt(position, 10);
+          $(window).scrollTop(scrollTop);
+        } else {
+          scrollTop = pos.offsetTop + pos.height - pos.wHeight - position;
+          $(window).scrollTop(scrollTop);
+        }
+        var scrollValues = getIframeScrollPosition();
+        callback(scrollValues);
+        api.sendEvent('scrollChanged', [scrollValues]);
       }
     },
     collections: {
