@@ -6,6 +6,13 @@ window.addEventListener('load', function(){
   // Init code
   var currentUser = new sandbox.User.create();
 
+  if(Math.random > 0.5){
+    currentUser.numberOfPost = parseInt(Math.random * 1000, 10);
+  } else {
+    currentUser.numberOfPost = 0;
+  }
+  currentUser.numberOfUse = 0;
+
   // ROUTES
 
   // Create a post

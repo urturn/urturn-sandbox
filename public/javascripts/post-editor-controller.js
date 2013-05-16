@@ -265,6 +265,9 @@ sandbox.PostEditorController = function(options){
     },
     posted: function(){
       post.state = 'published';
+      console.log('Achieved post');
+      currentUser.numberOfUse += 1;
+      currentUser.numberOfPost += 1;
       // Ridiculous timeout to avoid having 2 async file writer...
       setTimeout(
         function(){
