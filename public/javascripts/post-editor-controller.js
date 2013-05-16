@@ -84,7 +84,7 @@ sandbox.PostEditorController = function(options){
         var $frame = $(expressionFrame);
         $frame.height(height);
         callback({height: height, width: $frame.width()});
-        api.sendEvent('scrollChanged', [getIframeScrollPosition()]);
+        handleWindowScroll();
       },
       scroll: function(position, anchor, callback){
         var pos = getIframeScrollPosition();
@@ -350,11 +350,23 @@ sandbox.PostEditorController = function(options){
     }
   };
 
+  var currentScrollValues;
+  var handleWindowScroll = function(){
+    var scrollValues = getIframeScrollPosition();
+    if(!currentScrollValues || (
+      scrollValues.scrollBottom != currentScrollValues.scrollBottom ||
+      scrollValues.scrollTop != currentScrollValues.scrollTop)){
+      currentScrollValues = scrollValues;
+      api.sendEvent('scrollChanged', currentScrollValues);
+    }
+  };
+
   var resizeBoundingBox = function(){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
+    handleWindowScroll();
   };
 
   this.attach = function(node){
@@ -372,7 +384,10 @@ sandbox.PostEditorController = function(options){
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
     devicesButtons = document.querySelectorAll("#deviceSelector .dropdown-menu a");
-    window.addEventListener('resize', resizeBoundingBox, false);
+    console.log('will attach event scroll and resize');
+    $(window)
+      .on('resize', resizeBoundingBox)
+      .on('scroll', handleWindowScroll);
     if(postButton){
       postButton.disabled = true;
       postButton.addEventListener('click', handlePostAction, false);
