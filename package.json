@@ -1,6 +1,6 @@
 {
   "name": "urturn-sandbox",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "scripts": {
     "start": "node app"
   },
@@ -8,7 +8,7 @@
     "express": "3.1.x",
     "jade": "*",
     "commander": "*",
-    "urturn-expression-api": "~0.7",
+    "urturn-expression-api": "~0.8",
     "glob": "~3",
     "async": "*"
   },
