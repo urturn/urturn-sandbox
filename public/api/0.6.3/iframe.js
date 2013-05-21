@@ -695,7 +695,7 @@ UT.CollectionStore = function(options) {
       }
     });
 
-    /** 
+    /**
      * Retrieve Parent Post Datas.
      *
      * This is available only during the first edition of a post

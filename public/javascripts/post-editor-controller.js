@@ -48,8 +48,11 @@ sandbox.PostEditorController = function(options){
   // Retrieve the scrollPosition of the iframe
   // they are the portion of the iframe visile on screen
   var getIframeScrollPosition = function(){
-    var $frame = $(expressionFrame),
-        $w = $(window),
+    var $frame = $(expressionFrame);
+    if(!$frame){
+      return {scrollTop: 0, scrollBottom: 0};
+    }
+    var $w = $(window),
         winScrollTop = $w.scrollTop(),
         winHeight = $w.height(),
         marginFromWinTop = $frame.offset().top,
