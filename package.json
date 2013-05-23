@@ -18,5 +18,9 @@
   "bin": {
     "urturn-sandbox": "urturn-sandbox.js"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/urturn/urturn-sandbox.git"
+  },
   "main": "server"
 }
