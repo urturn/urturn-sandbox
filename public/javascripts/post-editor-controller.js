@@ -53,9 +53,10 @@ sandbox.PostEditorController = function(options){
       return {scrollTop: 0, scrollBottom: 0};
     }
     var $w = $(window),
+        frameOffset = $frame.offset(),
         winScrollTop = $w.scrollTop(),
         winHeight = $w.height(),
-        marginFromWinTop = $frame.offset().top,
+        marginFromWinTop = (frameOffset ? frameOffset.top : 0),
         frameBorderWidth = parseInt($frame.css("border-top-width"), 10),
         frameHeight = $frame.height();
 
@@ -264,7 +265,9 @@ sandbox.PostEditorController = function(options){
       expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'post'}), '*');
     },
     sendEvent: function(name, args){
-      expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'triggerEvent', eventName: name, eventArgs: args}), '*');
+      if(expressionFrame){
+        expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'triggerEvent', eventName: name, eventArgs: args}), '*');
+      }
     },
     posted: function(){
       post.state = 'published';
@@ -371,7 +374,9 @@ sandbox.PostEditorController = function(options){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
-    $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
+    if(expressionFrame){
+      $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
+    }
     handleWindowScroll();
   };
 
@@ -390,7 +395,6 @@ sandbox.PostEditorController = function(options){
     postButton = node.querySelector('.post-button');
     quitButton = node.querySelector('.quit-button');
     devicesButtons = document.querySelectorAll("#deviceSelector .dropdown-menu a");
-    console.log('will attach event scroll and resize');
     $(window)
       .on('resize', resizeBoundingBox)
       .on('scroll', handleWindowScroll);
@@ -417,8 +421,10 @@ sandbox.PostEditorController = function(options){
 
   this.detach = function(node){
     expressionFrame = null;
-    window.removeEventListener("message", handleIframeMessage, false);
-    window.removeEventListener('resize', resizeBoundingBox, false);
+    $(window)
+      .off('resize', resizeBoundingBox)
+      .off('scroll', handleWindowScroll)
+      .off('message', handleIframeMessage);
     if(quitButton){
       quitButton.removeEventListener('click', handleQuitAction, false);
     }
