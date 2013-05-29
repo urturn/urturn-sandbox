@@ -5,3 +5,4 @@ public/javascripts/old.js
 /public/api/*-alpha*
 /public/api/*-beta*
 /public/api/*-rc*
+npm-debug.log
