@@ -6,7 +6,7 @@ sandbox.compile = function(html, context){
 };
 
 // the url used to retrieve random images
-sandbox.imageServiceURL = 'http://placekitten.com';
+sandbox.imageServiceURL = '/placekitten.com';
 
 // Generate a random number for widht or height of a picture
 sandbox.randSize = function() {
@@ -14,9 +14,10 @@ sandbox.randSize = function() {
 };
 
 sandbox.imageUrl = function(w, h) {
-  if(window.navigator && !window.navigator.onLine){
+  return "/sandboxImg/"+['boat.jpg','building.jpg','car.jpg','church.jpg','dog.jpg','fireworks.jpg','gecko.jpg','landscape.jpg','market.jpg','moon.jpg','sign.jpg'][(w*h)%11];
+  /*if(window.navigator && !window.navigator.onLine){
     return 'http://' + window.location.host + '/local.jpg';
   } else {
     return sandbox.imageServiceURL + '/' + (w || sandbox.randSize() ) + '/' + (h || sandbox.randSize() );
-  }
+  }*/
 };
