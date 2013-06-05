@@ -28,7 +28,8 @@ function configure(expressionDir, port){
 
   // Routing
   app.get('/lib/:lib/*', function(req, res){
-    res.sendfile(path.join(__dirname, 'node_modules/' + req.params.lib + '/dist/' + req.params[0]));
+    var distdir = require(req.params.lib).directory;
+    res.sendfile(distdir + '/' + req.params[0]);
   });
 
   app.get('/image_proxy/*', function(req, res){
