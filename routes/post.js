@@ -1,7 +1,9 @@
-var path = require('path');
-var fs = require('fs');
+var path = require('path'),
+    fs = require('fs'),
+    lockfile = require('lockfile'),
+    async = require('async');
 
-function mkdirIfNeeded(parent, dir, callback){
+function mkdirIfNeeded(parent, dir, callback) {
   var p = path.join(parent, dir);
   fs.exists(p, function(exists){
     if(!exists){
@@ -18,14 +20,14 @@ function mkdirIfNeeded(parent, dir, callback){
   });
 }
 
-function loadPostFromFile(file, callback){
+function loadPostFromFile(file, callback) {
   fs.readFile(file, function(err, data){
     if(err) return callback(err);
     callback(null, JSON.parse(data));
   });
 }
 
-function getPosts(callback){
+function getPosts(callback) {
   getStoreFolder(function(err, dir){
     if(err){
       return callback(err);
@@ -60,7 +62,7 @@ function getPosts(callback){
   });
 }
 
-function getStoreFolder(callback){
+function getStoreFolder(callback) {
   mkdirIfNeeded(process.cwd(), '.urturn', function(err, dir){
     if(err){ return callback(err); }
     mkdirIfNeeded(dir, 'posts', function(err, dir){
@@ -73,24 +75,46 @@ function getStoreFolder(callback){
 function savePost(req, res, next){
   var id = req.params.id;
   var body = req.body;
-  getStoreFolder(function(err, dir){
-    if(err){
-      next(err);
-    } else {
-      fs.writeFile( path.join(dir, id + '.json'), JSON.stringify(body), function(err){
-        if(err){
-          console.log(err);
-          next("Cannot save post");
-        } else {
-          res.header("Content-Type", "application/json");
-          res.send({
-            status: 'saved',
-            location: '/post/' + id + '.json'
-          });
-        }
+
+  async.waterfall([
+    getStoreFolder, getFilePath, safeWrite],
+    function(err){
+      if(err){
+        next('Cannot save post');
+        return;
+      }
+      res.header("Content-Type", "application/json");
+      res.send({
+        status: 'saved',
+        location: '/post/' + id + '.json'
       });
-    }
-  });
+    });
+
+  function getFilePath(directory, cb) {
+    cb(null, path.join(directory, id + '.json'));
+  }
+
+  function safeWrite(filepath, cb) {
+    async.applyEachSeries([lock, write, unlock], filepath, cb);
+  }
+
+  function lock(filepath, cb) {
+    lockfile.lock(filepath+'.lock', {
+      wait: 300,
+      retryWait: 100,
+      retries: 5
+    }, cb);
+  }
+
+  function unlock(filepath, cb) {
+    lockfile.unlock(filepath+'.lock', cb);
+  }
+
+  function write(filepath, cb) {
+    var content = JSON.stringify(body, null, 2);
+    var buffer = new Buffer(content);
+    fs.writeFile(filepath, content, cb);
+  }
 }
 
 function loadPost(req, res, next){
@@ -119,12 +143,12 @@ function listPosts(req, res, next){
   });
 }
 
-function create(server, options){
+function create(server, options) {
   server.post('/' + options.mountPoint + '/:id.json', savePost);
   server.get('/' + options.mountPoint + '/:id.json', loadPost);
   server.get('/' + options.mountPoint + '.json', listPosts);
-  // server.get('/' + options.mountPoint + '/:expression.json', listPost);
 }
+
 
 module.exports = {
   create: create

@@ -10,7 +10,8 @@
     "commander": "*",
     "urturn-expression-api": "~0.9",
     "glob": "~3",
-    "async": "*"
+    "async": "*",
+    "lockfile": "~0.3.2"
   },
   "devDependencies": {
     "grunt": "*"
@@ -19,8 +20,8 @@
     "urturn-sandbox": "urturn-sandbox.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/urturn/urturn-sandbox.git"
+    "type": "git",
+    "url": "https://github.com/urturn/urturn-sandbox.git"
   },
   "main": "server"
 }
