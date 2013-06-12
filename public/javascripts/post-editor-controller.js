@@ -19,6 +19,7 @@ sandbox.PostEditorController = function(options){
   var post = options.post;
   var expression = post.expression;
   var storeDelegate = {}; // storeDelegate functions will be declared later
+  var fixedHeight = false; // Will become true after a call to the resize method
   var store = new UT.CollectionStore({
     data: post.collections,
     currentUserId: currentUser.uuid,
@@ -88,6 +89,7 @@ sandbox.PostEditorController = function(options){
         var height = parseInt(value, 10);
         var $frame = $(expressionFrame);
         $frame.height(height);
+        fixedHeight = true;
         callback({height: height, width: $frame.width()});
         handleWindowScroll();
       },
@@ -403,7 +405,7 @@ sandbox.PostEditorController = function(options){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
     console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
-    if(expressionFrame){
+    if(expressionFrame && !fixedHeight){
       $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
     }
     handleWindowScroll();
