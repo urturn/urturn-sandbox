@@ -11,7 +11,8 @@
     "urturn-expression-api": "~0.9",
     "glob": "~3",
     "async": "*",
-    "lockfile": "~0.3.2"
+    "lockfile": "~0.3.2",
+    "underscore": "~1.4.4"
   },
   "devDependencies": {
     "grunt": "*"
@@ -23,5 +24,10 @@
     "type": "git",
     "url": "https://github.com/urturn/urturn-sandbox.git"
   },
-  "main": "server"
+  "main": "server",
+  "readme": "urturn-sandbox\n==============\n\nExpression developer sandbox is in a very alpha state. Don't even try to use it :-) for now.\n\nInstall it the hard way\n=======================\nprerequisite  : you have to install  [NodeJS](http://nodejs.org \"NodeJS\")\n\n```shell\ngit clone git@github.com:webdoc/urturn-sandbox.git\ncd urturn-sandbox\nnpm install\nsudo npm link\n```\n\nStart it by getting to you expressions project or a specific expression folder\nand type\n```bash\nurturn-sandbox start\n```\nThen visit http://localhost:3333\n\nCOPYRIGHT\n=========\nCopyright Webdoc Inc. 2012, all rights reserved\n",
+  "readmeFilename": "README.md",
+  "_id": "urturn-sandbox@0.3.0",
+  "description": "urturn-sandbox ==============",
+  "_from": "urturn-sandbox@~0.3"
 }

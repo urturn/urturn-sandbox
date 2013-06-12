@@ -1,7 +1,8 @@
 var fs    = require('fs'),
     path  = require('path'),
     glob  = require('glob'),
-    async = require('async');
+    async = require('async'),
+    _     = require('underscore');
 
 var Expression = function(expressionDir, info){
   this.location = expressionDir;
@@ -227,27 +228,44 @@ var ExpressionApplication = function(server, mount, expPath) {
   };
 
   this.list = function(req, res, next){
-    descriptors = glob("**/expression.json", {cwd: expPath}, function(err, matches){
-      var constructors = [];
-      function createFunc(dir){
-        return function(cb) {
-          createExpression(expPath, dir, cb);
-        };
-      }
-
-      for(var i in matches){
-        var expDirPath = path.dirname(matches[i]);
-        constructors.push(createFunc(expDirPath));
-      }
-
-      async.parallel(constructors, function(err, expressions){
+    var constructors = [];
+    var createFunc = function(dir){
+      return function(cb) {
+        createExpression(expPath, dir, function(err, exp){
+          if(err){
+            console.log("Cannot create expression from "+dir+":", err);
+          }
+          cb(null, exp);
+        });
+      };
+    };
+    var lookup = function(pattern){
+      return function(done){
+        glob(pattern, {cwd: expPath}, function(err, matches){
+          if(err) { return done(err); }
+          for(var i in matches){
+            var expDirPath = path.dirname(matches[i]);
+            constructors.push(createFunc(expDirPath));
+          }
+          done();
+        });
+      };
+    };
+    async.parallel(
+      [lookup("expression.json"), lookup("*/expression.json"), lookup("*/*/expression.json")],
+      function(err){
         if(err){
           console.log(err);
           next("Cannot retrieve expression list");
         }
-        res.send({expressions: expressions});
-      });
-    });
+        async.parallel(constructors, function(err, expressions){
+          if(err){
+            console.log("Cannot retrieve expression:", err);
+          }
+          res.send({expressions: _.filter(expressions, function(exp){return !!exp;})});
+        });
+      }
+    );
   };
 
   this.asset = function(req, res, next){

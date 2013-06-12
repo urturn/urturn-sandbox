@@ -1,0 +1,8 @@
+/node_modules/
+.DS_Store
+public/javascripts/old.js
+/.urturn/
+/public/api/*-alpha*
+/public/api/*-beta*
+/public/api/*-rc*
+npm-debug.log
