@@ -24,6 +24,7 @@ sandbox.PostEditorController = function(options){
     currentUserId: currentUser.uuid,
     delegate: storeDelegate
   });
+  var navigationStates = [];
   var mode = options.mode;
 
   // Init view mapping variables;
@@ -103,6 +104,29 @@ sandbox.PostEditorController = function(options){
         var scrollValues = getIframeScrollPosition();
         callback(scrollValues);
         api.sendEvent('scrollChanged', [scrollValues]);
+      },
+      pushNavigation: function(action, callback){
+        var availableNames = ['cancel', 'back', 'quit'];
+        if(availableNames.indexOf(action) === -1){
+          if(window.console && console.log){
+            console.log("Unknown action:" + action, "not in", availableNames);
+          }
+          callback(); // cancel the user state immediatly
+        } else {
+          navigationStates.push({callback: callback, name: action});
+          quitButton.innerHTML = action;
+        }
+      },
+      popNavigation: function(){
+        if(navigationStates.length > 0){
+          var result = navigationStates.pop();
+          if(navigationStates.length > 0){
+            quitButton.innerHTML = navigationStates[navigationStates.length-1].name;
+          } else {
+            quitButton.innerHTML = 'Quit';
+          }
+          return result;
+        }
       }
     },
     collections: {
@@ -342,7 +366,12 @@ sandbox.PostEditorController = function(options){
   };
 
   var handleQuitAction = function(event){
-    application.navigate('');
+    var state = api.container.popNavigation();
+    if(state){
+      state.callback();
+    } else {
+      application.navigate('');
+    }
   };
 
   var handlePostAction = function(event){
