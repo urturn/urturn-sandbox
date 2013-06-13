@@ -5,25 +5,21 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    downloadComponents: {
-      components: grunt.file.readJSON('components.json'),
-      directory: 'components'
+    config: grunt.file.readJSON('bower.json'),
+    exec: {
+      tag: {
+        cmd: "git tag v <%=pkg.version%> && git push --tags"
+      },
+      npmpublish: {
+        cmd: "npm publish"
+      }
     }
   });
 
-  grunt.registerTask('downloadComponents', function(){
-    for(var name in config.components){
-      var versions = config.components[name];
-      console.log(name, versions);
-      counter ++;
-      bower.commands
-        .install([name], {})
-        .on('end', handlePackageInstalled)
-        .on('error', handleError);
-    }
-  });
+  grunt.loadNpmTasks('grunt-exec');
 
   // Default task(s).
-  grunt.registerTask('default', ['downloadComponents']);
+  grunt.registerTask('default', ['exec:clean', 'downloadComponents']);
+  grunt.registerTask('publish', ['exec:tag', 'exec:npmpublish']);
 
 };
