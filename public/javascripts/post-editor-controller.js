@@ -226,7 +226,11 @@ sandbox.PostEditorController = function(options){
         callback({"_type": "video", url: 'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
       },
       findImage: function(options, callback) {
-        callback({type : '_image', url : sandbox.imageUrl(sandbox.randSize(), sandbox.randSize()), info : {source : sandbox.imageServiceURL}});
+        callback({type : 'image', url : sandbox.imageUrl(sandbox.randSize(), sandbox.randSize()), info : {source : sandbox.imageServiceURL}});
+      },
+      getEditableImage: function(url, callback){
+        // The url is already editable
+        console.log(callback(url));
       }
     },
     url: {},
