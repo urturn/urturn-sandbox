@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     config: grunt.file.readJSON('bower.json'),
     exec: {
       tag: {
-        cmd: "git tag v <%=pkg.version%> && git push --tags"
+        cmd: "git tag v<%=pkg.version%> && git push --tags"
       },
       npmpublish: {
         cmd: "npm publish"
