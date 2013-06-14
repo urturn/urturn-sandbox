@@ -86,7 +86,7 @@ function ExpressionController(cwd, expression) {
       if(fs.existsSync(p)){
         return '/api/' + expression.apiVersion;
       } else {
-        return 'http://another.172.16.147.1.xip.io:3333'+'/lib/urturn-expression-api';
+        return '/lib/urturn-expression-api';
       }
     };
 
