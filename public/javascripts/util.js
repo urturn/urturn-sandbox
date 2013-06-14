@@ -14,7 +14,34 @@ sandbox.randSize = function() {
 };
 
 sandbox.imageUrl = function(w, h) {
-  return "/sandboxImg/"+['boat.jpg','building.jpg','car.jpg','church.jpg','dog.jpg','fireworks.jpg','gecko.jpg','landscape.jpg','market.jpg','moon.jpg','sign.jpg'][(w*h)%11];
+  return "/sandboxImg/"+[
+'bromo.jpg',
+'cloud.jpg',
+'color.jpg',
+'cube.jpg',
+'deep.jpg',
+'delasoul.jpg',
+'hidden.jpg',
+'horse.jpg',
+'insect.jpg',
+'interior.jpg',
+'istanbul.jpg',
+'keyboard.jpg',
+'masarwa.jpg',
+'megabass.jpg',
+'mic.jpg',
+'museum.jpg',
+'odaray.jpg',
+'office.jpg',
+'paint.jpg',
+'panda.jpg',
+'savoye.jpg',
+'slurp.jpg',
+'suit.jpg',
+'tattoo.jpg',
+'titulo.jpg',
+'yellow.jpg'
+][(w*h)%11];
   /*if(window.navigator && !window.navigator.onLine){
     return 'http://' + window.location.host + '/local.jpg';
   } else {
