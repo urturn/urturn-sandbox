@@ -442,7 +442,7 @@ sandbox.PostEditorController = function(options){
     }
     window.addEventListener("message", handleIframeMessage, false);
     if(mode == 'edit'){
-      load('/expression/' + expression.location + '/editor.html');
+      load('http://another.172.16.147.1.xip.io:3333/expression/' + expression.location + '/editor.html');
     } else {
       load('/expression/' + expression.location + '/player.html');
     }

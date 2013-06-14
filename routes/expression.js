@@ -83,11 +83,10 @@ function ExpressionController(cwd, expression) {
 
     var apiPath = function(){
       var p = path.resolve(__dirname, '../public/api/' + expression.apiVersion);
-      console.log(p);
       if(fs.existsSync(p)){
         return '/api/' + expression.apiVersion;
       } else {
-        return '/lib/urturn-expression-api';
+        return 'http://another.172.16.147.1.xip.io:3333'+'/lib/urturn-expression-api';
       }
     };
 
