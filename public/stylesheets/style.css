@@ -24,6 +24,13 @@
   height: auto;
 }
 
+.banner {
+  width: 400px;
+  height: 204px;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
 @media (min-width: 1200px) { 
   .expression-list li {
     width: 33%;
