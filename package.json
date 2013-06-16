@@ -1,6 +1,6 @@
 {
   "name": "urturn-sandbox",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "scripts": {
     "start": "node app"
   },
