@@ -7,8 +7,8 @@
     var itemTemplate = '<li class="dropdown">' +
         '<a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
           '<span class="state label label-$label">$state</span> '+
-          '<strong class="post-item-title">$expressionName</strong>: ' +
-          '<span class="post-item-date">$date</span>' +
+          '$expressionName' +
+          '<time class="post-item-date">$date</time>' +
         '</a>' +
         '<ul class="dropdown-menu">' +
           '<li><a href="#" class="expression-item-edit">edit</a></li>' +
@@ -25,7 +25,7 @@
       event.preventDefault();
       application.navigate('post/' + post.uuid + '/play');
     };
-    
+
     var handleSelected = function(){
       if(self.onSelected){
         self.onSelected.call(self, expression);

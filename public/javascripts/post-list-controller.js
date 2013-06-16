@@ -3,7 +3,7 @@
   var PostListController = function(application){
     sandbox.listControllerSupport(this);
 
-    var template = '<ul class="nav nav-tabs nav-stacked bs-docs-sidenav"><li class="nav-header">Posts</ul>';
+    var template = '<ul class="sidenav nav nav-tabs nav-stacked affix-top"><li class="section section-active active"><a href="#">Posts</a></li></ul>';
     var parentNode;
     var titleNode;
     var ulNode;

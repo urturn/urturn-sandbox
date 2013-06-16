@@ -24,6 +24,7 @@
 @blueDark:              #0064cd;
 @green:                 #46a546;
 @red:                   #e60f00;
+@bloodyRed:             #c00f14;
 @yellow:                #ffc40d;
 @orange:                #f89406;
 @pink:                  #c3325f;
@@ -46,7 +47,7 @@
 // -------------------------
 @sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
-@monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
+@monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
 
 @baseFontSize:          14px;
 @baseFontFamily:        @sansFontFamily;
@@ -70,9 +71,9 @@
 @paddingSmall:          2px 10px;  // 26px
 @paddingMini:           0 6px;   // 22px
 
-@baseBorderRadius:      0px;
-@borderRadiusLarge:     3px;
-@borderRadiusSmall:     0px;
+@baseBorderRadius:      4px;
+@borderRadiusLarge:     6px;
+@borderRadiusSmall:     3px;
 
 
 // Tables
@@ -84,8 +85,8 @@
 
 // Buttons
 // -------------------------
-@btnBackground:                     @white;
-@btnBackgroundHighlight:            darken(@white, 10%);
+@btnBackground:                     #787878;
+@btnBackgroundHighlight:            #3d3d3d;
 @btnBorder:                         #ccc;
 
 @btnPrimaryBackground:              @linkColor;
@@ -151,8 +152,8 @@
 
 // Sprite icons path
 // -------------------------
-@iconSpritePath:          "../img/glyphicons-halflings.png";
-@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
+@iconSpritePath:          "../images/glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../images/glyphicons-halflings-white.png";
 
 
 // Input placeholder text color
@@ -181,15 +182,15 @@
 @navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
 
 @navbarHeight:                    54px;
-@navbarBackgroundHighlight:       #F2F2F2;
-@navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
-@navbarBorder:                    darken(@navbarBackground, 12%);
+@navbarBackgroundHighlight:       @red;
+@navbarBackground:                @bloodyRed;
+@navbarBorder:                    darken(@bloodyRed, 12%);
 
-@navbarText:                      #777;
-@navbarLinkColor:                 #777;
-@navbarLinkColorHover:            @grayDark;
-@navbarLinkColorActive:           @gray;
-@navbarLinkBackgroundHover:       transparent;
+@navbarText:                      white;
+@navbarLinkColor:                 white;
+@navbarLinkColorHover:            white;
+@navbarLinkColorActive:           white;
+@navbarLinkBackgroundHover:       @red;
 @navbarLinkBackgroundActive:      darken(@navbarBackground, 4%);
 
 @navbarBrandColor:                @navbarLinkColor;

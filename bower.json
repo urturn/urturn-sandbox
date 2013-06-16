@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "urturn-expression-css": "git://github.com/urturn/urturn-expression-css.git",
-    "bootstrap-urturn": "git://github.com/urturn/bootstrap-urturn.git"
+    "bootstrap-urturn": "git://github.com/urturn/bootstrap-urturn.git",
+    "jquery": "*"
   }
 }

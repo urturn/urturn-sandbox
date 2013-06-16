@@ -1,6 +1,5 @@
-/* Required SASS mixins */
-@import "mixins";
-@import "variables";
+@import "../modules/mixins";
+@import "../modules/variables";
 
 button,
 input[type="button"],
@@ -11,11 +10,30 @@ input[type="submit"],
   -webkit-appearance: button;
 }
 
+
 .button {
-  padding-right: 9px;
-  padding-left: 9px;
-  color: rgb(128,128,128);
-  vertical-align: top;
+
+  @include background-clip(padding-box);
+  @include background-origin(padding-box);
+  display: inline-block;
+
+  overflow: hidden;
+  padding-right: 0.75em;
+  padding-left: 0.75em;
+
+  height: 2em;
+  border-width: 0;
+  background-repeat: no-repeat;
+
+  color: rgb(96,96,96);
+  vertical-align: baseline;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 2em;
+
+  cursor: pointer;
 
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
@@ -26,10 +44,24 @@ input[type="submit"],
   &:active {
     color: $default-text-color;
     cursor: pointer;
+    text-decoration: none;
   }
 
   &:focus {
     outline: none;
+  }
+
+  &.loading,
+  &.disabled {
+    opacity: 0.6;
+  }
+
+  & input {
+    display: inline;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    height: auto;
+    vertical-align: baseline;
   }
 }
 
@@ -67,27 +99,6 @@ input[type="submit"],
   height: 0;
 }
 
-
-.circle-button {
-  display: inline-block;
-  width: 70px;
-  height: 70px;
-
-  border-radius: 50%;
-  background-color: $default-text-color;
-
-  color: white;
-  font-size: 24px;
-  line-height: 70px;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: rgb(51,51,51);
-    color: white;
-  }
-}
-
 .gold-button {
   color: $tip-text;
 
@@ -113,7 +124,6 @@ input[type="submit"],
 }
 
 .dark-button {
-
   @include linear-gradient(rgb(77,77,77), rgb(51,51,51));
 
   box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, -1px -1px 0 rgba(255,255,255,.05) inset;
@@ -253,7 +263,6 @@ input[type="submit"],
   font-weight: bold;
   font-size: 2.1em;
   line-height: 2.8em;
-  cursor: pointer;
 }
 
 .huge-button {
@@ -264,7 +273,6 @@ input[type="submit"],
   font-weight: bold;
   font-size: 1.8em;
   line-height: 2.2em;
-  cursor: pointer;
 }
 
 .large-button {
@@ -276,50 +284,6 @@ input[type="submit"],
   font-weight: bold;
   font-size: 1.6em;
   line-height: 2.3em;
-  cursor: pointer;
-
-  &.next-button,
-  &.previous-button {
-    position: relative;
-    overflow: visible;
-
-    &::after {
-      @include box-sizing(border-box);
-      @include transform(rotate(45deg));
-
-      position: absolute;
-      top: 2px;
-      z-index: -1;
-      display: block;
-      width: 26px;
-      height: 26px;
-
-      border-radius: 5px;
-      content: '';
-    }
-  }
-
-  &.next-button {
-    margin-right: 1em;
-    padding-right: 6px;
-    border-right-width: 0;
-    border-radius: 3px 0 0 3px;
-
-    &::after {
-      right: -12px;
-    }
-  }
-
-  &.previous-button {
-    margin-left: 1em;
-    padding-left: 6px;
-    border-left-width: 0;
-    border-radius: 0 3px 3px 0;
-
-    &::after {
-      left: -12px;
-    }
-  }
 }
 
 .medium-button {
@@ -328,7 +292,6 @@ input[type="submit"],
   font-weight: bold;
   font-size: 1.2em;
   line-height: 2.2em;
-  cursor: pointer;
 }
 
 .small-button {
@@ -339,7 +302,6 @@ input[type="submit"],
   font-weight: bold;
   font-size: 1.1em;
   line-height: 2em;
-  cursor: pointer;
 }
 
 .full-width {
@@ -347,75 +309,168 @@ input[type="submit"],
   width: 100%;
 }
 
-
-/* NEW POST */
-
-.urturn-button {
-  position: relative;
-
-  &::before {
-    vertical-align: middle;
-    font-size: 1.25em;
-  }
-}
-
-
-
-/* Buttons with Icons */
-
-.close-button {
-
-  position: absolute;
-  top: -0.75em;
-  right: -0.75em;
-  z-index: 5;
-  padding: 0 0 0 22px;
-  width: 22px;
-  height: 22px;
-
-  background-position: 50% -3148px;
-
-  color: $default-light-color;
-
-  &.icon-delete {
-
-    top: 12px;
-    right: 12px;
-    padding: 0;
-    width: 16px;
-    height: 16px;
-
-    background: none;
-
-    font-size: 16px;
-    line-height: normal;
-  }
-
+.action-button {
+  z-index: 20;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: white;
+  
   &:hover,
   &:active,
+  &:focus,
   &.active {
-    color: $default-text-color;
-  }
-
-  &.round {
-    box-shadow: 0 1px 0 rgba(255,255,255,.25) inset;
-    padding-top: 20px;
-    border: 1px solid black;
-    border-radius: 22px;
-    background-color: rgb(51,51,51);
-    background-position: 50% -1170px;
+    color: white;
+    background-color: rgb(0, 0, 0);
   }
 }
 
-a.cancel-button,
-a.delete-button {
-  color: $bloody-red;
-  text-decoration: none;
-  font-weight: normal;
-
-  &:hover,
-  &:focus {
-    color: $bloody-red;
-    text-decoration: underline;
+.action-button-wrap {
+  .button {
+    margin-right: 0.3em;
+    
+    &:last-child {
+      margin-right: 0;
+    }
   }
+}
+.item-button {
+  @include linear-gradient(rgb(50,50,50),rgb(30,30,30));
+  position: absolute;
+  z-index: 10000;
+  display: none;
+  padding: 0;
+  
+  width: 3.6em;
+  height: 3.6em;
+  border-radius: 50%;
+  box-shadow: 0 .4em .8em rgba(0, 0, 0, 0.8);
+
+  color: rgb(240,240,240);
+  font-size: 1em;
+  line-height: 2em;
+  
+  &:hover,
+  &:active,
+  &.active,
+  &:focus {
+    @include linear-gradient(rgb(30,30,30),rgb(50,50,50));
+    color: white;
+  }
+
+  &::before {
+    font-size: 2em;
+    vertical-align:middle;
+    position: absolute;
+    top: 50%;
+    width:100%;
+    margin-top: -0.5em;
+    left: 0;
+  }
+  // top / right
+  &.tr {
+    top: -2.1em;
+    right: -2.1em;
+  }
+
+  // top / left
+   &.tl {
+    top: -2.1em;
+    left: -2.1em;
+    
+    &:nth-child(2) {
+      top: -2.1em;
+      left: 2.1em;
+    }
+  }
+
+  // bottom / right
+   &.br {
+    bottom: -2.1em;
+    right: -2.1em;
+  }
+
+  // bottom / left
+   &.bl {
+    bottom: -2.1em;
+    left: -2.1em;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .item-button {
+    border: 1px solid white;
+    width: 4.6em;
+    height: 4.6em;
+    
+    // top / right
+    &.tr {
+      top: -3.1em;
+      right: -3.1em;
+    }
+
+    // top / left
+     &.tl {
+      top: -3.1em;
+      left: -3.1em;
+      
+      &:nth-child(2) {
+        top: -3.1em;
+        left: 2.1em;
+      }
+    }
+
+    // bottom / right
+     &.br {
+      bottom: -3.1em;
+      right: -3.1em;
+    }
+
+    // bottom / left
+     &.bl {
+      bottom: -3.1em;
+      left: -3.1em;
+    }
+  }
+}
+
+.panel-button {
+  position: absolute;
+  box-shadow: 0 0 0 1px #b4b4b4 inset;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  @include linear-gradient(rgb(254,254,254),rgb(223,223,223));
+  text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+  
+  height: 2.3em;
+  width: 2.3em;
+  font-weight: bold;
+  font-size: 1.7em;
+  line-height: 2.5em;
+  
+  &:hover,
+  &:active,
+  &:focus {
+      @include linear-gradient(rgb(223,223,223),rgb(254,254,254));
+  }
+  &.yep {
+    color: #90c541;
+  } 
+
+  &.nope {
+    color: #be1d25;
+  } 
+}
+
+.edit-button {
+  @extend .action-button;
+  @extend .large-button;
+  @extend .button;
+}
+
+.ut-item {
+  position: absolute;
+  border: .2em solid transparent;
+  box-shadow: none;
+  @include box-sizing(content-box);
 }

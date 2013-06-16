@@ -15,7 +15,7 @@
 
 // Urturn mixins
 .font-size(@sizeValue) {
-  @remValue: (@sizeValue/10);
+  @remValue: (@sizeValue/@baseFontSize);
   @pxValue: (@sizeValue);
   font-size: ~"@{pxValue}px";
   font-size: ~"@{remValue}rem";
@@ -35,51 +35,58 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
-h1 { font-size: @baseFontSize * 2.5; }
-h2 { font-size: @baseFontSize * 2.0; }
-h3 { font-size: @baseFontSize * 1.5; }
+h1 { font-size: @baseFontSize * 2.5; line-height: 1.4em; }
+h2 { font-size: @baseFontSize * 2.0; line-height: 1.4em; }
+h3 { font-size: @baseFontSize * 1.5; line-height: 1.4em; }
 
 // Brand identity
 .navbar {
-  .font-size(16px);
+  .font-size(16);
 
   .brand {
-    .font-size(25px);
+    font-weight: 400;
+    text-shadow: 0 1px 0 rgba(0,0,0,.25);
 
     &:hover,
     &:active,
     &:focus {
-      color: @textColor;
-
-      .logo {
-        background-color: darken(@red,5%);
-      }
+      opacity: .9;
     }
 
     &.with_logo {
       padding-top: 0;
       padding-bottom: 0;
 
-      line-height: 50px;
+      line-height: @navbarHeight;
     }
 
     .logo {
       display: inline-block;
-      width: 112px;
-      height: 44px;
-      margin: 0 12px 0 0;
+      width: 84px;
+      height: @navbarHeight;
+      margin: 0 16px 0 0;
 
       color: transparent;
       text-shadow: none;
 
-      background: @red url(../images/logo.png) no-repeat 50% 45%;
+      background: url(../images/logo.png) no-repeat 50% 40%;
     }
 
     strong {
       display: none;
     }
   }
+
+  .nav > li > a {
+    text-shadow: 0 1px 0 rgba(0,0,0,.25);
+  }
 }
+
+.navbar-inner {
+  background: @bloodyRed;
+  border: none;
+}
+
 .hero-unit{
   padding: 40px;
   margin-bottom: 20px;
@@ -87,6 +94,7 @@ h3 { font-size: @baseFontSize * 1.5; }
   .border-radius(4px);
   .box-shadow(0px 0px 5px rgba(0,0,0,.1));
 }
+
 .well{
   border: none;
   .border-radius(4px);
@@ -99,6 +107,7 @@ h3 { font-size: @baseFontSize * 1.5; }
     margin-bottom: 0;
   }
 }
+
 /* Useful to put navs in */
 .well-light {
   padding: 0;
@@ -106,31 +115,8 @@ h3 { font-size: @baseFontSize * 1.5; }
 
 // Urturn Buttons
 .btn{
-  font-style: normal;
-  text-indent: 0px;
-  vertical-align: top;
+  .buttonBackground(@btnBackground, @btnBackgroundHighlight, @white, 0 1px 1px rgba(255,255,255,.75));
   text-shadow: none;
-  &.small{
-    padding: 5px 5px;
-    .border-radius(2px);
-  }
-  &:hover{
-    color: @white;
-  }
-  .buttonBackground(@grayButton, @grayButtonDark, @grayButtonDark, 0 1px 1px rgba(255,255,255,.75));
-  .border-radius(2px);
-  padding: 10px 14px;
-  color: @white;
-  text-shadow: none;
-  .font-size(16px);
-  font-weight: light;
-  &.small{
-    padding: 5px 20px 4px 20px;
-    .font-size(16px);
-  }
-  &:hover{
-    color: @white;
-  }
 }
 
 .btn-primary{
@@ -138,7 +124,7 @@ h3 { font-size: @baseFontSize * 1.5; }
   .buttonBackground(@redButton, @redButtonDark, @redButtonDark, 0 1px 1px rgba(255,255,255,.75));
   .border-radius(2px);
   text-shadow: none;
-  .font-size(16px);
+  .font-size(16);
   padding: 10px 20px;
   color: @white;
   &:hover{
@@ -151,6 +137,12 @@ h3 { font-size: @baseFontSize * 1.5; }
   background-color: @grayDarker;
   color: @white;
   padding: 40px 0;
+  @media (max-width: 767px) {
+      margin-right: -20px;
+      margin-left: -20px;
+      padding-left: 20px;
+      padding-right: 20px;
+  }
 }
 .footer-menu i{
   background: url('../images/icons/icone_contact_30px.png');
@@ -176,67 +168,65 @@ h3 { font-size: @baseFontSize * 1.5; }
 
 // Elements
 pre {
+  font-size: 12px;
   background-color: @white;
+  border-color: rgb(217,217,217);
   .border-radius(4px);
+
+  code {
+    background: none;
+    border: none;
+  }
 }
 code {
-  color: #780dc0;
-  background-color: @white;
+  color: @bloodyRed;
+  font-weight: normal;
+  background: white;
 }
 
-.navbar-inner{
-  background: url('../images/patterns/bg_header.png') repeat;
+.navbar .btn-navbar {
+  .buttonBackground(darken(@navbarBackgroundHighlight, 18%), darken(@navbarBackground, 18%));
 }
 
-// Doc navigation (inspired by bootstrap website documentation docs.css, not a really nice code indeed)
-.bs-docs-sidenav .nav-header{
-  border: 1px solid #ddd;
-  .font-size(12);
-  padding: 0.3em 0.6em;
-  line-height: 1.3em;
-  font-weight: 400;
-}
-.bs-docs-sidenav {
-  background-color: #fff;
-  .border-radius(4px);
-  .box-shadow(0 1px 4px rgba(0,0,0,.065));
-  & > li > a {
-  display: block;
-  margin: 0 0 -1px;
-  padding: 8px 14px;
-  border: 1px solid #e5e5e5;
+@media (max-width: 979px){
+  .navbar-fixed-top .navbar-inner,
+  .navbar-fixed-bottom .navbar-inner {
+    padding: 0px;
+  }
+
+  .nav-collapse .nav > li > a {
+    color: white;
+
+    &:hover {
+      background-color: lighten(@bloodyRed,5%);
+    }
   }
 }
-.bs-docs-sidenav > li:first-child > a {
-  border-radius: 6px 6px 0 0;
-}
-.bs-docs-sidenav > li:last-child > a {
-  border-radius: 0 0 6px 6px;
-}
-.bs-docs-sidenav .bs-docs-sidenav{
-  margin-bottom: 0em;
-  & > li:last-child > a {
-    border-radius: 0 0 0 0;
+
+
+// Quote
+// Blockquotes
+blockquote {
+  padding: 0 0 0 16px;
+  margin: 0 0 @baseLineHeight;
+  border-left: 3px solid @grayLighter;
+  padding: 0.8em;
+  background-color: lighten(@grayLighter, 6%);
+  p {
+    color: @grayLight;
+    margin-bottom: 0;
+    font-size: @baseFontSize;
   }
-  a{
-    padding-left: 2em;
+  small {
+    display: block;
+    line-height: @baseLineHeight;
+    color: @grayLight;
+    &:before {
+      content: '\2014 \00A0';
+    }
   }
 }
-.bs-docs-sidenav > li > a:hover, .bs-docs-sidenav > .active > a:hover {
-  background-color: #e5e5e5;
-  color: @redButtonDark;
-}
-.bs-docs-sidenav > .active > a, .bs-docs-sidenav > .active > a:hover {
-  background-color: @red;
-  color: @white;
-}
-.bs-docs-sidenav > .active > a{
-  position: relative;
-  z-index: 2;
-  border: 0;
-  text-shadow: 0 1px 0 rgba(0,0,0,.15);
-  box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-}
+
 
 hr{
   height: 20px;
@@ -253,7 +243,14 @@ hr{
     top: 0;
     background-color: rgba(230,230,230, 0.25);
     border-radius: 50%;
-    box-shadow: rgba(150, 150, 150, 0.5) 0 5px 10px;
+    .box-shadow(rgba(150, 150, 150, 0.5) 0 5px 10px);
     clip: rect(20px, auto, 50px, 0);
   }
+}
+
+
+// Tables
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+  background-color: rgb(245,245,245);
 }

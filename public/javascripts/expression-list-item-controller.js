@@ -8,7 +8,7 @@ sandbox.ExpressionListItemController = function(expression){
   var liNode;
   var ulNode;
   var itemTemplate = '<li><div class="box">' +
-      '<div class="banner" style="background-image:url($bannerPath)"></div>' +
+      '<img class="banner" src="$bannerPath"/>' +
       '<div class="expression-item-title">$title</div>'+
       '<span class="expression-item-idcard">$systemName-$version</span> - '+
       '<spandiv class="description">$description</span>' +

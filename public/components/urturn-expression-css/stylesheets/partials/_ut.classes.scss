@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@import "../modules/mixins";
+@import "../modules/variables";
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -30,14 +30,6 @@ hgroup, nav, section {
   @include transform(translateZ(0));
 
   -webkit-font-smoothing: antialiased;
-}
-
-[placeholder]:focus::-webkit-input-placeholder {
-  /* Get rid of persistent placeholders in webkit, where the placeholder
-     hangs around like an old fart. More here:
-     http://adactio.com/journal/6147/
-  */
-  color: transparent;
 }
 
 .clearfix:after {
@@ -222,7 +214,6 @@ hgroup, nav, section {
   }
 }
 
-
 /* spaced children */
 
 .horizontal > .spaced {
@@ -231,94 +222,6 @@ hgroup, nav, section {
 
 .vertical > .spaced {
   margin: 1.3333em 0;
-}
-
-/* Putting objects of unknown width/height in the centre */
-
-.central {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -o-box;
-  display: -ms-box;
-  display: box;
-
-  /* FF shrinks the width of boxes with display: box; */
-  width: 100%;
-
-  -webkit-box-align: center;
-  -moz-box-align:    center;
-  -o-box-align:      center;
-  box-align:         center;
-
-  -webkit-box-pack: center;
-  -moz-box-pack:    center;
-  -o-box-pack:      center;
-  box-pack:         center;
-}
-
-/* Links as buttons, thumbnails,  classes */
-
-.button:hover,
-.button:focus {
-  text-decoration: none;
-}
-
-.button {
-  
-  @include background-clip(padding-box);
-  @include background-origin(padding-box);
-  display: inline-block;
-
-  overflow: hidden;
-  padding-right: 0.75em;
-  padding-left: 0.75em;
-
-  height: 2em;
-  border-width: 0;
-  background-repeat: no-repeat;
-
-  color: rgb(96,96,96);
-  vertical-align: baseline;
-  text-align: center;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 2em;
-
-  cursor: pointer;
-}
-
-.button.loading,
-.button.disabled {
-  opacity: 0.6;
-}
-
-.button input {
-  display: inline;
-  margin-right: 0.5em;
-  margin-left: 0.5em;
-  height: auto;
-  vertical-align: baseline;
-}
-
-/* .thumb */
-
-.thumb {
-
-  @include background-size(100% auto);
-  display: inline-block;
-  overflow: hidden;
-
-  padding-top: 64px;
-  width: 64px;
-  height: 0;
-
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  color: inherit;
-  vertical-align: baseline;
-
-  text-decoration: none;
 }
 
 /* Positioning */
@@ -393,43 +296,58 @@ hgroup, nav, section {
   margin-left: 0.5em;
 }
 
-/* Loading Dots */
+//* Loading Dots */
 .loading_dots {
-  width: 11em;
-  height: 1.2em;
-  line-height: 1.2em;
-  margin: 1.6em auto;
+  width: 110px;
+  height: 12px;
+  line-height: 12px;
+  margin: 16px auto;
   text-align: center;
-  z-index: 21;
 
   span {
     display: block;
     float: left;
-    width: 1.2em;
-    height: 1.2em;
-    margin: 0 0.5em;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
 
     vertical-align: middle;
 
     background-color: $electric-red;
     border-radius: 50%;
     -webkit-transform: translateZ(0); // Enable GPU
-    @include animation(fadin .4s infinite alternate);
+    -webkit-animation: fadin .4s infinite alternate;
+       -moz-animation: fadin .4s infinite alternate;
+         -o-animation: fadin .4s infinite alternate;
+            animation: fadin .4s infinite alternate;
 
     &:nth-child(2) {
-      @include animation-delay(0.1s);
+      -webkit-animation-delay: 0.1s;
+         -moz-animation-delay: 0.1s;
+          -ms-animation-delay: 0.1s;
+           -o-animation-delay: 0.1s;
+              animation-delay: 0.1s;
     }
-
     &:nth-child(3) {
-     @include animation-delay(0.2s);
+      -webkit-animation-delay: 0.2s;
+         -moz-animation-delay: 0.2s;
+          -ms-animation-delay: 0.2s;
+           -o-animation-delay: 0.2s;
+              animation-delay: 0.2s;
     }
-
     &:nth-child(4) {
-      @include animation-delay(0.3s);
+      -webkit-animation-delay: 0.3s;
+         -moz-animation-delay: 0.3s;
+          -ms-animation-delay: 0.3s;
+           -o-animation-delay: 0.3s;
+              animation-delay: 0.3s;
     }
-
     &:nth-child(5) {
-      @include animation-delay(0.4s);
+      -webkit-animation-delay: 0.4s;
+         -moz-animation-delay: 0.4s;
+          -ms-animation-delay: 0.4s;
+           -o-animation-delay: 0.4s;
+              animation-delay: 0.4s;
     }
   }
 
@@ -438,18 +356,6 @@ hgroup, nav, section {
     left: 0;
     right: 0;
     z-index: 1;
-  }
-
-  &.white_dots span {
-    background-color: white;
-  }
-
-  &.centered {
-    top: 50%;
-    left: 50%;
-    margin-top: -0.6em;
-    margin-left: -5.5em;
-    z-index: 2;
   }
 }
 

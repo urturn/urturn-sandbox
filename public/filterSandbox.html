@@ -1,60 +1,69 @@
 <!doctype HTML>
 <html>
 <head>
-    <!-- http://evanw.github.com/glfx.js/ -->
-    <script src="./components/glfx.js"></script> <title>Filters Sandbox</title>
-    <link href="components/bootstrap-urturn/urturn-theme/css/urturn.css" rel="stylesheet">
-    <link href="components/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
+  <!-- http://evanw.github.com/glfx.js/ -->
+  <script src="./components/glfx.js"></script> <title>Filters Sandbox</title>
+  <link href="components/bootstrap-urturn/urturn-theme/css/urturn.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/style.css"/>
 
-     <style>
-        .deleteButton
-        {
-            float : right;
-            display : block;
-        }
+  <style>
+  .deleteButton
+  {
+    float : right;
+    display : block;
+  }
 
-        .image
-        {
-            width : 120px;
-            height : 80px;
-            display : inline-block;
-            margin : 2px;
-            border : 1px solid #888;
-        }
+  .image
+  {
+    width : 120px;
+    height : 80px;
+    display : inline-block;
+    margin : 2px;
+    border : 1px solid #888;
+  }
 
-        .frame
-        {
-            width : 650px;
-            display : block;
-            margin : auto;
-            clear : both;
-        }
+  .frame
+  {
+    width : 650px;
+    display : block;
+    margin : auto;
+    clear : both;
+  }
 
-         .subframe
-        {
-            display : block;
-            float : left;
-            margin-top : 5px;
-            margin-left:   0px;
-            margin-right: 0px;
-            margin-bottom: 5px;
-        }
+  .subframe
+  {
+    display : block;
+    float : left;
+    margin-top : 5px;
+    margin-left:   0px;
+    margin-right: 0px;
+    margin-bottom: 5px;
+  }
 
-     </style>
+  </style>
 </head>
 
 <body>
-
   <header class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <a class="brand" href="/" data-bookmark="home">Urturn Expression Sandbox</a>
-        <ul class="nav">
-          <li><a href="http://webdoc.github.io/urturn-expression-api/">API Reference</a></li>
-          <li class="active"><a href="filterSandbox.html">Filter Editor</a></li>
-          <li><a href="components/urturn-expression-css/">Base CSS</a></li>
-        </ul>
+        <a class="brand with_logo" href="/">
+          <span class="logo">Urturn</span>Expression Sandbox
+        </a>
+
+        <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <div class="nav-collapse collapse" style="height: 0px;">
+          <ul class="nav pull-right">
+            <li><a href="http://developers.urturn.com">Documentation</a></li>
+            <li><a href="filterSandbox.html">Filter Editor</a></li>
+            <li><a href="components/urturn-expression-css/">Base CSS</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
@@ -65,21 +74,21 @@
 
         <input type='button' value='Get JSON string to use on expression!' class='btn btn-info' onclick='getJSON()'/> <br/><br/>
         <input type='button' value='Load filter from JSON string!' class='btn btn-info' onclick='loadJSON()'/>
-       <br/><br/>
+        <br/><br/>
         <select id='filter'>
-            <option value="brightness">Brightness</option>
-            <option value="contrast">Contrast</option>
-            <option value="hue">Hue</option>
-            <option value="saturation">Saturation</option>
-            <option value="sepia">Sepia</option>
-            <option value="threshold">Threshold</option>
-            <option value="colorinvert">Color Invert</option>
-            <option value="vignette">Vignette</option>
-            <option value="gamma">Gamma</option>
-            <option value="exposure">Exposure</option>
-            <option value="color">Color</option>
-            <option value="noise">Noise</option>
-            
+          <option value="brightness">Brightness</option>
+          <option value="contrast">Contrast</option>
+          <option value="hue">Hue</option>
+          <option value="saturation">Saturation</option>
+          <option value="sepia">Sepia</option>
+          <option value="threshold">Threshold</option>
+          <option value="colorinvert">Color Invert</option>
+          <option value="vignette">Vignette</option>
+          <option value="gamma">Gamma</option>
+          <option value="exposure">Exposure</option>
+          <option value="color">Color</option>
+          <option value="noise">Noise</option>
+
         </select>
         <input type='button' value='[+] Add' class='btn btn-primary' onclick='add()'/>
         <div id='effectStack' style='padding-top: 10px; height : 500px; overflow : scroll'></div>
@@ -90,9 +99,9 @@
       <div class="span9 well" id="main" style="text-align:center;">
         <div id='canvas'></div>
         <div id='images'>
-            <div class='image' onclick='setVideo()'>
-                <br/><br/><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Video</b>
-            </div>
+          <div class='image' onclick='setVideo()'>
+            <br/><br/><b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Video</b>
+          </div>
         </div>
       </div>
     </div>
@@ -100,35 +109,35 @@
 
 
 
-<script>
+  <script>
 
-var SPRITES = [];
+  var SPRITES = [];
 
-function load(sprite)
-{
+  function load(sprite)
+  {
     var img = new Image();
     img.src = './sandboxImg/' + sprite + '.jpg';
     img.id = SPRITES.length;
     SPRITES.push(img);
-    img.className = 'image'; 
+    img.className = 'image';
     img.onclick = setSprite;
     document.getElementById('images').appendChild(img);
-}
+  }
 
-load('church');
-load('building');
-load('landscape');
-load('gecko');
-load('dog');
-load('market');
-load('sign');
-load('fireworks');
-load('moon');
-load('car');
-load('boat');
+  load('church');
+  load('building');
+  load('landscape');
+  load('gecko');
+  load('dog');
+  load('market');
+  load('sign');
+  load('fireworks');
+  load('moon');
+  load('car');
+  load('boat');
 
-function generateControls()
-{
+  function generateControls()
+  {
     var stack = document.getElementById('effectStack');
 
     stack.innerHTML = '';
@@ -136,158 +145,158 @@ function generateControls()
     var i = 0;
     while (i < instructions.length)
     {
-        var instruction = instructions[i];
+      var instruction = instructions[i];
 
-        var div = document.createElement('div');
-        div.className = 'well';
-        var title = document.createElement('h3');
-        title.innerHTML = instruction.filter;
+      var div = document.createElement('div');
+      div.className = 'well';
+      var title = document.createElement('h3');
+      title.innerHTML = instruction.filter;
 
-        var btngroup = document.createElement('div');
-        btngroup.className = 'btn-group';
+      var btngroup = document.createElement('div');
+      btngroup.className = 'btn-group';
 
-        var deleteButton = document.createElement('input');
-        deleteButton.type = 'button';
-        deleteButton.onclick = deleteItem;
-        deleteButton.id = i;
-        deleteButton.value = 'delete';
-        deleteButton.className = 'btn btn-danger deleteButton';
-        btngroup.appendChild(deleteButton);
+      var deleteButton = document.createElement('input');
+      deleteButton.type = 'button';
+      deleteButton.onclick = deleteItem;
+      deleteButton.id = i;
+      deleteButton.value = 'delete';
+      deleteButton.className = 'btn btn-danger deleteButton';
+      btngroup.appendChild(deleteButton);
 
-        var upButton = document.createElement('input');
-        upButton.type = 'button';
-        upButton.onclick = upItem;
-        upButton.id = i;
-        upButton.value = 'up';
-        upButton.className = 'btn btn-info deleteButton';
-        btngroup.appendChild(upButton);
+      var upButton = document.createElement('input');
+      upButton.type = 'button';
+      upButton.onclick = upItem;
+      upButton.id = i;
+      upButton.value = 'up';
+      upButton.className = 'btn btn-info deleteButton';
+      btngroup.appendChild(upButton);
 
-        var downButton = document.createElement('input');
-        downButton.type = 'button';
-        downButton.onclick = downthisItem;
-        downButton.id = i;
-        downButton.value = 'dw';
-        downButton.className = 'btn btn-info deleteButton';
-        btngroup.appendChild(downButton);
+      var downButton = document.createElement('input');
+      downButton.type = 'button';
+      downButton.onclick = downthisItem;
+      downButton.id = i;
+      downButton.value = 'dw';
+      downButton.className = 'btn btn-info deleteButton';
+      btngroup.appendChild(downButton);
 
-        div.appendChild(title).appendChild(btngroup);
+      div.appendChild(title).appendChild(btngroup);
 
-        for (para in instruction.parameters)
-        {
-            var local = document.createElement('div');
-            local.innerHTML = para;
-            div.appendChild(local);
+      for (para in instruction.parameters)
+      {
+        var local = document.createElement('div');
+        local.innerHTML = para;
+        div.appendChild(local);
 
-            var local = document.createElement('div');
+        var local = document.createElement('div');
 
-            var  slider = document.createElement('input');
-            
-            slider.type = 'range';     
-            console.log('Loading controls for : ' + instruction.filter + ' ' + para);
-            slider.min = FILTERS[instruction.filter][para][0];
-            slider.max = FILTERS[instruction.filter][para][1];
-            slider.step = FILTERS[instruction.filter][para][2];
-            slider.onchange = update;
-            slider.id = i;
-            slider.name = para;
-            slider.value = instruction.parameters[para];
-           
-            local.appendChild(slider);
+        var  slider = document.createElement('input');
 
+        slider.type = 'range';
+        console.log('Loading controls for : ' + instruction.filter + ' ' + para);
+        slider.min = FILTERS[instruction.filter][para][0];
+        slider.max = FILTERS[instruction.filter][para][1];
+        slider.step = FILTERS[instruction.filter][para][2];
+        slider.onchange = update;
+        slider.id = i;
+        slider.name = para;
+        slider.value = instruction.parameters[para];
 
-            var  sliderValue = document.createElement('span');
-            sliderValue.innerHTML = instruction.parameters[para];
-            sliderValue.id = i + '-'+ para;
-            local.appendChild(sliderValue);
+        local.appendChild(slider);
 
 
-            div.appendChild(local);
+        var  sliderValue = document.createElement('span');
+        sliderValue.innerHTML = instruction.parameters[para];
+        sliderValue.id = i + '-'+ para;
+        local.appendChild(sliderValue);
 
 
-        }
-        stack.appendChild(div);
-        
-        ++i;
+        div.appendChild(local);
+
+
+      }
+      stack.appendChild(div);
+
+      ++i;
     }
 
-}
+  }
 
-function upItem()
-{
+  function upItem()
+  {
     if (this.id > 0)
     {
-        var d = instructions[this.id];
-        instructions[this.id] = instructions[this.id - 1];
-        instructions[this.id - 1] = d;
-        generateControls();
+      var d = instructions[this.id];
+      instructions[this.id] = instructions[this.id - 1];
+      instructions[this.id - 1] = d;
+      generateControls();
     }
-}
+  }
 
-function downthisItem()
-{
+  function downthisItem()
+  {
 
     if (this.id < instructions.length - 1)
     {
-        var id = this.id - 1 + 1;
-        var d = instructions[id];
-        instructions[id] = instructions[id + 1];
-        instructions[id + 1] = d;
-        generateControls();
+      var id = this.id - 1 + 1;
+      var d = instructions[id];
+      instructions[id] = instructions[id + 1];
+      instructions[id + 1] = d;
+      generateControls();
     }
-}
+  }
 
-function bindIt()
-{
+  function bindIt()
+  {
     instructions[this.id].syncMusic = this.name;
     instructions[this.id].base = instructions[this.id].parameters[this.name];
-}
+  }
 
 
-function deleteItem()
-{
+  function deleteItem()
+  {
     instructions.splice(this.id, 1);
     generateControls();
-}
+  }
 
-function update()
-{
+  function update()
+  {
     var id = this.id;
     var para = this.name;
 
     instructions[id].parameters[para] = this.value;
     document.getElementById(id + '-' + para).innerHTML = this.value;
-}
+  }
 
 
 
-function hasGetUserMedia() {
+  function hasGetUserMedia() {
   // Note: Opera is unprefixed.
   return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+    navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
 
 
-  var onFailSoHard = function(e) {
-    console.log('Reeeejected!', e);
-  };
+var onFailSoHard = function(e) {
+  console.log('Reeeejected!', e);
+};
 
- window.URL = window.URL || window.webkitURL;
+window.URL = window.URL || window.webkitURL;
 navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-                          navigator.mozGetUserMedia || navigator.msGetUserMedia;
+navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 var video = document.createElement('video');
 
 
 if (navigator.getUserMedia) {
-    console.log('ask');
+  console.log('ask');
   navigator.getUserMedia({audio: true, video: true}, function(stream) {
     video.src = window.URL.createObjectURL(stream);
-    
+
     console.log(video.videoWidth);
 
     APP.videoWidth = (video.videoWidth) ? video.videoWidth : 640;
     APP.videoHeight = (video.videoHeight) ? video.videoHeight : 480;
-    
+
     APP.frontCanvas = document.createElement('canvas');
     APP.frontCanvas.width = APP.videoWidth;
     APP.frontCanvas.height = APP.videoHeight;
@@ -309,13 +318,13 @@ var DISPLAYED_SPRITE = 0;
 
 function setVideo()
 {
-    DISPLAY_VIDEO = 1;
+  DISPLAY_VIDEO = 1;
 }
 
 function setSprite(event)
 {
-    DISPLAY_VIDEO = 0;
-    DISPLAYED_SPRITE = this.id | 0;
+  DISPLAY_VIDEO = 0;
+  DISPLAYED_SPRITE = this.id | 0;
 }
 
 var texture = null;
@@ -325,102 +334,102 @@ var nCompute = 15;
 
 function run() {
 
-    canvas = fx.canvas();
-    texture = canvas.texture(APP.frontCanvas);
+  canvas = fx.canvas();
+  texture = canvas.texture(APP.frontCanvas);
 
-    document.getElementById('canvas').appendChild(canvas);
-    setInterval(frame, 10);
-    video.play();
+  document.getElementById('canvas').appendChild(canvas);
+  setInterval(frame, 10);
+  video.play();
 };
 
 function getImage(target)
 {
-    DISPLAYED_SPRITE = target;
-    frame();
-    return canvas;
+  DISPLAYED_SPRITE = target;
+  frame();
+  return canvas;
 }
 
 function getAFrame(i)
 {
-    var f = getImage(i);
-    var canvas = document.createElement('canvas');
-    canvas.width = i.width;
-    canvas.height = i.height;
-    canvas.style.width = i.width + 'px';
-    canvas.style.height = i.height + 'px';
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(f, 0,0,i.width,i.height);
-    return canvas;
+  var f = getImage(i);
+  var canvas = document.createElement('canvas');
+  canvas.width = i.width;
+  canvas.height = i.height;
+  canvas.style.width = i.width + 'px';
+  canvas.style.height = i.height + 'px';
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(f, 0,0,i.width,i.height);
+  return canvas;
 }
 
 function getAllFrame()
 {
-    var i = 0;
-    
-    var div = document.createElement('div');
-    div.name = 'frame' + (Math.random() * 1000 | 0);
-    div.className = 'frame well'
-    while (i < SPRITES.length)
-    {
-       var img = document.createElement('img');
-       img.width = 320;
-       img.height = (320 / SPRITES[i].width) * SPRITES[i].height | 0;
-       img.src = SPRITES[i].src;
-       img.className = 'subframe';
-       div.appendChild(img);
+  var i = 0;
 
-       var e = getAFrame(i++);
-       e.className = 'subframe';
-       div.appendChild(e);
-    }
-    var end = document.createElement('div');
-    end.style.clear = 'both';
-    end.innerHTML = '<p><b>Filter JSON : </b></p>' + getJSONString();
-    div.appendChild(end);
-    document.body.appendChild(div);
-    window.location = '#' + div.name;
+  var div = document.createElement('div');
+  div.name = 'frame' + (Math.random() * 1000 | 0);
+  div.className = 'frame well'
+  while (i < SPRITES.length)
+  {
+   var img = document.createElement('img');
+   img.width = 320;
+   img.height = (320 / SPRITES[i].width) * SPRITES[i].height | 0;
+   img.src = SPRITES[i].src;
+   img.className = 'subframe';
+   div.appendChild(img);
+
+   var e = getAFrame(i++);
+   e.className = 'subframe';
+   div.appendChild(e);
+ }
+ var end = document.createElement('div');
+ end.style.clear = 'both';
+ end.innerHTML = '<p><b>Filter JSON : </b></p>' + getJSONString();
+ div.appendChild(end);
+ document.body.appendChild(div);
+ window.location = '#' + div.name;
 }
 
 function frame()
 {
-    APP.ctx.fillStyle = '#000';
-    APP.ctx.fillRect(0,0,1000, 1000);
+  APP.ctx.fillStyle = '#000';
+  APP.ctx.fillRect(0,0,1000, 1000);
 
-    if (DISPLAY_VIDEO)
-        APP.ctx.drawImage(video, 0, 0);
-    else
-        APP.ctx.drawImage(SPRITES[DISPLAYED_SPRITE], 0, 0, 640, 480);
-        
-    var i = 0;
-        while (i < instructions.length)
-        {
-            var instruction = instructions[i];
+  if (DISPLAY_VIDEO)
+    APP.ctx.drawImage(video, 0, 0);
+  else
+    APP.ctx.drawImage(SPRITES[DISPLAYED_SPRITE], 0, 0, 640, 480);
 
-            if (instruction.filter == 'png')
-            {
-                var p = instruction.parameters;
-                var dx = APP.videoWidth / 100;
-                var dy = APP.videoHeight / 100;
-                if (!p.angle)
-                {
-                    APP.ctx.drawImage(STICKERS[p.image], p.xpos * dx, p.ypos * dy, p.xsize * dx, p.ysize * dy);
-                }
-                else
-                {
-                    APP.ctx.translate(-p.xpos * dx, -p.ypos * dy);
-                    APP.ctx.rotate(-p.angle * (Math.PI / 180));
-                    APP.ctx.drawImage(STICKERS[p.image], -STICKERS[p.image] / 2, -STICKERS[p.image] / 2, p.xsize * dx, p.ysize * dy);
-                    APP.ctx.rotate(p.angle * (Math.PI / 180));
-                    APP.ctx.translate(p.xpos * dx, p.ypos * dy);
-                }
-            }
-            if (instruction.filter == 'border')
-            {
-                var ctx = APP.ctx;
-                var borderImage = BORDERSSPRITES[instruction.parameters.sprite].image;
-                var borderSize = {w : borderImage.width, h : borderImage.height};
-                var cornerSize = {w : BORDERSSPRITES[instruction.parameters.sprite].size, h : BORDERSSPRITES[instruction.parameters.sprite].size};
-                var stepSize = instruction.parameters.stepSize;
+  var i = 0;
+  while (i < instructions.length)
+  {
+    var instruction = instructions[i];
+
+    if (instruction.filter == 'png')
+    {
+      var p = instruction.parameters;
+      var dx = APP.videoWidth / 100;
+      var dy = APP.videoHeight / 100;
+      if (!p.angle)
+      {
+        APP.ctx.drawImage(STICKERS[p.image], p.xpos * dx, p.ypos * dy, p.xsize * dx, p.ysize * dy);
+      }
+      else
+      {
+        APP.ctx.translate(-p.xpos * dx, -p.ypos * dy);
+        APP.ctx.rotate(-p.angle * (Math.PI / 180));
+        APP.ctx.drawImage(STICKERS[p.image], -STICKERS[p.image] / 2, -STICKERS[p.image] / 2, p.xsize * dx, p.ysize * dy);
+        APP.ctx.rotate(p.angle * (Math.PI / 180));
+        APP.ctx.translate(p.xpos * dx, p.ypos * dy);
+      }
+    }
+    if (instruction.filter == 'border')
+    {
+      var ctx = APP.ctx;
+      var borderImage = BORDERSSPRITES[instruction.parameters.sprite].image;
+      var borderSize = {w : borderImage.width, h : borderImage.height};
+      var cornerSize = {w : BORDERSSPRITES[instruction.parameters.sprite].size, h : BORDERSSPRITES[instruction.parameters.sprite].size};
+      var stepSize = instruction.parameters.stepSize;
                 //console.log(instruction);
 
                 var w = APP.videoWidth;
@@ -428,80 +437,80 @@ function frame()
 
                 ctx.drawImage(borderImage, 0,0, cornerSize.w, cornerSize.h, 0,0, cornerSize.w, cornerSize.h);
                 ctx.drawImage(
-                            borderImage, 
-                            borderSize.w - cornerSize.w 
-                            ,0, 
-                            cornerSize.w,
-                            cornerSize.h, 
-                            w - cornerSize.w,
-                            0, cornerSize.w, 
-                            cornerSize.h
-                        );
+                  borderImage,
+                  borderSize.w - cornerSize.w
+                  ,0,
+                  cornerSize.w,
+                  cornerSize.h,
+                  w - cornerSize.w,
+                  0, cornerSize.w,
+                  cornerSize.h
+                  );
                 ctx.drawImage(
-                            borderImage, 
-                            borderSize.w - cornerSize.w 
-                            , borderSize.h - cornerSize.h , 
-                            cornerSize.w,
-                            cornerSize.h, 
-                            w - cornerSize.w,
-                            h - cornerSize.h,
-                            cornerSize.w, 
-                            cornerSize.h
-                        );
+                  borderImage,
+                  borderSize.w - cornerSize.w
+                  , borderSize.h - cornerSize.h ,
+                  cornerSize.w,
+                  cornerSize.h,
+                  w - cornerSize.w,
+                  h - cornerSize.h,
+                  cornerSize.w,
+                  cornerSize.h
+                  );
                 ctx.drawImage(
-                            borderImage, 
-                            0 
-                            , borderSize.h - cornerSize.h , 
-                            cornerSize.w,
-                            cornerSize.h, 
-                            0,
-                            h - cornerSize.h,
-                            cornerSize.w, 
-                            cornerSize.h
-                        );
+                  borderImage,
+                  0
+                  , borderSize.h - cornerSize.h ,
+                  cornerSize.w,
+                  cornerSize.h,
+                  0,
+                  h - cornerSize.h,
+                  cornerSize.w,
+                  cornerSize.h
+                  );
 
-              
+
 
 
                 if (! instruction.parameters.stretch)
                 {
-                    var stepWidth = borderSize.w- cornerSize.w * 2;
-                    var stepWidthFinal = stepWidth;
-                    var borderWidthNeed = w - cornerSize.w * 2;
-                    var stepCount = borderWidthNeed / stepWidth;
-                    if (stepCount| 0 != stepCount)
-                    {
-                        stepWidthFinal += (stepWidth * (stepCount - (stepCount | 0))) / (stepCount | 0);
-                        stepCount |= 0;
-                    }
+                  var stepWidth = borderSize.w- cornerSize.w * 2;
+                  var stepWidthFinal = stepWidth;
+                  var borderWidthNeed = w - cornerSize.w * 2;
+                  var stepCount = borderWidthNeed / stepWidth;
+                  if (stepCount| 0 != stepCount)
+                  {
+                    stepWidthFinal += (stepWidth * (stepCount - (stepCount | 0))) / (stepCount | 0);
+                    stepCount |= 0;
+                  }
 
-                    var i = 0;
-                    while (i < stepCount)
-                    {
-                        ctx.drawImage(
-                                borderImage,
-                                cornerSize.w,
-                                0,
-                                stepWidth,
-                                cornerSize.h,
-                                cornerSize.w + i * stepWidthFinal,
-                                0,
-                                stepWidthFinal,
-                                cornerSize.h
-                            );
-                         ctx.drawImage(
-                                borderImage,
-                                cornerSize.w,
-                                borderSize.h - cornerSize.h,
-                                stepWidth,
-                                cornerSize.h,
-                                cornerSize.w + i * stepWidthFinal,
-                                h - cornerSize.h,
-                                stepWidthFinal,
-                                cornerSize.h
-                            );
-                        ++i;
-                    }
+                  var i = 0;
+                  while (i < stepCount)
+                  {
+                    ctx.drawImage(
+                      borderImage,
+                      cornerSize.w,
+                      0,
+                      stepWidth,
+                      cornerSize.h,
+                      cornerSize.w + i * stepWidthFinal,
+                      0,
+                      stepWidthFinal,
+                      cornerSize.h
+                      );
+                    ctx.drawImage(
+                      borderImage,
+                      cornerSize.w,
+                      borderSize.h - cornerSize.h,
+                      stepWidth,
+                      cornerSize.h,
+                      cornerSize.w + i * stepWidthFinal,
+                      h - cornerSize.h,
+                      stepWidthFinal,
+                      cornerSize.h
+                      );
+                    ++i;
+                  }
                     // LEFT RIGHT BORDERS
                     var stepHeight = borderSize.h- cornerSize.h * 2;
                     var stepHeightFinal = stepHeight;
@@ -509,277 +518,277 @@ function frame()
                     var stepCount = borderHeightNeed / stepHeight;
                     if (stepCount| 0 != stepCount)
                     {
-                        stepHeightFinal += (stepHeight * (stepCount - (stepCount | 0))) / (stepCount | 0);
-                        stepCount |= 0;
+                      stepHeightFinal += (stepHeight * (stepCount - (stepCount | 0))) / (stepCount | 0);
+                      stepCount |= 0;
                     }
 
                     var i = 0;
                     while (i < stepCount)
                     {
-                        ctx.drawImage(
-                                borderImage,
-                                0,
-                                cornerSize.h,
-                                cornerSize.w,
-                                stepHeight,
-                                0,
-                                cornerSize.h + i * stepHeightFinal,
-                                cornerSize.w,
-                                stepHeightFinal
-                            );
-                         ctx.drawImage(
-                                borderImage,
-                                borderSize.w - cornerSize.w,
-                                cornerSize.h,
-                                cornerSize.w,
-                                stepHeight,
-                                w - cornerSize.w,
-                                cornerSize.h + i * stepHeightFinal,
-                                cornerSize.w,
-                                stepHeightFinal
-                            );
-                        ++i;
+                      ctx.drawImage(
+                        borderImage,
+                        0,
+                        cornerSize.h,
+                        cornerSize.w,
+                        stepHeight,
+                        0,
+                        cornerSize.h + i * stepHeightFinal,
+                        cornerSize.w,
+                        stepHeightFinal
+                        );
+                      ctx.drawImage(
+                        borderImage,
+                        borderSize.w - cornerSize.w,
+                        cornerSize.h,
+                        cornerSize.w,
+                        stepHeight,
+                        w - cornerSize.w,
+                        cornerSize.h + i * stepHeightFinal,
+                        cornerSize.w,
+                        stepHeightFinal
+                        );
+                      ++i;
                     }
-                 }
-                 else
-                 {
+                  }
+                  else
+                  {
                     var sx = borderSize.w - cornerSize.w * 2;
-                 }
-               
+                  }
+
+                }
+                ++i;
+              }
+
+              texture.loadContentsOf(APP.frontCanvas);
+              render();
             }
-            ++i;
-        }
-
-        texture.loadContentsOf(APP.frontCanvas);
-       render();
-}
 
 
 
-var instructions = []
+            var instructions = []
 
-var FILTERS = [];
+            var FILTERS = [];
 
-FILTERS ['brightness'] = 
-{
-    strength : [-1, 1, 0.02]
-};
+            FILTERS ['brightness'] =
+            {
+              strength : [-1, 1, 0.02]
+            };
 
-FILTERS ['contrast'] = 
-{
-    strength : [-1, 1, 0.02]
-};
+            FILTERS ['contrast'] =
+            {
+              strength : [-1, 1, 0.02]
+            };
 
-FILTERS ['hue'] = 
-{
-    strength : [-1, 1, 0.02]
-};
+            FILTERS ['hue'] =
+            {
+              strength : [-1, 1, 0.02]
+            };
 
-FILTERS ['saturation'] = 
-{
-    strength : [-1, 1, 0.02]
-};
+            FILTERS ['saturation'] =
+            {
+              strength : [-1, 1, 0.02]
+            };
 
-FILTERS ['sepia'] = 
-{
-    strength : [0, 1, 0.01]
-};
+            FILTERS ['sepia'] =
+            {
+              strength : [0, 1, 0.01]
+            };
 
-FILTERS ['threshold'] = 
-{
-    strength : [0, 1, 0.01],
-    alpha   : [0,1,0.01],
-    primaryR : [0, 255, 1],
-    primaryG : [0, 255, 1],
-    primaryB : [0, 255, 1],
-    secondaryR : [0, 255, 1],
-    secondaryG : [0, 255, 1],
-    secondaryB : [0, 255, 1]
-};
+            FILTERS ['threshold'] =
+            {
+              strength : [0, 1, 0.01],
+              alpha   : [0,1,0.01],
+              primaryR : [0, 255, 1],
+              primaryG : [0, 255, 1],
+              primaryB : [0, 255, 1],
+              secondaryR : [0, 255, 1],
+              secondaryG : [0, 255, 1],
+              secondaryB : [0, 255, 1]
+            };
 
-FILTERS ['colorinvert'] = 
-{
-};
+            FILTERS ['colorinvert'] =
+            {
+            };
 
-FILTERS ['gradiant'] = 
-{
-};
+            FILTERS ['gradiant'] =
+            {
+            };
 
-FILTERS ['png'] = 
-{
-    image : [1, 52, 1],
-    xpos : [0,100,1],
-    ypos : [0,100,1],
-    xsize : [0,100,1],
-    ysize : [0,100,1],
-    angle : [0,360,1]
-};
+            FILTERS ['png'] =
+            {
+              image : [1, 52, 1],
+              xpos : [0,100,1],
+              ypos : [0,100,1],
+              xsize : [0,100,1],
+              ysize : [0,100,1],
+              angle : [0,360,1]
+            };
 
-FILTERS ['outlineink'] = 
-{
-    min : [0,255, 1],
-    max : [0,255, 1] 
-};
+            FILTERS ['outlineink'] =
+            {
+              min : [0,255, 1],
+              max : [0,255, 1]
+            };
 
-FILTERS ['exposure'] = 
-{
-    strength : [-1.0,1.0, 0.02],
-};
+            FILTERS ['exposure'] =
+            {
+              strength : [-1.0,1.0, 0.02],
+            };
 
-FILTERS ['gamma'] = 
-{
-    strength : [0.0,3.0, 0.02],
-};
+            FILTERS ['gamma'] =
+            {
+              strength : [0.0,3.0, 0.02],
+            };
 
-FILTERS ['softContrast'] = 
-{
-    strength : [0, 4, 0.02]
-};
-
-
-FILTERS ['vignette'] = 
-{
-    amount : [0, 1, 0.01],
-    size : [0,1,0.01],
-    centerX : [0, 1, 0.01],
-    centerY : [0, 1, 0.01],
-    r : [0, 255, 1],
-    g : [0, 255, 1],
-    b : [0, 255, 1]
-};
-
-FILTERS['color'] = 
-{
-    r : [0, 255, 1],
-    g : [0, 255, 1],
-    b : [0, 255, 1],
-    a : [0, 1, 0.01]
-};
-FILTERS['noise'] = 
-{
-    amount : [0, 1, 0.01]
-};
-
-    function add()
-    {
-        var v = document.getElementById('filter').value;
+            FILTERS ['softContrast'] =
+            {
+              strength : [0, 4, 0.02]
+            };
 
 
-        if (v == 'png')
-        {
-            var instruction = {
-                filter : 'png',
-                parameters : 
-                {
+            FILTERS ['vignette'] =
+            {
+              amount : [0, 1, 0.01],
+              size : [0,1,0.01],
+              centerX : [0, 1, 0.01],
+              centerY : [0, 1, 0.01],
+              r : [0, 255, 1],
+              g : [0, 255, 1],
+              b : [0, 255, 1]
+            };
+
+            FILTERS['color'] =
+            {
+              r : [0, 255, 1],
+              g : [0, 255, 1],
+              b : [0, 255, 1],
+              a : [0, 1, 0.01]
+            };
+            FILTERS['noise'] =
+            {
+              amount : [0, 1, 0.01]
+            };
+
+            function add()
+            {
+              var v = document.getElementById('filter').value;
+
+
+              if (v == 'png')
+              {
+                var instruction = {
+                  filter : 'png',
+                  parameters :
+                  {
                     image : 1,
                     xpos  : 0,
                     ypos  : 0,
                     xsize : 10,
                     ysize : 10,
                     angle : 0
+                  }
                 }
-            }
-        }
-        if (v == 'brightness')
-        {
-            var instruction = {
-                filter : 'brightness',
-                parameters : 
-                {
+              }
+              if (v == 'brightness')
+              {
+                var instruction = {
+                  filter : 'brightness',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
-        if (v == 'contrast')
-        {
-            var instruction = {
-                filter : 'contrast',
-                parameters : 
-                {
+              }
+              if (v == 'contrast')
+              {
+                var instruction = {
+                  filter : 'contrast',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
+              }
 
-        if (v == 'softContrast')
-        {
-            var instruction = {
-                filter : 'softContrast',
-                parameters : 
-                {
+              if (v == 'softContrast')
+              {
+                var instruction = {
+                  filter : 'softContrast',
+                  parameters :
+                  {
                     strength : 1.0
+                  }
                 }
-            }
-        }
-        if (v == 'hue')
-        {
-            var instruction = {
-                filter : 'hue',
-                parameters : 
-                {
+              }
+              if (v == 'hue')
+              {
+                var instruction = {
+                  filter : 'hue',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
-        if (v == 'saturation')
-        {
-            var instruction = {
-                filter : 'saturation',
-                parameters : 
-                {
+              }
+              if (v == 'saturation')
+              {
+                var instruction = {
+                  filter : 'saturation',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
-        if (v == 'sepia')
-        {
-            var instruction = {
-                filter : 'sepia',
-                parameters : 
-                {
+              }
+              if (v == 'sepia')
+              {
+                var instruction = {
+                  filter : 'sepia',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
-        if (v == 'outlineink')
-        {
-            var instruction = {
-                filter : 'outlineink',
-                parameters : 
-                {
+              }
+              if (v == 'outlineink')
+              {
+                var instruction = {
+                  filter : 'outlineink',
+                  parameters :
+                  {
                     min : 0.1,
                     max : 0.01
+                  }
                 }
-            }
-        }
+              }
 
-         if (v == 'colorinvert')
-        {
-            var instruction = {
-                filter : 'invertColor',
-                parameters : 
-                {
-                    
-                }
-            }
-        } 
+              if (v == 'colorinvert')
+              {
+                var instruction = {
+                  filter : 'invertColor',
+                  parameters :
+                  {
 
-          if (v == 'gradiant')
-        {
-            var instruction = {
-                filter : 'gradiant',
-                parameters : 
-                {
-                    
+                  }
                 }
-            }
-        }
-        if (v == 'threshold')
-        {
-            var instruction = {
-                filter : 'threshold',
-                parameters : 
-                {
+              }
+
+              if (v == 'gradiant')
+              {
+                var instruction = {
+                  filter : 'gradiant',
+                  parameters :
+                  {
+
+                  }
+                }
+              }
+              if (v == 'threshold')
+              {
+                var instruction = {
+                  filter : 'threshold',
+                  parameters :
+                  {
                     strength : 0.5,
                     alpha : 1.0,
                     primaryR : 0,
@@ -788,50 +797,50 @@ FILTERS['noise'] =
                     secondaryR : 255,
                     secondaryG : 255,
                     secondaryB : 255
+                  }
                 }
-            }
-        }   
-        if (v == 'exposure')
-        {
-            var instruction = {
-                filter : 'exposure',
-                parameters : 
-                {
+              }
+              if (v == 'exposure')
+              {
+                var instruction = {
+                  filter : 'exposure',
+                  parameters :
+                  {
                     strength : 0
+                  }
                 }
-            }
-        }
+              }
 
-       if (v == 'gamma')
-        {
-            var instruction = {
-                filter : 'gamma',
-                parameters : 
-                {
+              if (v == 'gamma')
+              {
+                var instruction = {
+                  filter : 'gamma',
+                  parameters :
+                  {
                     strength : 1.0
+                  }
                 }
-            }
-        }
+              }
 
-        if (v == 'border')
-        {
-            var instruction = {
-                filter : 'border',
-                parameters : 
-                {
+              if (v == 'border')
+              {
+                var instruction = {
+                  filter : 'border',
+                  parameters :
+                  {
                     sprite : 0,
                     stretch : 0
+                  }
                 }
-            }
-        }
-       
+              }
 
-        if (v == 'vignette')
-        {
-            var instruction = {
-                filter : 'vignette',
-                parameters : 
-                {
+
+              if (v == 'vignette')
+              {
+                var instruction = {
+                  filter : 'vignette',
+                  parameters :
+                  {
                     amount : 0,
                     size : 0,
                     centerX : 0.5,
@@ -839,231 +848,231 @@ FILTERS['noise'] =
                     r : 0,
                     g : 0,
                     b : 0
+                  }
                 }
-            }
-        }
+              }
 
-        if (v == 'color')
-        {
-            var instruction = {
-                filter : 'color',
-                parameters : 
-                {
+              if (v == 'color')
+              {
+                var instruction = {
+                  filter : 'color',
+                  parameters :
+                  {
                     a : 0,
                     r : 0,
                     g : 0,
                     b : 0
+                  }
                 }
-            }
-        }
+              }
 
-        if (v == 'noise')
-        {
-            var instruction = {
-                filter : 'noise',
-                parameters : 
-                {
+              if (v == 'noise')
+              {
+                var instruction = {
+                  filter : 'noise',
+                  parameters :
+                  {
                     amount: 0
+                  }
                 }
+              }
+              instructions.push(instruction);
+
+              generateControls();
             }
-        }
-        instructions.push(instruction);
-        
-        generateControls();
-    }
 
-    function render()
-    {
-        canvas.draw(texture);
-
-        var i = 0;
-        while (i < instructions.length)
-        {
-            var instruction = instructions[i];
-            var p = instruction.parameters;
-            if (instruction.filter == 'brightness')
-              canvas.brightness(p.strength);
-            if (instruction.filter == 'contrast')
-              canvas.contrast(p.strength); 
-            if (instruction.filter == 'hue')
-              canvas.hue(p.strength);
-            if (instruction.filter == 'saturation')
-              canvas.saturation(p.strength);
-            if (instruction.filter == 'sepia')
-                canvas.sepia(p.strength);
-             if (instruction.filter == 'exposure')
-                canvas.sepia(p.strength);
-            if (instruction.filter == 'threshold')
-              canvas.threshold(p.strength, p.alpha, p.primaryR, p.primaryG, p.primaryB, p.secondaryR, p.secondaryG, p.secondaryB);
-            if (instruction.filter == 'invertColor')
-                canvas.invertColor();
-            if (instruction.filter == 'outlineink')
-                canvas.outlineInk(p.min, p.max);
-             if (instruction.filter == 'gamma')
-                canvas.gamma(p.strength);  
-             if (instruction.filter == 'softContrast')
-                canvas.softContrast(p.strength); 
-             if (instruction.filter == 'gradiant')
-                canvas.gradiant();
-            if (instruction.filter == 'noise')
-                canvas.noise(instruction.parameters.amount);
-               if (instruction.filter == 'vignette')
+            function render()
             {
-                canvas.vignette(instruction.parameters.size, instruction.parameters.amount
-                        , instruction.parameters.centerX
-                        , instruction.parameters.centerY
-                        , instruction.parameters.r / 255
-                        , instruction.parameters.g / 255
-                        , instruction.parameters.b / 255
+              canvas.draw(texture);
+
+              var i = 0;
+              while (i < instructions.length)
+              {
+                var instruction = instructions[i];
+                var p = instruction.parameters;
+                if (instruction.filter == 'brightness')
+                  canvas.brightness(p.strength);
+                if (instruction.filter == 'contrast')
+                  canvas.contrast(p.strength);
+                if (instruction.filter == 'hue')
+                  canvas.hue(p.strength);
+                if (instruction.filter == 'saturation')
+                  canvas.saturation(p.strength);
+                if (instruction.filter == 'sepia')
+                  canvas.sepia(p.strength);
+                if (instruction.filter == 'exposure')
+                  canvas.sepia(p.strength);
+                if (instruction.filter == 'threshold')
+                  canvas.threshold(p.strength, p.alpha, p.primaryR, p.primaryG, p.primaryB, p.secondaryR, p.secondaryG, p.secondaryB);
+                if (instruction.filter == 'invertColor')
+                  canvas.invertColor();
+                if (instruction.filter == 'outlineink')
+                  canvas.outlineInk(p.min, p.max);
+                if (instruction.filter == 'gamma')
+                  canvas.gamma(p.strength);
+                if (instruction.filter == 'softContrast')
+                  canvas.softContrast(p.strength);
+                if (instruction.filter == 'gradiant')
+                  canvas.gradiant();
+                if (instruction.filter == 'noise')
+                  canvas.noise(instruction.parameters.amount);
+                if (instruction.filter == 'vignette')
+                {
+                  canvas.vignette(instruction.parameters.size, instruction.parameters.amount
+                    , instruction.parameters.centerX
+                    , instruction.parameters.centerY
+                    , instruction.parameters.r / 255
+                    , instruction.parameters.g / 255
+                    , instruction.parameters.b / 255
                     );
+                }
+                if (instruction.filter == 'color')
+                {
+                  canvas.color(
+                   instruction.parameters.a
+                   , instruction.parameters.r / 255
+                   , instruction.parameters.g / 255
+                   , instruction.parameters.b / 255
+                   );
+                }
+                ++i;
+              }
+
+              canvas.update();
             }
-            if (instruction.filter == 'color')
+
+
+
+            </script>
+
+
+            <script>
+            function getJSONString()
             {
-                canvas.color(
-                         instruction.parameters.a
-                        , instruction.parameters.r / 255
-                        , instruction.parameters.g / 255
-                        , instruction.parameters.b / 255
-                    );
+              var toJSON = [];
+              var i = 0;
+              while (i < instructions.length)
+              {
+                if (instructions[i].filter == 'threshold')
+                {
+                  var p = instructions[i].parameters;
+                  toJSON.push({
+                    filter : 'threshold',
+                    parameters :
+                    {
+                      strength : p.strength,
+                      alpha : p.alpha,
+                      primaryColor : [p.primaryR, p.primaryG, p.primaryB],
+                      secondaryColor : [p.secondaryR, p.secondaryG, p.secondaryB]
+                    }
+                  });
+                }
+                else if (instructions[i].filter == 'vignette')
+                {
+                  var p = instructions[i].parameters;
+                  toJSON.push({
+                    filter : 'vignette',
+                    parameters :
+                    {
+                      size : p.size,
+                      amount : p.amount,
+                      centerX : p.centerX,
+                      centerY : p.centerY,
+                      r : p.r / 255,
+                      g : p.g / 255,
+                      b : p.b / 255
+                    }
+                  });
+                }
+                else if (instructions[i].filter == 'color')
+                {
+                  var p = instructions[i].parameters;
+                  toJSON.push({
+                    filter : 'color',
+                    parameters :
+                    {
+                      a : p.a,
+                      r : p.r / 255,
+                      g : p.g / 255,
+                      b : p.b / 255,
+                    }
+                  });
+                }
+                else
+                  toJSON.push(instructions[i]);
+                ++i;
+              }
+              return JSON.stringify(toJSON)
             }
-            ++i;
-        }
-      
-        canvas.update();
-    }
 
+            function getJSON()
+            {
 
-    
-</script>
+              document.getElementById('json').value = getJSONString();
+            }
 
+            function loadJSON()
+            {
+              var json = document.getElementById('json').value;
 
-<script>
-function getJSONString()
-{
-    var toJSON = [];
-    var i = 0;
-    while (i < instructions.length)
-    {
-        if (instructions[i].filter == 'threshold')
-        {  
-            var p = instructions[i].parameters;
-            toJSON.push({
-                filter : 'threshold',
-                parameters :
-                {
-                    strength : p.strength,
-                    alpha : p.alpha,
-                    primaryColor : [p.primaryR, p.primaryG, p.primaryB],
-                    secondaryColor : [p.secondaryR, p.secondaryG, p.secondaryB]
-                }
-            });
-        }
-        else if (instructions[i].filter == 'vignette')
-        {  
-            var p = instructions[i].parameters;
-            toJSON.push({
-                filter : 'vignette',
-                parameters :
-                {
-                    size : p.size,
-                    amount : p.amount,
-                    centerX : p.centerX,
-                    centerY : p.centerY,
-                    r : p.r / 255,
-                    g : p.g / 255,
-                    b : p.b / 255
-                }
-            });
-        }
-        else if (instructions[i].filter == 'color')
-        {  
-            var p = instructions[i].parameters;
-            toJSON.push({
-                filter : 'color',
-                parameters :
-                {
-                    a : p.a,
-                    r : p.r / 255,
-                    g : p.g / 255,
-                    b : p.b / 255,
-                }
-            });
-        }
-        else
-            toJSON.push(instructions[i]);
-        ++i;
-    }
-    return JSON.stringify(toJSON)
-}
-
-function getJSON()
-{
-    
-    document.getElementById('json').value = getJSONString();
-}
-
-function loadJSON()
-{
-    var json = document.getElementById('json').value;
-
-    if (!json)
-    {
-        return;
-    }
-    instructions = eval(json);
+              if (!json)
+              {
+                return;
+              }
+              instructions = eval(json);
 
     // clean json
     var i = 0;
     while (i < instructions.length)
     {
-        if (instructions[i].filter == 'threshold')
-        {  
+      if (instructions[i].filter == 'threshold')
+      {
 
-            var p = instructions[i].parameters;
-            var p2 = {
-                strength : p.strength,
-                alpha : p.alpha,
-                primaryR : p.primaryColor[0],
-                primaryG : p.primaryColor[1],
-                primaryB : p.primaryColor[2],
-                secondaryR : p.secondaryColor[0],
-                secondaryG : p.secondaryColor[1],
-                secondaryB : p.secondaryColor[2],
-            }
-            instructions[i].parameters = p2;
-            console.log('Treshold parameters re-orders');
+        var p = instructions[i].parameters;
+        var p2 = {
+          strength : p.strength,
+          alpha : p.alpha,
+          primaryR : p.primaryColor[0],
+          primaryG : p.primaryColor[1],
+          primaryB : p.primaryColor[2],
+          secondaryR : p.secondaryColor[0],
+          secondaryG : p.secondaryColor[1],
+          secondaryB : p.secondaryColor[2],
         }
+        instructions[i].parameters = p2;
+        console.log('Treshold parameters re-orders');
+      }
 
-        if (instructions[i].filter == 'color')
-        {  
-            var p = instructions[i].parameters;
-            if (p.r <= 1 && p.g <= 1 && p.b <= 1)
-            {
-                var p2 = {
-                    a : (p.a > 1) ? p.a / 255 : p.a,
-                    r : p.r * 255,
-                    g : p.g * 255,
-                    b : p.b * 255
-                };
-            instructions[i].parameters = p2;
-            console.log('color parameters re-orders');
-            }
-            else
-            {
-                 var p2 = {
-                    a : (p.a > 1) ? p.a / 255 : p.a,
-                    r : p.r,
-                    g : p.g,
-                    b : p.b
-                };
-            instructions[i].parameters = p2;
-            console.log('color parameters re-orders'); 
-            }
-            
+      if (instructions[i].filter == 'color')
+      {
+        var p = instructions[i].parameters;
+        if (p.r <= 1 && p.g <= 1 && p.b <= 1)
+        {
+          var p2 = {
+            a : (p.a > 1) ? p.a / 255 : p.a,
+            r : p.r * 255,
+            g : p.g * 255,
+            b : p.b * 255
+          };
+          instructions[i].parameters = p2;
+          console.log('color parameters re-orders');
         }
-        ++i;
+        else
+        {
+         var p2 = {
+          a : (p.a > 1) ? p.a / 255 : p.a,
+          r : p.r,
+          g : p.g,
+          b : p.b
+        };
+        instructions[i].parameters = p2;
+        console.log('color parameters re-orders');
+      }
+
     }
-    generateControls();
+    ++i;
+  }
+  generateControls();
 }
 
 generateControls();
