@@ -5,7 +5,9 @@ background-color: #e3e3e3;
 
 .page-wrap {
 padding-top: 3em;
-padding-bottom: 3em;}
+padding-bottom: 3em;
+padding-right: 1em;
+padding-left: 1em;}
 
 .doc-main {
 counter-reset: steps;
@@ -41,8 +43,8 @@ border-radius: 4px;
 
 .banner {
   width: 100%;
-  height: auto;
-  max-height: 204px;
+  max-width: 600px;
+  height: 204px;
   background-position: 50% 50%;
   background-size: cover;
 }
