@@ -7,6 +7,9 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     config: grunt.file.readJSON('bower.json'),
     exec: {
+      install: {
+        cmd: "bower cache-clean && bower install"
+      },
       tag: {
         cmd: "git tag v<%=pkg.version%> && git push --tags"
       },
@@ -19,7 +22,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
 
   // Default task(s).
-  grunt.registerTask('default', ['exec:clean', 'downloadComponents']);
+  grunt.registerTask('default', ['exec:install']);
   grunt.registerTask('publish', ['exec:tag', 'exec:npmpublish']);
 
 };
