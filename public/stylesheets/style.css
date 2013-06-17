@@ -3,6 +3,10 @@ body {
 background-color: #e3e3e3;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .page-wrap {
 padding-top: 3em;
 padding-bottom: 3em;
@@ -49,28 +53,6 @@ border-radius: 4px;
   background-size: cover;
 }
 
-@media (min-width: 1200px) {
-  .expression-list li {
-    width: 33%;
-    float: left;
-    height: 300px;
-    overflow: hidden;
-  }
-}
-@media (min-width: 768px) and (max-width: 1199px) {
-  .expression-list li {
-    width: 50%;
-    float: left;
-    height: 300px;
-    overflow: hidden;
-  }
-}
-@media (max-width: 767px) {
-  .expression-list li {
-    width: 100%;
-  }
-}
-
 .expression-list .box {
   padding-right: 8px;
 }
@@ -86,7 +68,6 @@ border-radius: 4px;
 
 .devices-selector-btn {
   position: absolute;
-  display:none;
   right: 20px;
 }
 
@@ -120,7 +101,7 @@ border-radius: 4px;
 }
 /* Add a black border to the iframe */
 
-.expression-bounding-box iframe {
+.iframe-expression {
   border: 16px solid rgb(225, 225, 225);
   -webkit-box-sizing: border-box;
    -moz-box-sizing: border-box;
@@ -205,6 +186,53 @@ a {
 /**
  * RESPONSIVE
  */
+@media (min-width: 1200px) {
+  .expression-list li {
+    width: 33%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .expression-list li {
+    width: 50%;
+    float: left;
+    height: 300px;
+    overflow: hidden;
+  }
+}
+@media (max-width: 767px) {
+  .expression-list li {
+    width: 100%;
+  }
+  .iframe-expression {
+    border: none;
+  }
+  .doc-main {
+    padding: 0;
+    border: 0;
+  }
+  .expression-title {
+    display: none;
+  }
+  .post-editor > p {
+    display: none;
+  }
+  .page-wrap {
+    padding: 0;
+  }
+  .site-footer {
+    display: none;
+  }
+  .devices-selector-btn {
+    display: none;
+  }
+  #sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 979px) and (min-width: 768px) {
   .welcome h1 {
     margin-top: 0.5em; } }

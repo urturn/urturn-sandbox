@@ -78,15 +78,15 @@ window.addEventListener('load', function(){
   application.addZone('sidebar', '#sidebar');
 
   application.twoColumns = function(){
-    $('#sidebar').show().addClass('span3');
+    $('#sidebar').addClass('span3').removeClass('is-hidden');
     $('#main').show().addClass('span9').removeClass('span12');
-    $('#deviceSelector').hide();
+    $('#deviceSelector').addClass('is-hidden');
   };
 
   application.oneColumn = function(){
-    $('#sidebar').hide().removeClass('span3');
+    $('#sidebar').addClass('is-hidden').removeClass('span3');
     $('#main').show().removeClass('span9').addClass('span12');
-    $('#deviceSelector').show();
+    $('#deviceSelector').removeClass('is-hidden');
   };
 
   // application.assignZone('main', expressionList);
