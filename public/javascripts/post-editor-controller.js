@@ -381,10 +381,10 @@ sandbox.PostEditorController = function(options){
 
   var changeDeviceResolution = function(event) {
     event.preventDefault();
-    expressionFrame.style.width = this.dataset.width;
-    expressionFrame.style.height = this.dataset.height;
+    expressionFrame.style.width = $(this).data('width');
+    expressionFrame.style.height = $(this).data('height');
     if ('localStorage' in window && window['localStorage'] !== null) {
-      localStorage.setItem("device", this.dataset.device);
+      localStorage.setItem("device", $(this).data('device'));
       location.reload(true);
     }
   };
