@@ -3,10 +3,10 @@
   var PostListController = function(application){
     sandbox.listControllerSupport(this);
 
-    var template = '<ul class="sidenav nav nav-tabs nav-stacked affix-top"><li class="section section-active active"><a href="#">Posts</a></li></ul>';
+    var template = '<ul class="posts-list unstyled"></ul>';
     var parentNode;
     var titleNode;
-    var ulNode;
+    var templateNode;
     var attached = false;
 
     var handlePostsLoaded = function(err, posts){
@@ -18,22 +18,22 @@
           var controller = new sandbox.PostListItemController(posts[i], application);
           this.addItem(controller);
         }
-        if(ulNode){
-          this.attachItems(ulNode);
+        if(templateNode){
+          this.attachItems(templateNode);
         }
       }
     }.bind(this);
 
     this.attach = function(node){
       parentNode = node;
-      ulNode = sandbox.compile(template);
-      parentNode.appendChild(ulNode);
-      this.attachItems(ulNode);
+      templateNode = sandbox.compile(template);
+      parentNode.appendChild(templateNode);
+      this.attachItems(templateNode);
     };
 
     this.detach = function(){
-      parentNode.removeChild(ulNode);
-      ulNode = null;
+      parentNode.removeChild(templateNode);
+      templateNode = null;
       parentNode = null;
       this.detachItems();
     };

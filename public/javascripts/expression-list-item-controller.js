@@ -8,13 +8,13 @@ sandbox.ExpressionListItemController = function(expression){
   var liNode;
   var ulNode;
   var itemTemplate = '<li><div class="box">' +
-      '<div class="banner" style="background-image:url($bannerPath)"></div>' +
-      '<div class="expression-item-title">$title</div>'+
-      '<span class="expression-item-idcard">$systemName-$version</span> - '+
-      '<spandiv class="description">$description</span>' +
+      '<a href="#" class="banner thumbnail"><img src="$bannerPath" /></a>' +
+      '<h3 class="expression-item-title">$title <small class="expression-item-idcard">$systemName-$version</small></h3>'+
+      '<p class="description">$description</p>' +
       '</div></li>';
 
-  var handleSelected = function(){
+  var handleSelected = function(e){
+    e.preventDefault();
     if(self.onSelected){
       self.onSelected.call(self, expression);
     } else {
@@ -25,7 +25,7 @@ sandbox.ExpressionListItemController = function(expression){
     liNode = sandbox.compile(itemTemplate, expression);
     ulNode = node;
     ulNode.appendChild(liNode);
-    liNode.addEventListener('click', handleSelected);
+    liNode.getElementsByClassName('banner')[0].addEventListener('click', handleSelected);
   };
   this.detach = function(){
     if(liNode){

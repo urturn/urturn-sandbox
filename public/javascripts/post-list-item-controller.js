@@ -4,17 +4,15 @@
     var liNode;
     var editLink;
     var playLink;
-    var itemTemplate = '<li class="dropdown">' +
-        '<a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
+    var itemTemplate = '<li>' +
+          '<span class="btn-group pull-right">' +
+            '<a href="#" class="expression-item-edit btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>' +
+            '<a href="#" class="expression-item-play btn btn-mini" title="Play"><i class="icon-play"></i></a>' +
+          '</span>' +
           '<span class="state label label-$label">$state</span> '+
           '$expressionName' +
           '<time class="post-item-date">$date</time>' +
-        '</a>' +
-        '<ul class="dropdown-menu">' +
-          '<li><a href="#" class="expression-item-edit">edit</a></li>' +
-          '<li><a href="#" class="expression-item-play">play</a></li>' +
-        '</ul>' +
-      '</li>';
+        '</li>';
 
     var handleEdit = function(event){
       event.preventDefault();
@@ -40,7 +38,7 @@
         uuid: post.uuid,
         date: prettyDate(post.createdAt.toJSON()),
         state: post.state,
-        label: (post.state == 'draft' ? 'none' : 'success')
+        label: (post.state == 'draft' ? 'warning' : 'success')
       });
       editLink = liNode.querySelector('.expression-item-edit');
       playLink = liNode.querySelector('.expression-item-play');
