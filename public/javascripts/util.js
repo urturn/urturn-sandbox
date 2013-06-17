@@ -39,7 +39,11 @@
 
   sandbox.log = function(){
     if(window.console && console.log){
-      console.log.apply(window, arguments);
+      if(console.log.apply){
+        console.log.apply(console, arguments);
+      } else {
+        console.log(Array.prototype.join.apply(arguments, ' '));
+      }
     }
   };
 
