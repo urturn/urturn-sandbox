@@ -39,7 +39,7 @@ sandbox.Application = function(rootNode){
         return;
       }
     }
-    console.log('Unable to navigate to ' + path);
+    sandbox.log('Unable to navigate to ' + path);
   };
 
   window.addEventListener('popstate', function(event){

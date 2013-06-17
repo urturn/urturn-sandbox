@@ -110,9 +110,7 @@ sandbox.PostEditorController = function(options){
       pushNavigation: function(action, callback){
         var availableNames = ['cancel', 'back', 'quit'];
         if(availableNames.indexOf(action) === -1){
-          if(window.console && console.log){
-            console.log("Unknown action:" + action, "not in", availableNames);
-          }
+          sandbox.log("Unknown action:" + action, "not in", availableNames);
           callback(); // cancel the user state immediatly
         } else {
           navigationStates.push({callback: callback, name: action});
@@ -135,7 +133,7 @@ sandbox.PostEditorController = function(options){
       save: function(name, objectsByKey, callbackNotUsed){
         var collection = store.get(name);
         if(!collection){
-          console.log('missing collection ' + name);
+          sandbox.log('missing collection ' + name);
           return;
         }
         for(var k in objectsByKey){
@@ -146,7 +144,7 @@ sandbox.PostEditorController = function(options){
           }
         }
         collection.save(function(){
-          console.log('collection saved' + arguments);
+          sandbox.log('collection saved' + arguments);
         });
       },
       find: function(name, options, callback){
@@ -207,12 +205,12 @@ sandbox.PostEditorController = function(options){
       },
       applyFilterToImage: function(options, callback)
       {
-        console.log('Filter Applied : ', options.filter);
+        sandbox.log('Filter Applied : ', options.filter);
         callback(options.image);
       },
       applyFilter: function(options, callback)
       {
-        console.log('Filter Applied : ', options.filter);
+        sandbox.log('Filter Applied : ', options.filter);
         callback(options.image);
       },
       imageWithDataUrl : function(dataUrl, callback) {
@@ -230,17 +228,16 @@ sandbox.PostEditorController = function(options){
       },
       getEditableImage: function(url, callback){
         // The url is already editable
-        console.log(callback(url));
+        sandbox.log(callback(url));
       }
     },
     url: {},
     document: {
       readyToPost: function(value){
         if(mode == 'play'){
-          console.log('a call to post.valid(value) is useless when in player');
+          sandbox.log('a call to post.valid(value) is useless when in player');
           return;
         }
-        console.log('readyToPost : ', value);
         postButton.disabled = !value;
         if(value){
           postButton.className += ' btn-primary';
@@ -301,7 +298,6 @@ sandbox.PostEditorController = function(options){
     },
     posted: function(){
       post.state = 'published';
-      console.log('Achieved post');
       currentUser.numberOfUse += 1;
       currentUser.numberOfPost += 1;
       // Ridiculous timeout to avoid having 2 async file writer...
@@ -309,7 +305,7 @@ sandbox.PostEditorController = function(options){
         function(){
           sandbox.Post.save(post, function(err, post){
             if(err){
-              console.log(err);
+              sandbox.log(err);
             } else {
               application.navigate('post/' + post.uuid + '/play');
             }
@@ -334,7 +330,6 @@ sandbox.PostEditorController = function(options){
         cb(null, post);
       }
     ], function(err, results){
-      console.log('loaded', err, results);
       var post = results[1];
       if(mode == 'edit'){
         post.postUserId = currentUser.uuid;
@@ -354,8 +349,8 @@ sandbox.PostEditorController = function(options){
       func = func[callPath[i]];
     }
     if(!func){
-      console.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
-      console.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
+      sandbox.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
+      sandbox.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
     } else {
       args.push(function(response){
         var data = JSON.parse(event.data);
@@ -408,7 +403,6 @@ sandbox.PostEditorController = function(options){
   var resizeBoundingBox = function(){
     var viewPortHeight = $(window).height();
     var viewPortWidth = $(window).width();
-    console.log(viewPortHeight, boundingBox.offsetTop, footer.offsetHeight);
     if(expressionFrame && !fixedHeight){
       $(expressionFrame).height(viewPortHeight - expressionFrame.offsetTop - footer.offsetHeight - 100);
     }

@@ -11,9 +11,7 @@
 
     var handlePostsLoaded = function(err, posts){
       if(err){
-        if(window.console && console.log) {
-          console.log("Cannot load posts: ", err);
-        }
+        sandbox.log("Cannot load posts: ", err);
       } else {
         this.detachItems();
         for(var i = 0; i < posts.length; i++){

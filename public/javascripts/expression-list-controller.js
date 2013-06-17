@@ -15,14 +15,14 @@ sandbox.ExpressionListController = function(){
     if(this.onSelected){
       this.onSelected.call(this, expression);
     } else {
-      console.log("onSelected not bound");
+      sandbox.log("onSelected not bound");
     }
   }.bind(this);
 
   // handle a list server response
   var handleListReceived = function(err, expressions){
     if(err){
-      console.log(err);
+      sandbox.log(err);
       return;
     }
     this.detachItems();

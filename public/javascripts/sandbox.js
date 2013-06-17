@@ -19,7 +19,7 @@ window.addEventListener('load', function(){
   application.addRoute('expression/:systemName/newpost', function(context){
     sandbox.Expression.findBySystemName(context.systemName, function(err, expression){
       if(err || !expression){
-        console.log("Cannot find expression with system name: " + context.systemName);
+        sandbox.log("Cannot find expression with system name: " + context.systemName);
         return;
       }
       var post = new sandbox.Post({
@@ -27,7 +27,7 @@ window.addEventListener('load', function(){
       });
       sandbox.Post.save(post, function(err, post){
         if(err){
-          console.log("Cannot save post");
+          sandbox.log("Cannot save post");
           return;
         }
         application.navigate('post/' + post.uuid + '/edit');
@@ -40,7 +40,7 @@ window.addEventListener('load', function(){
       application.oneColumn();
       sandbox.Post.load(context.uuid, function(err, post){
         if(err){
-          console.log("Cannot display " + mode + " because of: " + err);
+          sandbox.log("Cannot display " + mode + " because of: " + err);
           return;
         }
         var postEditor = new sandbox.PostEditorController({

@@ -37,6 +37,12 @@
     })).get(0);
   };
 
+  sandbox.log = function(){
+    if(window.console && console.log){
+      console.log.apply(window, arguments);
+    }
+  };
+
   // the url used to retrieve random images
   sandbox.imageServiceURL = '/placekitten.com';
 

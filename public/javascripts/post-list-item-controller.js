@@ -30,12 +30,11 @@
       if(self.onSelected){
         self.onSelected.call(self, expression);
       } else {
-        console.log("onSelected not bound");
+        sandbox.log("onSelected not bound");
       }
     };
 
     this.attach = function(node){
-      console.log(post);
       liNode = sandbox.compile(itemTemplate, {
         expressionName: post.expressionSystemName,
         uuid: post.uuid,

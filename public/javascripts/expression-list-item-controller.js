@@ -18,7 +18,7 @@ sandbox.ExpressionListItemController = function(expression){
     if(self.onSelected){
       self.onSelected.call(self, expression);
     } else {
-      console.log("onSelected not bound");
+      sandbox.log("onSelected not bound");
     }
   };
   this.attach = function(node){
