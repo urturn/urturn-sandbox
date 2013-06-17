@@ -433,14 +433,10 @@ sandbox.PostEditorController = function(options){
     $(window)
       .on('resize', resizeBoundingBox)
       .on('scroll', handleWindowScroll);
-    if(postButton){
-      postButton.disabled = true;
-      postButton.addEventListener('click', handlePostAction, false);
-    }
-    if(quitButton){
-      quitButton.addEventListener('click', handleQuitAction, false);
-    }
-    window.addEventListener("message", handleIframeMessage, false);
+    window.addEventListener('message', handleIframeMessage, false);
+    $(postButton).on('click', handlePostAction)
+      .attr('disabled', true);
+    $(quitButton).on('click', handleQuitAction);
     if(mode == 'edit'){
       load('/expression/' + expression.location + '/editor.html');
     } else {
@@ -458,14 +454,10 @@ sandbox.PostEditorController = function(options){
     expressionFrame = null;
     $(window)
       .off('resize', resizeBoundingBox)
-      .off('scroll', handleWindowScroll)
-      .off('message', handleIframeMessage);
-    if(quitButton){
-      quitButton.removeEventListener('click', handleQuitAction, false);
-    }
-    if(postButton){
-      postButton.removeEventListener('click', handlePostAction, false);
-    }
+      .off('scroll', handleWindowScroll);
+    window.removeEventListener('message', handleIframeMessage, false);
+    $(quitButton).off('click', handleQuitAction);
+    $(postButton).off('click', handlePostAction);
     if (devicesButtons && devicesButtons.length > 1) {
       for ( var i = 0,j=devicesButtons.length; i<j; i++) {
         devicesButtons[i].removeEventListener('click', changeDeviceResolution, false);
