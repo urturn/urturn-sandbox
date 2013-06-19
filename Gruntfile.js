@@ -1,4 +1,4 @@
-bower = require('bower');
+// bower = require('bower');
 
 module.exports = function(grunt) {
 

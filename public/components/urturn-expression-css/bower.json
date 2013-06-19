@@ -1,6 +1,6 @@
 {
   "name": "urturn-expression-css",
-  "version": "0.5.0",
+  "version": "0.6.4",
   "author": {
     "name": "Emmanuel Vuigner for Urturn"
   },
@@ -21,9 +21,12 @@
     "node_modules",
     "components"
   ],
-  "gitHead": "f3fb95b2a7b45fbac686568df64660c93b5ab5c7",
+  "devDependencies": {
+    "bootstrap-urturn": "git@github.com:urturn/bootstrap-urturn.git#~1.1.0"
+  },
+  "gitHead": "79f4de46d26c6062a467bfaa9425a4d3800df731",
   "readme": "urturn-expression-css\n=====================\n\nBase CSS for Urturn expressions\n\n- [style.css](http://urturn.github.io/urturn-expression-css/css/style.css): normalize.css + urturn classes + buttons + icons\n- [style_edit.css](http://urturn.github.io/urturn-expression-css/css/style_edit.css): normalize.css + urturn classes + forms + urturn edit classes + buttons + icons\n- [style_play.css](http://urturn.github.io/urturn-expression-css/css/style_play.css): normalize.css + urturn classes + buttons\n- [icons.css](http://urturn.github.io/urturn-expression-css/css/icons.css)\n\nBuild & Deploy\n--------------\n`rake install` will install a git pre-commit hook that will ensure css is generated.\n`rake compile` will compile the sass source.\n`rake publish` will take the commited code and create a new tag in the repository.\n\nCredits\n-------\n\n- [LeBenLeBen](http://github.com/LeBenLeBen)\n- [Template](http://github.com/stephband/template) by [stephband](http://github.com/stephband)\n- [Normalize.css](http://necolas.github.com/normalize.css/) by [Nicolas Gallagher](http://nicolasgallagher.com/), co-created with [Jonathan Neal](http://music.thewikies.com/jonneal/)\n",
   "readmeFilename": "README.md",
-  "_id": "urturn-expression-css@0.5.0",
+  "_id": "urturn-expression-css@0.6.4",
   "description": "urturn-expression-css ====================="
 }
