@@ -84,6 +84,13 @@ sandbox.PostEditorController = function(options){
 
   // Nice API
   var api = {
+    dialog: {
+      users: function(options, callback){
+        console.log('Simulating display of a user list containing those user ids:', options.users);
+        alert('An user list will be displayed here (more details in logs).');
+        callback();
+      }
+    },
     container: {
       resizeHeight: function(value, callback){
         var height = parseInt(value, 10);
@@ -350,7 +357,7 @@ sandbox.PostEditorController = function(options){
     }
     if(!func){
       sandbox.log("method '" + data.methodName + "' not implemented. No callback will be fired.");
-      sandbox.log("ignored call for " + data.methodName + "(" + args.join(', ') + ")");
+      sandbox.log("ignored call for " + data.methodName + "(", args, ")");
     } else {
       args.push(function(response){
         var data = JSON.parse(event.data);
