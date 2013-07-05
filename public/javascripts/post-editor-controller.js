@@ -290,6 +290,7 @@ sandbox.PostEditorController = function(options){
           note : post.note,
           sandbox: true,
           apiVersion: expression.apiVersion,
+          version: expression.version,
           scrollValues: {} // XXX Need to be imported
         }
       };

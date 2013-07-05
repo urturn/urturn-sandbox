@@ -1,4 +1,4 @@
-(function(){ // defining a local scope
+(function() { // defining a local scope
 
   var expressionStore = [];
 
@@ -24,6 +24,7 @@
     expression.bannerPath = pObject.bannerPath;
     expression.collections = pObject.collections;
     expression.apiVersion = pObject.apiVersion;
+    expression.version = pObject.version;
 
     if(!expression.bannerPath){
       expression.bannerPath = sandbox.imageUrl(800, 408);
