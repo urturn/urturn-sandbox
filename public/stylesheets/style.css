@@ -28,6 +28,7 @@ body {
   width: 100%;
   min-height: 50px;
   border: none;
+  background: red; /* to help set a background for your post */
 }
 .feed .iframe {
   width: 500px;
