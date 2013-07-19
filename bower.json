@@ -4,6 +4,6 @@
   "dependencies": {
     "urturn-expression-css": "git://github.com/urturn/urturn-expression-css.git",
     "bootstrap-urturn": "git://github.com/urturn/bootstrap-urturn.git",
-    "jquery": "*"
+    "jquery": "git://github.com/components/jquery.git"
   }
 }

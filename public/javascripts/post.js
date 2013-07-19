@@ -140,6 +140,9 @@
       type: 'GET',
       success: function(data){
         var posts = [];
+        if (!data.posts) {
+          return false;
+        }
         for(var i = 0; i < data.posts.length; i++){
           posts.push(new Post(data.posts[i]));
         }
