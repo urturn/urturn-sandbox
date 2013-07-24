@@ -90,7 +90,9 @@ body {
 
 /* Add a black border to the iframe */
 .iframe-expression {
-  border: 16px solid rgb(225, 225, 225);
+  -wbekit-box-shadow: 0 0 0 10px rgb(225, 225, 225);
+  -moz-box-shadow: 0 0 0 10px rgb(225, 225, 225);
+  box-shadow: 0 0 0 10px rgb(225, 225, 225);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
