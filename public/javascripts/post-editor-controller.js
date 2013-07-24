@@ -89,9 +89,17 @@ sandbox.PostEditorController = function(options){
         console.log('Simulating display of a user list containing those user ids:', options.users);
         alert('An user list will be displayed here (more details in logs).');
         callback();
+      },
+      suggestRotation : function(options, callback) {
+        alert('You should rotate!');
+        callback();
       }
     },
     container: {
+      enableRotation: function(flag, callback) {
+        console.log('Rotation enable -> ', flag);
+        callback();
+      },
       resizeHeight: function(value, callback){
         var height = parseInt(value, 10);
         var $frame = $(expressionFrame);
