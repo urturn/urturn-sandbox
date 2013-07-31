@@ -276,6 +276,9 @@ sandbox.PostEditorController = function(options){
       },
       queueUp: function(text, callback) {
         callback(Math.floor(Math.random() * 10000));
+      },
+      geoLocation: function(callback) {
+          callback(40.7142,74.0064);
       }
     },
     sendReadyMessage: function(post){
