@@ -315,6 +315,9 @@ sandbox.PostEditorController = function(options){
         expressionFrame.contentWindow.postMessage(JSON.stringify({type: 'triggerEvent', eventName: name, eventArgs: args}), '*');
       }
     },
+    post: function() {
+      handlePostAction();
+    },
     posted: function(){
       post.state = 'published';
       currentUser.numberOfUse += 1;
