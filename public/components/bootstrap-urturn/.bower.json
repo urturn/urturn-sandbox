@@ -1,0 +1,13 @@
+{
+  "name": "bootstrap-urturn",
+  "homepage": "https://github.com/urturn/bootstrap-urturn",
+  "version": "1.1.0",
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.0",
+    "commit": "30b48cb30ec23b96fdce2ee8973ead3e6dcbd77f"
+  },
+  "_source": "git://github.com/urturn/bootstrap-urturn.git",
+  "_target": "*"
+}
