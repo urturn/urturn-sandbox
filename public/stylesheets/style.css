@@ -139,6 +139,15 @@ body {
   top: auto;
   bottom: 270px;
 }
+
+/* Notifications */
+
+.notifications-area {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
 /* Desktop large */
 @media (min-width: 1200px) {
     .sidenav {

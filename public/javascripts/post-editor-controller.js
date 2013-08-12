@@ -90,7 +90,8 @@ sandbox.PostEditorController = function(options){
         callback();
       },
       suggestRotation : function(options, callback) {
-        alert('You should rotate!');
+        console.log("suggestRotation");
+        sandbox.notify('alert','You should rotate!');
         callback();
       }
     },
