@@ -32,6 +32,7 @@
     } else {
       u.username = u.usercard.username;
     }
+    u.avatar = sandbox.get_random_color();
     users[u.uuid] = u;
     userCount ++;
 

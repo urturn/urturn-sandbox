@@ -4,6 +4,6 @@
     <h3 id="myModalLabel">{{ label }}</h3>
   </div>
   <div class="modal-body">
-    <p>{{#list people}}{{usercard.name}} ({{username}}) {{/list}}</p>
+    <p>{{#list people}}<span style="background-color:{{avatar}}" class="user-thumb"></span>{{usercard.name}} ({{username}}) {{/list}}</p>
   </div>
 </div>

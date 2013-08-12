@@ -28,7 +28,7 @@
 }(sandbox));
 
 Handlebars.registerHelper('list', function(items, options) {
-  var out = "<ul class='unstyled'>";
+  var out = "<ul class='users-list unstyled'>";
   for(var i=0, l=items.length; i<l; i++) {
     out = out + "<li>" + options.fn(items[i]) + "</li>";
   }
