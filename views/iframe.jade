@@ -7,9 +7,6 @@ html(lang="en")
     script(src=apiPath + "/iframe.js", type="text/javascript")
     link(href=apiPath + "/iframe.css", rel="stylesheet", type="text/css")
 
-    - for (var i in scripts) {
-      script(src=scripts[i], type="text/javascript")
-    - }
 
     - for (var i in stylesheets) {
       link(href=stylesheets[i], rel="stylesheet", type="text/css")
@@ -18,4 +15,9 @@ html(lang="en")
     != head
   body
     .webdoc_expression_wrapper
-      != body
+       != body
+    - for (var i in scripts) {
+      script(src=scripts[i], type="text/javascript")
+    - }
+
+

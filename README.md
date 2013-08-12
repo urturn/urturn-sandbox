@@ -8,7 +8,7 @@ Install it the hard way
 prerequisite  : you have to install  [NodeJS](http://nodejs.org "NodeJS")
 
 ```shell
-git clone git@github.com:webdoc/urturn-sandbox.git
+git clone git@github.com:urturn/urturn-sandbox.git
 cd urturn-sandbox
 npm install
 sudo npm link

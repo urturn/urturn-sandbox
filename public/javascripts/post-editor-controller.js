@@ -86,8 +86,7 @@ sandbox.PostEditorController = function(options){
   var api = {
     dialog: {
       users: function(options, callback){
-        console.log('Simulating display of a user list containing those user ids:', options.users);
-        alert('An user list will be displayed here (more details in logs).');
+        sandbox.openUserModal(options.label,options.users);
         callback();
       },
       suggestRotation : function(options, callback) {
@@ -188,24 +187,34 @@ sandbox.PostEditorController = function(options){
         if (!options.size.height){
           options.size.height = sandbox.randSize();
         }
-        callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+        sandbox.getImage(options.size.width ,options.size.height,function(image) {
+          callback({_center : api.medias._createCenterFromImgSize(options.size.width, options.size.height) ,type : '_image', url : image, info : {source : 'loremPix'}});
+        });
       },
 
       crop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-          callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+          sandbox.getImage(options.size.width ,options.size.height,function(image) {
+            callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : image, info : {source : 'loremPix'}});
+          });
         }
         else {
-          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(), sandbox.randSize()), type : '_image', url : sandbox.imageUrl(width, height), info : {source : 'loremPix'}});
+          sandbox.getImage(sandbox.randSize(),sandbox.randSize(),function(image) {
+            callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(), sandbox.randSize()), type : '_image', url : image, info : {source : 'loremPix'}});
+          });
         }
       },
 
       reCrop : function(options, callback) {
         if (options.size && options.size.width && options.size.height) {
-           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : sandbox.imageUrl(options.size.width ,options.size.height), info : {source : 'loremPix'}});
+          sandbox.getImage(options.size.width ,options.size.height,function(image) {
+           callback({_center : api.medias._createCenterFromImgSize((options.size.width | 0), (options.size.height  |0)),type : '_image', url : image, info : {source : 'loremPix'}});
+          });
         }
         else {
-          callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(),sandbox.randSize()),type : '_image', url : sandbox.imageUrl(sandbox.randSize() , sandbox.randSize()), info : {source : 'loremPix'}});
+          sandbox.getImage(sandbox.randSize(),sandbox.randSize(),function(image) {
+            callback({_center : api.medias._createCenterFromImgSize(sandbox.randSize(),sandbox.randSize()),type : '_image', url : image, info : {source : 'loremPix'}});
+          });
         }
       },
 
@@ -232,14 +241,19 @@ sandbox.PostEditorController = function(options){
         api.medias.createImage(dataUrl, callback);
       },
       openSoundChooser: function(options, callback) {
-        var media = JSON.parse('{"_type":"sound","service":"soundcloud","url":"http://soundcloud.com/urturn/the-mission","title":"The Mission","artist":"urturn","cover":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25","artistCover":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25","soundCover":null,"waveFormImage":"http://w1.sndcdn.com/gHQkR7jhWdlh_m.png","link":"http://api.soundcloud.com/tracks/27816973","appData":{"kind":"track","id":27816973,"created_at":"2011/11/12 10:26:38 +0000","user_id":8871218,"duration":248597,"commentable":true,"state":"finished","original_content_size":9933964,"sharing":"public","tag_list":"","permalink":"the-mission","streamable":true,"embeddable_by":"all","downloadable":false,"purchase_url":null,"label_id":null,"purchase_title":null,"genre":"","title":"The Mission","description":"","label_name":"","release":"","track_type":null,"key_signature":null,"isrc":null,"video_url":null,"bpm":null,"release_year":null,"release_month":null,"release_day":null,"original_format":"mp3","license":"all-rights-reserved","uri":"http://api.soundcloud.com/tracks/27816973","user":{"id":8871218,"kind":"user","permalink":"urturn","username":"urturn","uri":"http://api.soundcloud.com/users/8871218","permalink_url":"http://soundcloud.com/urturn","avatar_url":"http://a1.sndcdn.com/images/default_avatar_large.png?6c55c25"},"permalink_url":"http://soundcloud.com/urturn/the-mission","artwork_url":null,"waveform_url":"http://w1.sndcdn.com/gHQkR7jhWdlh_m.png","stream_url":"http://api.soundcloud.com/tracks/27816973/stream","playback_count":158,"download_count":0,"favoritings_count":1,"comment_count":1,"attachments_uri":"http://api.soundcloud.com/tracks/27816973/attachments"}}');
-        callback(media);
+        sandbox.getAudio(function(audio) {
+          callback(audio);
+        });
       },
       openVideoChooser : function(options, callback) {
-        callback({"_type": "video", url: 'http://www.youtube.com/watch?v=Lnc2GU99O8s'});
+        sandbox.getVideo(function(video) {
+          callback({"_type": "video", url: video});
+        });
       },
       findImage: function(options, callback) {
-        callback({type : 'image', url : sandbox.imageUrl(sandbox.randSize(), sandbox.randSize()), info : {source : sandbox.imageServiceURL}});
+        sandbox.getImage(sandbox.randSize(),sandbox.randSize(),function(image) {
+          callback({type : 'image', url : image, info : {source : sandbox.imageServiceURL}});
+        });
       },
       getEditableImage: function(url, callback){
         // The url is already editable

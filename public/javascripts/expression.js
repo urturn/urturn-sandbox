@@ -27,7 +27,7 @@
     expression.version = pObject.version;
 
     if(!expression.bannerPath){
-      expression.bannerPath = sandbox.imageUrl(800, 408);
+      expression.bannerPath = 'images/banner.png';
     } else {
       expression.bannerPath = '/expression/' + expression.bannerPath;
     }

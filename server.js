@@ -1,9 +1,9 @@
 var express = require('express');
 var path = require('path');
+var fs    = require('fs');
 
-var expression = require('./routes/expression');
-var post = require('./routes/post');
-
+var expression  = require('./routes/expression');
+var post        = require('./routes/post');
 
 function configure(expressionDir, port){
   var app = express();
@@ -66,6 +66,9 @@ function configure(expressionDir, port){
   });
 
   var postApp = post.create(app, {mountPoint: 'post'});
+
+  require('./routes/medias')(app);
+
   return app;
 }
 
