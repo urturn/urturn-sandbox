@@ -50,6 +50,7 @@ window.addEventListener('load', function(){
           mode: mode
         });
         application.assignZone('main', postEditor);
+        $(document).scrollTop(0);
       });
     });
   });
