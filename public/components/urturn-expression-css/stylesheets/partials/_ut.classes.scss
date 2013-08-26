@@ -13,7 +13,7 @@ hgroup, nav, section {
 }
 
 .webdoc_expression_wrapper,
-.urturn_expression_wrapper {
+.urturn-expression-wrapper {
   position: relative;
   top:0;
   left:0;
@@ -66,6 +66,7 @@ hgroup, nav, section {
 
 .no-select {
   @include user-select(none);
+  cursor: default;
 }
 
 /* Positioning */

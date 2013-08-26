@@ -21,5 +21,13 @@
   ],
   "devDependencies": {
     "bootstrap-urturn": "git@github.com:urturn/bootstrap-urturn.git#~1.1.0"
-  }
+  },
+  "_release": "0.6.9",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.6.9",
+    "commit": "96e872caef4506efe9080da4f60db8ce66dfdaa8"
+  },
+  "_source": "git://github.com/urturn/urturn-expression-css.git",
+  "_target": "*"
 }
