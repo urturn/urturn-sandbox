@@ -1,6 +1,6 @@
 {
   "name": "urturn-expression-css",
-  "version": "0.6.4",
+  "version": "0.6.9",
   "author": "Emmanuel Vuigner for Urturn",
   "homepage": "http://urturn.github.io/urturn-expression-css/",
   "main": "component.urturn.json",
@@ -22,11 +22,11 @@
   "devDependencies": {
     "bootstrap-urturn": "git@github.com:urturn/bootstrap-urturn.git#~1.1.0"
   },
-  "_release": "0.6.4",
+  "_release": "0.6.9",
   "_resolution": {
     "type": "version",
-    "tag": "v0.6.4",
-    "commit": "79f4de46d26c6062a467bfaa9425a4d3800df731"
+    "tag": "v0.6.9",
+    "commit": "96e872caef4506efe9080da4f60db8ce66dfdaa8"
   },
   "_source": "git://github.com/urturn/urturn-expression-css.git",
   "_target": "*"
