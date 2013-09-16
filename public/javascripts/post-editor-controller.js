@@ -294,6 +294,35 @@ sandbox.PostEditorController = function(options){
       },
       geoLocation: function(callback) {
           callback(40.7142,74.0064);
+      },
+      textInput: function(callback) {
+        callback('Hello World');
+      },
+      urturn: function(callback) {
+        alert('User Urturn this POST');
+        callback();
+      },
+      post: function(callback) {
+        alert('Post get Posted');
+        callback();
+      },
+      followship: function(callback) {
+        var i = 0;
+        var follower = [];
+        var name = ['dmitry', 'alexey', 'alexis', 'hugo', 'lesha', 'julien', 'guillaume', 'migoo', 'manu', 'oliamb', 'pld', 'ruben', 'elio', 'coquoz', 'sens', 'yohan', 'chabot', 'stelio', 'vincent', 'mathieu', 'sidar', 'clair', 'sharln', 'olivier', 'pierre', 'sophie', 'alex', 'alexandre'];
+        var r = Math.random() * 10 | 0;
+        while (i < 10) {
+          follower.push({
+              uuid : (i + r) + '00A-D1231-23132-32134-41234',
+              username : name[i + r],
+              avatar : sandbox.imageUrl(200, 200)
+          });
+          ++i;
+        }
+        callback(follower);
+      },
+      isStatic:function(state){
+        console.log('change static state : ' + state);
       }
     },
     sendReadyMessage: function(post){
