@@ -5,6 +5,7 @@
     "urturn-expression-css": "git://github.com/urturn/urturn-expression-css.git",
     "bootstrap-urturn": "git://github.com/urturn/bootstrap-urturn.git",
     "jquery": "git://github.com/components/jquery.git",
-    "Faker.js": "https://github.com/Marak/Faker.js.git#~0.5.11"
+    "Faker.js": "https://github.com/Marak/Faker.js.git#~0.5.11",
+    "handlebars": "~1.0.0"
   }
 }

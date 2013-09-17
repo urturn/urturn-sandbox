@@ -5,10 +5,10 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "3.1.x",
+    "express": "3.4.x",
     "jade": "*",
     "commander": "*",
-    "urturn-expression-api": "~0.9",
+    "urturn-expression-api": "~1.0",
     "glob": "~3",
     "async": "*",
     "lockfile": "~0.3.2",
