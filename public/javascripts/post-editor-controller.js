@@ -250,7 +250,7 @@ sandbox.PostEditorController = function(options){
       },
       openVideoChooser : function(options, callback) {
         sandbox.getVideo(function(video) {
-          callback({"_type": "video", url: video});
+          callback(video);
         });
       },
       findImage: function(options, callback) {

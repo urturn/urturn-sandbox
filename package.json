@@ -8,7 +8,7 @@
     "express": "3.4.x",
     "jade": "*",
     "commander": "*",
-    "urturn-expression-api": "~1.0",
+    "urturn-expression-api": "*",
     "glob": "~3",
     "async": "*",
     "lockfile": "~0.3.2",
