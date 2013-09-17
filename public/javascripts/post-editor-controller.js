@@ -105,7 +105,9 @@ sandbox.PostEditorController = function(options){
         var $frame = $(expressionFrame);
         $frame.height(height);
         fixedHeight = true;
-        callback({height: height, width: $frame.width()});
+        if (typeof(callback) == "function") {
+          callback({height: height, width: $frame.width()});
+        }
         handleWindowScroll();
       },
       scroll: function(position, anchor, callback){
