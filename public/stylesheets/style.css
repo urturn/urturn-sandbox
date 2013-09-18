@@ -28,7 +28,7 @@ body {
   width: 100%;
   min-height: 50px;
   border: none;
-  background: red; /* to help set a background for your post */
+  background: rgb(250, 247, 247);
 }
 .feed .iframe {
   width: 500px;
@@ -41,6 +41,7 @@ body {
 .iphone .iframe {
   width: 320px;
   height: auto;
+  background: rgb(68,60,60);
 }
 .expression-list .box {
   padding-right: 8px
