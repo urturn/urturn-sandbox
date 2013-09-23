@@ -144,6 +144,12 @@ sandbox.PostEditorController = function(options){
           }
           return result;
         }
+      },
+      display: function(fn) {
+        console.log('Display Called');
+        if (fn) {
+          fn();
+        }
       }
     },
     collections: {

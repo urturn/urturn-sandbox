@@ -6,3 +6,4 @@ public/javascripts/old.js
 /public/api/*-beta*
 /public/api/*-rc*
 npm-debug.log
+.npmignore
