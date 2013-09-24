@@ -284,7 +284,7 @@ sandbox.PostEditorController = function(options){
         callback(Math.floor(Math.random() * 10000));
       },
       geoLocation: function(callback) {
-          callback(40.7142,74.0064);
+        callback([6.62791,46.521755]);
       },
       textInput: function(callback) {
         callback('Hello World');
@@ -402,6 +402,7 @@ sandbox.PostEditorController = function(options){
     var callPath = data.methodName.split('.');
     var args = data.args || [];
     var func = api;
+    var result;
     for(var i = 0; func && i < callPath.length; i++){
       func = func[callPath[i]];
     }
