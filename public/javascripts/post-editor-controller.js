@@ -100,12 +100,17 @@ sandbox.PostEditorController = function(options){
         console.log('Rotation enable -> ', flag);
         callback();
       },
-      resizeHeight: function(value, callback){
+      resizeHeight: function(value, supportDisplay, callback){
+        if (!callback && typeof supportDisplay == 'function') {
+          callback = supportDisplay;
+        }
         var height = parseInt(value, 10);
         var $frame = $(expressionFrame);
         $frame.height(height);
         fixedHeight = true;
-        callback({height: height, width: $frame.width()});
+        if (typeof(callback) === 'function') {
+          callback({height: height, width: $frame.width()});
+        }
         handleWindowScroll();
       },
       scroll: function(position, anchor, callback){
